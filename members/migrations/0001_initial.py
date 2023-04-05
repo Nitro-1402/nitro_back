@@ -48,7 +48,7 @@ class Migration(migrations.Migration):
             name='Member',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('photo', models.ImageField(null=True, upload_to=members.models.member_photo_path)),
+                ('photo', models.ImageField(null=True, upload_to=members.models.profile_photo_path)),
                 ('phone', models.CharField(max_length=255)),
                 ('bio', models.TextField(null=True)),
                 ('birth_date', models.DateField()),

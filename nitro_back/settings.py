@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'members',
     'movies',
     'lists',
+    'comments',
 ]
 
 MIDDLEWARE = [
