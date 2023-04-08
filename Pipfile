@@ -10,6 +10,7 @@ mysqlclient = "*"
 drf-spectacular = "*"
 djangorestframework = "*"
 pillow = "*"
+drf-nested-routers = "*"
 
 [dev-packages]
 

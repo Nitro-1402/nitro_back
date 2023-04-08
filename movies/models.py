@@ -2,22 +2,22 @@ from django.db import models
 from django.conf import settings
 
 def movie_thumbnail_path(instance, filename):
-    return 'movies/thumbnails/{0}'.format(instance.title)
+    return 'files/movies/thumbnails/{0}'.format(instance.title)
 
 def movie_poster_path(instance, filename):
-    return 'movies/posters/{0}'.format(instance.movie.title)
+    return 'files/movies/posters/{0}'.format(instance.movie.title)
 
 def movie_actor_path(instance, filename):
-    return 'movies/actors/{0}'.format(str(instance))
+    return 'files/movies/actors/{0}'.format(str(instance))
 
 def movie_director_path(instance, filename):
-    return 'movies/directors/{0}'.format(str(instance))
+    return 'files/movies/directors/{0}'.format(str(instance))
 
 def news_thumbnail_path(instance, filename):
-    return 'news/thumbnail/{0}'.format(instance.id)
+    return 'files/news/thumbnail/{0}/{1}'.format(instance.title,filename)
 
 def news_photo_path(instance, filename):
-    return 'news/photo/{0}'.format(instance.id)
+    return 'files/news/photo/{0}/{1}'.format(instance.title,filename)
 
 class Movie(models.Model):
     MOVIETYPE_MOVIE = 'M'
@@ -85,6 +85,6 @@ class News(models.Model):
     thumbnail = models.ImageField(upload_to=news_thumbnail_path)
     photo = models.ImageField(upload_to=news_photo_path)
     description = models.TextField()
-    movies = models.ManyToManyField(Movie)
-    actors = models.ManyToManyField(Actor)
-    directors = models.ManyToManyField(Director)
+    movies = models.ManyToManyField(Movie, blank=True)
+    actors = models.ManyToManyField(Actor, blank=True)
+    directors = models.ManyToManyField(Director, blank=True)
