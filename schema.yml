@@ -1,0 +1,7 @@
+openapi: 3.0.3
+info:
+  title: Bebinim API
+  version: 1.0.0
+  description: this a project for cinema-lovers!
+paths: {}
+components: {}
