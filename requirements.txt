@@ -1,0 +1,19 @@
+-i https://pypi.org/simple
+asgiref==3.6.0 ; python_version >= '3.7'
+attrs==22.2.0 ; python_version >= '3.6'
+django==4.2
+django-cors-headers==3.14.0
+django-debug-toolbar==4.0.0
+djangorestframework==3.14.0
+drf-nested-routers==0.93.4
+drf-spectacular==0.26.1
+inflection==0.5.1 ; python_version >= '3.5'
+jsonschema==4.17.3 ; python_version >= '3.7'
+mysqlclient==2.1.1
+pillow==9.5.0
+pyrsistent==0.19.3 ; python_version >= '3.7'
+pytz==2023.3
+pyyaml==6.0 ; python_version >= '3.6'
+sqlparse==0.4.3 ; python_version >= '3.5'
+tzdata==2023.3 ; sys_platform == 'win32'
+uritemplate==4.1.1 ; python_version >= '3.6'

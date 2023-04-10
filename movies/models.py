@@ -2,22 +2,22 @@ from django.db import models
 from django.conf import settings
 
 def movie_thumbnail_path(instance, filename):
-    return 'files/movies/thumbnails/{0}'.format(instance.title)
+    return 'movies/thumbnails/{0}'.format(instance.title)
 
 def movie_poster_path(instance, filename):
-    return 'files/movies/posters/{0}'.format(instance.movie.title)
+    return 'movies/posters/{0}'.format(instance.movie.title)
 
 def movie_actor_path(instance, filename):
-    return 'files/movies/actors/{0}'.format(str(instance))
+    return 'movies/actors/{0}/{1}'.format(str(instance),filename)
 
 def movie_director_path(instance, filename):
-    return 'files/movies/directors/{0}'.format(str(instance))
+    return 'movies/directors/{0}/{1}'.format(str(instance),filename)
 
 def news_thumbnail_path(instance, filename):
-    return 'files/news/thumbnail/{0}/{1}'.format(instance.title,filename)
+    return 'news/thumbnail/{0}/{1}'.format(instance.title,filename)
 
 def news_photo_path(instance, filename):
-    return 'files/news/photo/{0}/{1}'.format(instance.title,filename)
+    return 'news/photo/{0}/{1}'.format(instance.title,filename)
 
 class Movie(models.Model):
     MOVIETYPE_MOVIE = 'M'
@@ -56,24 +56,22 @@ class Series_episode(models.Model):
     season = models.OneToOneField(Series_season, on_delete=models.CASCADE)
 
 class Actor(models.Model):
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
-    photo = models.ImageField(upload_to=movie_director_path)
+    name = models.CharField(max_length=255)
+    photo = models.ImageField(upload_to=movie_actor_path)
     bio = models.TextField(null=True)
     birth_date = models.DateField()
     
     def __str__(self) -> str:
-        return self.first_name + ' ' + self.last_name
+        return self.name
     
 class Director(models.Model):
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
     photo = models.ImageField(upload_to=movie_director_path)
     bio = models.TextField(null=True)
     birth_date = models.DateField()
 
     def __str__(self) -> str:
-        return self.first_name + ' ' + self.last_name
+        return self.name
     
 class Rating(models.Model):
     rating = models.DecimalField(max_digits=2, decimal_places=1)
