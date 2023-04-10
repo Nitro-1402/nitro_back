@@ -145,8 +145,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'members.User'
 
-MEDIA_URL = ''
-MEDIA_ROOT = ''
+MEDIA_URL = 'media/'
+MEDIA_ROOT = 'media/'
 
 REST_FRAMEWORK = {
     'COERCE_DECIMAL_TO_STRING': False,
