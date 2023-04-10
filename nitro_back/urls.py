@@ -1,5 +1,7 @@
 from django.conf.urls.static import static
 from django.conf import settings
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
+
 """
 URL configuration for nitro_back project.
 
@@ -22,7 +24,9 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('__debug__/', include('debug_toolbar.urls')),
-    path('movies/',include('movies.urls'))
+    path('movies/',include('movies.urls')),
+    path('schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('schema/docs/', SpectacularSwaggerView.as_view(url_name='schema')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
