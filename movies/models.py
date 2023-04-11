@@ -84,3 +84,9 @@ class News(models.Model):
     movies = models.ManyToManyField(Movie, blank=True)
     actors = models.ManyToManyField(Actor, blank=True)
     directors = models.ManyToManyField(Director, blank=True)
+
+
+class Category(models.Model):
+    title = models.CharField(max_length=255)
+    movies = models.ManyToManyField(Movie, blank=True)
+    
