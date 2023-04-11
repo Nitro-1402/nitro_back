@@ -6,6 +6,7 @@ from . import views
 router = routers.DefaultRouter()
 router.register('news', views.NewsViewSet, basename='news')
 router.register('actors', views.ActorViewSet, basename='actors')
+router.register('categories' , views.CategoryViewSet , basename='categories')
 
 urlpatterns_schema = [
     path('schema/', SpectacularAPIView.as_view(), name='schema'),

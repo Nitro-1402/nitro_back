@@ -32,16 +32,14 @@ class Movie(models.Model):
     thumbnail = models.ImageField(upload_to=movie_thumbnail_path)
     movie_type = models.CharField(
         max_length=1, choices=MOVIETYPE_CHOICES, default=MOVIETYPE_MOVIE)
-    
-class Movie_meta(models.Model):
     poster = models.ImageField(upload_to=movie_poster_path)
     description = models.TextField()
     meta_rating = models.DecimalField(max_digits=2, decimal_places=1, null=True)
     imdb_rating = models.DecimalField(max_digits=2, decimal_places=1, null=True)
     publish_date = models.DateField()
-    movie = models.OneToOneField(Movie, on_delete=models.CASCADE)
     director = models.ForeignKey('Director', on_delete=models.PROTECT)
     actors = models.ManyToManyField('Actor')
+    
 
 class Series_season(models.Model):
     title = models.CharField(max_length=255)
@@ -86,3 +84,9 @@ class News(models.Model):
     movies = models.ManyToManyField(Movie, blank=True)
     actors = models.ManyToManyField(Actor, blank=True)
     directors = models.ManyToManyField(Director, blank=True)
+
+
+class Category(models.Model):
+    title = models.CharField(max_length=255)
+    movies = models.ManyToManyField(Movie, blank=True)
+    
