@@ -16,3 +16,14 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ['title']
+
+class MovieSerializer(serializers.ModelSerializer):
+    class Meta: 
+        model = Movie
+        fields = ['title' , 'thumbnail' , 'movie_type' , 'poster' , 'description' , 'meta_rating' , 'imdb_rating' , 'publish_date' , 
+                  'director' , 'actors' , 'category_set']
+        
+class DirectorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Director
+        fields = ['name' , 'photo' , 'bio' , 'birth_date']
