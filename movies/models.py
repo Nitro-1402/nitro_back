@@ -1,11 +1,12 @@
 from django.db import models
 from django.conf import settings
+from django.core.validators import MaxValueValidator
 
 def movie_thumbnail_path(instance, filename):
     return 'movies/thumbnails/{0}'.format(instance.title)
 
 def movie_poster_path(instance, filename):
-    return 'movies/posters/{0}'.format(instance.movie.title)
+    return 'movies/posters/{0}'.format(instance.title)
 
 def movie_actor_path(instance, filename):
     return 'movies/actors/{0}/{1}'.format(str(instance),filename)
@@ -34,11 +35,14 @@ class Movie(models.Model):
         max_length=1, choices=MOVIETYPE_CHOICES, default=MOVIETYPE_MOVIE)
     poster = models.ImageField(upload_to=movie_poster_path)
     description = models.TextField()
-    meta_rating = models.DecimalField(max_digits=2, decimal_places=1, null=True)
-    imdb_rating = models.DecimalField(max_digits=2, decimal_places=1, null=True)
+    meta_rating = models.PositiveSmallIntegerField(null=True , blank=True , validators=[MaxValueValidator(100)])
+    imdb_rating = models.PositiveSmallIntegerField(null=True , blank=True , validators=[MaxValueValidator(100)])
     publish_date = models.DateField()
     director = models.ForeignKey('Director', on_delete=models.PROTECT)
     actors = models.ManyToManyField('Actor')
+
+    def __str__(self) -> str:
+        return self.title
     
 
 class Series_season(models.Model):
@@ -90,3 +94,5 @@ class Category(models.Model):
     title = models.CharField(max_length=255)
     movies = models.ManyToManyField(Movie, blank=True)
     
+    def __str__(self) -> str:
+        return self.title

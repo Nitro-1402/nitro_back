@@ -15,3 +15,11 @@ class ActorViewSet(ModelViewSet):
 class CategoryViewSet(ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+
+class MovieViewSet(ModelViewSet):
+    queryset = Movie.objects.select_related('director').prefetch_related('actors').prefetch_related('category_set').all()
+    serializer_class = MovieSerializer
+
+class DirctorViewSet(ModelViewSet):
+    queryset = Director.objects.all()
+    serializer_class = DirectorSerializer
