@@ -51,11 +51,17 @@ class Series_season(models.Model):
     publish_date = models.DateField()
     series = models.ForeignKey(Movie, on_delete=models.CASCADE)
 
+    def __str__(self) -> str:
+        return self.title
+
 class Series_episode(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     publish_date = models.DateField()
     season = models.ForeignKey(Series_season, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return self.title
 
 class Actor(models.Model):
     name = models.CharField(max_length=255)
@@ -76,9 +82,12 @@ class Director(models.Model):
         return self.name
     
 class Rating(models.Model):
-    rating = models.DecimalField(max_digits=2, decimal_places=1)
+    rating = models.PositiveSmallIntegerField(validators=[MaxValueValidator(100)])
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return self.user + ' rated ' + self.movie + ' with rating: ' + self.rating
 
 class News(models.Model):
     title = models.CharField(max_length=255)
@@ -88,6 +97,9 @@ class News(models.Model):
     movies = models.ManyToManyField(Movie, blank=True)
     actors = models.ManyToManyField(Actor, blank=True)
     directors = models.ManyToManyField(Director, blank=True)
+
+    def __str__(self) -> str:
+        return self.title
 
 
 class Category(models.Model):
