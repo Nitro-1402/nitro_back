@@ -3,10 +3,10 @@ from django.conf import settings
 from django.core.validators import MaxValueValidator
 
 def movie_thumbnail_path(instance, filename):
-    return 'movies/thumbnails/{0}'.format(instance.title)
+    return 'movies/thumbnails/{0}/{1}'.format(instance.title,filename)
 
 def movie_poster_path(instance, filename):
-    return 'movies/posters/{0}'.format(instance.title)
+    return 'movies/posters/{0}/{1}'.format(instance.title,filename)
 
 def movie_actor_path(instance, filename):
     return 'movies/actors/{0}/{1}'.format(str(instance),filename)
