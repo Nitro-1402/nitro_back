@@ -49,13 +49,13 @@ class Series_season(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     publish_date = models.DateField()
-    series = models.OneToOneField(Movie, on_delete=models.CASCADE)
+    series = models.ForeignKey(Movie, on_delete=models.CASCADE)
 
 class Series_episode(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     publish_date = models.DateField()
-    season = models.OneToOneField(Series_season, on_delete=models.CASCADE)
+    season = models.ForeignKey(Series_season, on_delete=models.CASCADE)
 
 class Actor(models.Model):
     name = models.CharField(max_length=255)
