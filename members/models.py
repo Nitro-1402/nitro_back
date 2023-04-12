@@ -8,6 +8,9 @@ def profile_photo_path(instance, filename):
 class User(AbstractUser):
     email = models.EmailField(unique=True)
 
+    def __str__(self) -> str:
+        return self.username
+
 class Profile(models.Model):
     photo = models.ImageField(upload_to=profile_photo_path, null=True)
     phone = models.CharField(max_length=255)
@@ -15,3 +18,6 @@ class Profile(models.Model):
     birth_date = models.DateField()
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     Follows = models.ManyToManyField('Profile')
+
+    def __str__(self) -> str:
+        return self.user.username
