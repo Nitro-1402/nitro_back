@@ -27,3 +27,8 @@ class DirectorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Director
         fields = ['name' , 'photo' , 'bio' , 'birth_date']
+
+class SeasonSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Series_season
+        fields = ['title' , 'season_number' , 'description' , 'publish_date' , 'series']

@@ -23,3 +23,7 @@ class MovieViewSet(ModelViewSet):
 class DirctorViewSet(ModelViewSet):
     queryset = Director.objects.all()
     serializer_class = DirectorSerializer
+
+class SeasonViewSet(ModelViewSet):
+    queryset = Series_season.objects.select_related('series').all()
+    serializer_class = SeasonSerializer

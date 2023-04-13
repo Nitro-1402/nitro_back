@@ -47,15 +47,17 @@ class Movie(models.Model):
 
 class Series_season(models.Model):
     title = models.CharField(max_length=255)
+    season_number = models.PositiveBigIntegerField()
     description = models.TextField()
     publish_date = models.DateField()
     series = models.ForeignKey(Movie, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return self.title
+        return self.series + self.season_number
 
 class Series_episode(models.Model):
     title = models.CharField(max_length=255)
+    episode_number = models.PositiveBigIntegerField()
     description = models.TextField()
     publish_date = models.DateField()
     season = models.ForeignKey(Series_season, on_delete=models.CASCADE)
