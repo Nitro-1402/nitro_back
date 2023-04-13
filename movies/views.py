@@ -27,3 +27,7 @@ class DirctorViewSet(ModelViewSet):
 class SeasonViewSet(ModelViewSet):
     queryset = Series_season.objects.select_related('series').all()
     serializer_class = SeasonSerializer
+
+class EpisodeViewSet(ModelViewSet):
+    queryset = Series_episode.objects.select_related('season').all()
+    serializer_class = EpisodeSerializer

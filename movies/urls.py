@@ -10,6 +10,7 @@ router.register('categories' , views.CategoryViewSet , basename='categories')
 router.register('movies' , views.MovieViewSet ,basename='movies')
 router.register('directors' , views.DirctorViewSet , basename='directors')
 router.register('seasons' , views.SeasonViewSet , basename='seasons')
+router.register('episodes' , views.EpisodeViewSet , basename='episodes')
 
 urlpatterns_schema = [
     path('schema/', SpectacularAPIView.as_view(), name='schema'),
