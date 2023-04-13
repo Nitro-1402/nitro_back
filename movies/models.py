@@ -53,7 +53,7 @@ class Series_season(models.Model):
     series = models.ForeignKey(Movie, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return self.series + self.season_number
+        return str(self.series) + ' season ' + str(self.season_number)
 
 class Series_episode(models.Model):
     title = models.CharField(max_length=255)
@@ -63,7 +63,7 @@ class Series_episode(models.Model):
     season = models.ForeignKey(Series_season, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return self.title
+        return str(self.season) + ' episode ' + str(self.episode_number)
 
 class Actor(models.Model):
     name = models.CharField(max_length=255)
