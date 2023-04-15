@@ -12,8 +12,5 @@ router.register('directors' , views.DirctorViewSet , basename='directors')
 router.register('seasons' , views.SeasonViewSet , basename='seasons')
 router.register('episodes' , views.EpisodeViewSet , basename='episodes')
 
-urlpatterns_schema = [
-    path('schema/', SpectacularAPIView.as_view(), name='schema'),
-    path('schema/docs/', SpectacularSwaggerView.as_view(url_name='schema')),
-]
-urlpatterns = router.urls + urlpatterns_schema
+
+urlpatterns = router.urls
