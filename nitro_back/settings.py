@@ -92,10 +92,11 @@ WSGI_APPLICATION = 'nitro_back.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'nitro_back',
-        'HOST': 'localhost',
-        'USER': 'root',
-        'PASSWORD': 'Hereis2690'
+        'NAME': 'nitroback$default',
+        'HOST': 'nitroback.mysql.pythonanywhere-services.com',
+        'USER': 'nitroback',
+        'PASSWORD': 'Hereis2690',
+        'PORT' : '3306',
     }
 }
 
