@@ -26,7 +26,9 @@ SECRET_KEY = 'django-insecure-rwe@@7#w#y)o^^hz@65d9(lyy-(v9eypl=*ckoy#$3iejp-c5*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'nitroback.pythonanywhere.com',
+]
 
 
 # Application definition
