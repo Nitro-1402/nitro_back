@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from datetime import timedelta
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -153,7 +154,7 @@ AUTH_USER_MODEL = 'members.User'
 MEDIA_URL = 'media/'
 MEDIA_ROOT = 'media/'
 
-STATIC_ROOT = "D:/Uni/6/Project/ME/nitro_back/static"
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 REST_FRAMEWORK = {
     'COERCE_DECIMAL_TO_STRING': False,
