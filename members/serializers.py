@@ -41,7 +41,9 @@ class FollowerInstanceSerializer(serializers.ModelSerializer):
         return user_follow.follower_id.user.username
     
     def get_photo(self, user_follow:UserFollow):
-        return user_follow.follower_id.photo
+        if user_follow.follower_id.photo:
+            return user_follow.follower_id.photo
+        return
     
 
 class FollowersSerializer(serializers.ModelSerializer):
