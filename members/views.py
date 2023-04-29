@@ -14,8 +14,8 @@ class FollowersListViewSet(RetrieveAPIView):
     queryset = Profile.objects.prefetch_related('followers').all()
     serializer_class = FollowersSerializer
 
-class FollowManageViewSet(mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.DestroyModelMixin,GenericViewSet):
+class FollowManageViewSet(mixins.CreateModelMixin,GenericViewSet):
     queryset = UserFollow.objects.select_related('follower_id').select_related('following_id').all()
-    serializer_class = FollowManageSerializer
+    serializer_class = AddFollowSerializer
 
 
