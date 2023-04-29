@@ -5,6 +5,7 @@ from . import views
 
 router = routers.DefaultRouter()
 router.register('profile', views.ProfileViewSet, basename='profile')
+router.register('follow', views.FollowManageSerializer, basename='follow')
 
 # urlpatterns_schema = [
 #     path('schema/', SpectacularAPIView.as_view(), name='schema'),
