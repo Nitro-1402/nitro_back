@@ -5,7 +5,8 @@ from . import views
 
 router = routers.DefaultRouter()
 router.register('profile', views.ProfileViewSet, basename='profile')
-router.register('follow', views.AddFollowViewSet, basename='addfollow')
 router.register('followers', views.FollowersListViewSet, basename='followers')
+router.register('followings', views.FollowingsListViewSet, basename='followings')
+router.register('follow', views.AddFollowViewSet, basename='addfollow')
 
 urlpatterns = router.urls

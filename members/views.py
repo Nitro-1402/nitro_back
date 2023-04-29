@@ -14,6 +14,10 @@ class FollowersListViewSet(mixins.RetrieveModelMixin,GenericViewSet):
     queryset = Profile.objects.prefetch_related('followers').all()
     serializer_class = FollowersSerializer
 
+class FollowingsListViewSet(mixins.RetrieveModelMixin,GenericViewSet):
+    queryset = Profile.objects.prefetch_related('followings').all()
+    serializer_class = FollowingsSerializer
+
 class AddFollowViewSet(mixins.CreateModelMixin,GenericViewSet):
     queryset = UserFollow.objects.select_related('follower_id').select_related('following_id').all()
     serializer_class = AddFollowSerializer

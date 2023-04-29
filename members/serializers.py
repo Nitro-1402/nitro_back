@@ -53,12 +53,7 @@ class FollowersSerializer(serializers.ModelSerializer):
     
     followers = FollowerInstanceSerializer(many=True)
 
-class AddFollowSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserFollow
-        fields = ['follower_id', 'following_id']
-
-class FolloweingInstanceSerializer(serializers.ModelSerializer):
+class FollowingInstanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserFollow
         fields = ['username', 'photo']
@@ -74,9 +69,14 @@ class FolloweingInstanceSerializer(serializers.ModelSerializer):
         return
     
 
-class FollowersSerializer(serializers.ModelSerializer):
+class FollowingsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ['followers']
+        fields = ['followings']
     
-    followers = FollowerInstanceSerializer(many=True)
+    followers = FollowingInstanceSerializer(many=True)
+
+class AddFollowSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserFollow
+        fields = ['follower_id', 'following_id']
