@@ -153,6 +153,8 @@ AUTH_USER_MODEL = 'members.User'
 MEDIA_URL = 'media/'
 MEDIA_ROOT = 'media/'
 
+STATIC_ROOT = "D:/Uni/6/Project/ME/nitro_back/static"
+
 REST_FRAMEWORK = {
     'COERCE_DECIMAL_TO_STRING': False,
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
