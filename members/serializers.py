@@ -44,7 +44,7 @@ class FollowersSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ['followers']
     
-    followers = SimpleProfileSerializer
+    followers = SimpleProfileSerializer(many=True)
 
 class FollowManageSerializer(serializers.ModelSerializer):
     class Meta:
