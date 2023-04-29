@@ -57,4 +57,26 @@ class AddFollowSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserFollow
         fields = ['follower_id', 'following_id']
- 
+
+class FolloweingInstanceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserFollow
+        fields = ['username', 'photo']
+    
+    username = serializers.SerializerMethodField()
+    photo = serializers.SerializerMethodField()
+    def get_username(self, user_follow:UserFollow):
+        return user_follow.following_id.user.username
+    
+    def get_photo(self, user_follow:UserFollow):
+        if user_follow.following_id.photo:
+            return user_follow.following_id.photo
+        return
+    
+
+class FollowersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ['followers']
+    
+    followers = FollowerInstanceSerializer(many=True)
