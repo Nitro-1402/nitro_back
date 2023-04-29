@@ -37,7 +37,7 @@ class SimpleProfileSerializer(serializers.ModelSerializer):
     
     username = serializers.SerializerMethodField()
     def get_username(self, profile:Profile):
-        return Profile.user.username
+        return profile.user.username
 
 class FollowersSerializer(serializers.ModelSerializer):
     class Meta:
