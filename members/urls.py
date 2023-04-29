@@ -7,6 +7,8 @@ router = routers.DefaultRouter()
 router.register('profile', views.ProfileViewSet, basename='profile')
 router.register('followers', views.FollowersListViewSet, basename='followers')
 router.register('followings', views.FollowingsListViewSet, basename='followings')
-router.register('follow', views.AddFollowViewSet, basename='addfollow')
+router.register('follow', views.AddFollowViewSet, basename='follow')
+router.register('unfollow', views.DeleteFollowViewSet, basename='unfollow')
+
 
 urlpatterns = router.urls
