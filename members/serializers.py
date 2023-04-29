@@ -30,21 +30,26 @@ class UserCreateSerializer(BaseUserSerializer):
                 user.save(update_fields=["is_active"])
         return user
 
-class SimpleProfileSerializer(serializers.ModelSerializer):
+class FollowerInstanceSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Profile
-        fields = ['photo', 'username']
+        model = UserFollow
+        fields = ['username', 'photo']
     
     username = serializers.SerializerMethodField()
-    def get_username(self, profile:Profile):
-        return profile.user.username
+    photo = serializers.SerializerMethodField()
+    def get_username(self, user_follow:UserFollow):
+        return user_follow.follower_id.user.username
+    
+    def get_photo(self, user_follow:UserFollow):
+        return user_follow.follower_id.photo
+    
 
 class FollowersSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ['followers']
     
-    followers = SimpleProfileSerializer(many=True)
+    followers = FollowerInstanceSerializer(many=True)
 
 class FollowManageSerializer(serializers.ModelSerializer):
     class Meta:
