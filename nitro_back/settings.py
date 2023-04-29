@@ -181,3 +181,5 @@ DJOSER = {
         'user_create': 'members.serializers.UserCreateSerializer'
     }
 }
+
+SEND_ACTIVATION_EMAIL = False
