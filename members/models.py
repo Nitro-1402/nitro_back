@@ -23,6 +23,6 @@ class Profile(models.Model):
         return self.user.username
     
 class UserFollow(models.Model):
-    follower_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='following')
-    following_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='followers')
+    follower_id = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='following')
+    following_id = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='followers')
     created = models.DateTimeField(auto_now_add=True)
