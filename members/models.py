@@ -18,7 +18,11 @@ class Profile(models.Model):
     bio = models.TextField(null=True,blank=True)
     birth_date = models.DateField(blank=True , null=True)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    Follows = models.ManyToManyField('Profile')
     
     def __str__(self) -> str:
         return self.user.username
+    
+class UserFollow(models.Model):
+    follower_id = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='followings')
+    following_id = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='followers')
+    created = models.DateTimeField(auto_now_add=True)
