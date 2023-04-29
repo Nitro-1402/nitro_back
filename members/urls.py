@@ -14,5 +14,4 @@ router.register('followers', views.FollowersListViewSet, basename='followers')
 # ]
 urlpatterns = [
     path('', include(router.urls)),
-    path('followers/<int:pk>/', views.FollowersListViewSet.as_view(), name='followers')
 ]
