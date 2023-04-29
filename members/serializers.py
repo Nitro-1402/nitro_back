@@ -12,18 +12,19 @@ class UserCreateSerializer(BaseUserSerializer):
     class Meta(BaseUserSerializer.Meta):
         fields = ['id', 'username', 'password', 'email']
 
-class SimpleUserSerializer(serializers.ModelSerializer):
+class SimpleProfileSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = Profile
         fields = ['photo', 'username']
     
-    photo = serializers.SerializerMethodField()
-    def get_photo(self, user:User):
-        return user.profile.photo
+    username = serializers.SerializerMethodField()
+    def get_username(self, profile:Profile):
+        return Profile.user.username
 
 class FollowersSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ['following_id']
+        fields = ['followers']
+    
 
-    following_id = SimpleUserSerializer(many=True)
+    followers = SimpleProfileSerializer
