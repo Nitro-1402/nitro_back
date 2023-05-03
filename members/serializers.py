@@ -1,5 +1,7 @@
 from django.db import IntegrityError, transaction
-from djoser.serializers import UserCreateSerializer as BaseUserSerializer
+from django.conf import settings
+from djoser.serializers import UserCreateSerializer as BaseUserCreateSerializer
+from djoser.serializers import UserSerializer as BaseUserSerializer
 from rest_framework import serializers
 from .models import *
 
@@ -12,13 +14,17 @@ class RWMethodField(serializers.SerializerMethodField):
     
     def to_internal_value(self, data):
         return self.parent.fields[self.field_name].to_representation(data)
+    
+class EmailUserSerializer(BaseUserSerializer):
+    class Meta:
+        fields = ['email']
 
 class EditProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ['photo', 'first_name', 'last_name','email']
     
-    email = serializers.SerializerMethodField(write_only=True)
+    email = EmailUserSerializer()
 
     def update(self, profile:Profile, validated_data):
         profile.user.email = validated_data.pop('email')
@@ -27,7 +33,7 @@ class EditProfileSerializer(serializers.ModelSerializer):
     def get_email(self, profile:Profile):
         return profile.user.email
 
-class UserCreateSerializer(BaseUserSerializer):
+class UserCreateSerializer(BaseUserCreateSerializer):
     
     class Meta(BaseUserSerializer.Meta):
         fields = ['id', 'username', 'password', 'email']
