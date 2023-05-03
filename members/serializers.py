@@ -16,7 +16,7 @@ class RWMethodField(serializers.SerializerMethodField):
         return self.parent.fields[self.field_name].to_representation(data)
     
 class EmailUserSerializer(BaseUserSerializer):
-    class Meta:
+    class Meta(BaseUserSerializer.Meta):
         fields = ['email']
 
 class EditProfileSerializer(serializers.ModelSerializer):
@@ -28,7 +28,7 @@ class EditProfileSerializer(serializers.ModelSerializer):
 
 class UserCreateSerializer(BaseUserCreateSerializer):
     
-    class Meta(BaseUserSerializer.Meta):
+    class Meta(BaseUserCreateSerializer.Meta):
         fields = ['id', 'username', 'password', 'email']
 
     def create(self, validated_data):
