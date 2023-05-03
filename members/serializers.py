@@ -26,17 +26,6 @@ class EditProfileSerializer(serializers.ModelSerializer):
     
     email = EmailUserSerializer(read_only=False)
 
-    def update(self, instance, validated_data):
-        email = validated_data.pop('email', None)
-        if email:
-            email_serializer = self.fields['email']
-            email_instance = instance.user
-            email_serializer.update(email_instance, email)
-        return super().update(instance, validated_data)
-    
-    def get_email(self, profile:Profile):
-        return profile.user.email
-
 class UserCreateSerializer(BaseUserCreateSerializer):
     
     class Meta(BaseUserSerializer.Meta):
