@@ -26,6 +26,7 @@ urlpatterns = [
     path('__debug__/', include('debug_toolbar.urls')),
     path('movies/',include('movies.urls')),
     path ('members/' , include('members.urls')),
+    path('comments/',include('comments.urls')),
     path('schema/', SpectacularAPIView.as_view(), name='schema'),
     path('schema/docs/', SpectacularSwaggerView.as_view(url_name='schema')),
     path('auth/', include('djoser.urls')),
