@@ -3,19 +3,19 @@ from djoser.serializers import UserCreateSerializer as BaseUserSerializer
 from rest_framework import serializers
 from .models import *
 
-class EditableSerializerMethodField(serializers.SerializerMethodField):
+# class EditableSerializerMethodField(serializers.SerializerMethodField):
     
-    def to_internal_value(self, data):
-        return self.parent.fields[self.field_name].to_representation(data)
+#     def to_internal_value(self, data):
+#         return self.parent.fields[self.field_name].to_representation(data)
 
 class EditProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ['photo', 'first_name', 'last_name', 'email']
+        fields = ['photo', 'first_name', 'last_name', 'user__email']
     
-    email = EditableSerializerMethodField()
-    def get_email(self, profile:Profile):
-        return profile.user.email
+    # email = EditableSerializerMethodField()
+    # def get_email(self, profile:Profile):
+    #     return profile.user.email
 
 class UserCreateSerializer(BaseUserSerializer):
     
