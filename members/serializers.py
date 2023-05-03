@@ -6,7 +6,11 @@ from .models import *
 class EditProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ['photo'  , 'first_name' , 'last_name']
+        fields = ['photo', 'first_name', 'last_name', 'email']
+    
+    email = serializers.SerializerMethodField()
+    def get_email(self, profile:Profile):
+        return profile.user.email
 
 class UserCreateSerializer(BaseUserSerializer):
     
