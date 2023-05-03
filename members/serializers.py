@@ -24,11 +24,15 @@ class EditProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ['photo', 'first_name', 'last_name','email']
     
-    email = EmailUserSerializer()
+    email = EmailUserSerializer(read_only=False)
 
-    def update(self, profile:Profile, validated_data):
-        profile.user.email = validated_data.pop('email')
-        return super().update(profile, validated_data)
+    def update(self, instance, validated_data):
+        email = validated_data.pop('email', None)
+        if email:
+            email_serializer = self.fields['email']
+            email_instance = instance.user
+            email_serializer.update(email_instance, email)
+        return super().update(instance, validated_data)
     
     def get_email(self, profile:Profile):
         return profile.user.email
