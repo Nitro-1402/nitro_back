@@ -7,6 +7,7 @@ from rest_framework.generics import ListAPIView,RetrieveAPIView
 from rest_framework import mixins
 from .models import *
 from .serializers import *
+from .forms import Profilephoto
 
 
 class ProfileViewSet(ModelViewSet):
@@ -34,3 +35,10 @@ class DeleteFollowViewSet(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+def profilephotoview(request):
+    if request.method == 'POST' :
+        form = Profilephoto(request.POST , request.FILES)
+        if form.is_valid():
+            form.save()
+    else:
+        form = Profilephoto()
