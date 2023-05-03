@@ -18,7 +18,12 @@ class EditProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ['photo', 'first_name', 'last_name','email']
     
-    email = RWMethodField()
+    email = serializers.SerializerMethodField(write_only=True)
+
+    def update(self, profile:Profile, validated_data):
+        profile.user.email = validated_data.pop('email')
+        return super().update(profile, validated_data)
+    
     def get_email(self, profile:Profile):
         return profile.user.email
 
