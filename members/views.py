@@ -4,10 +4,26 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.viewsets import ModelViewSet,GenericViewSet
 from rest_framework.generics import ListAPIView,RetrieveAPIView
+from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import mixins
 from .models import *
 from .serializers import *
 
+
+class TokenObtainPairViewWithUserId(TokenObtainPairView):
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+        token = response.data['access']
+        user_id = self.token_user_id(token)
+        return Response({
+            'access': token,
+            'refresh': response.data['refresh'],
+            'user_id': user_id,
+        })
+
+    def token_user_id(self, token):
+        decoded_token = self.get_token_object(token).payload
+        return decoded_token.get('user_id')
 
 class ProfileViewSet(ModelViewSet):
     queryset = Profile.objects.select_related('user').all()
@@ -32,5 +48,3 @@ class DeleteFollowViewSet(APIView):
         follow = get_object_or_404(UserFollow, follower_id=follower_id, following_id=following_id)
         follow.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-
