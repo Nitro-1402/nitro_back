@@ -1,16 +1,35 @@
 from django.db import IntegrityError, transaction
-from djoser.serializers import UserCreateSerializer as BaseUserSerializer
+from django.conf import settings
+from djoser.serializers import UserCreateSerializer as BaseUserCreateSerializer
+from djoser.serializers import UserSerializer as BaseUserSerializer
 from rest_framework import serializers
 from .models import *
+
+class RWMethodField(serializers.SerializerMethodField):
+
+    def __init__(self, method_name=None, **kwargs):
+        self.method_name = method_name
+        kwargs['source'] = '*'
+        super().__init__(**kwargs)
+    
+    def to_internal_value(self, data):
+        return self.parent.fields[self.field_name].to_representation(data)
+    
+class EmailUserSerializer(BaseUserSerializer):
+    class Meta(BaseUserSerializer.Meta):
+        fields = ['email']
 
 class EditProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ['photo'  , 'first_name' , 'last_name']
-
-class UserCreateSerializer(BaseUserSerializer):
+        fields = ['photo', 'first_name', 'last_name','user']
     
-    class Meta(BaseUserSerializer.Meta):
+    user = EmailUserSerializer(read_only=False)
+
+
+class UserCreateSerializer(BaseUserCreateSerializer):
+    
+    class Meta(BaseUserCreateSerializer.Meta):
         fields = ['id', 'username', 'password', 'email']
 
     def create(self, validated_data):

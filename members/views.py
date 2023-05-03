@@ -8,6 +8,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import mixins
 from .models import *
 from .serializers import *
+from .forms import Profilephoto
 
 
 class TokenObtainPairViewWithUserId(TokenObtainPairView):
@@ -48,3 +49,11 @@ class DeleteFollowViewSet(APIView):
         follow = get_object_or_404(UserFollow, follower_id=follower_id, following_id=following_id)
         follow.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+def profilephotoview(request):
+    if request.method == 'POST' :
+        form = Profilephoto(request.POST , request.FILES)
+        if form.is_valid():
+            form.save()
+    else:
+        form = Profilephoto()
