@@ -26,6 +26,7 @@ class EditProfileSerializer(serializers.ModelSerializer):
     
     user = EmailUserSerializer(read_only=False)
 
+
 class UserCreateSerializer(BaseUserCreateSerializer):
     
     class Meta(BaseUserCreateSerializer.Meta):
