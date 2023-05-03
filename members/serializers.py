@@ -8,7 +8,7 @@ class EditProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ['photo', 'first_name', 'last_name', 'email']
     
-    email = serializers.SerializerMethodField()
+    email = serializers.SerializerMethodField(read_only=False)
     def get_email(self, profile:Profile):
         return profile.user.email
 
