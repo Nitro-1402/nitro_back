@@ -4,27 +4,28 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.viewsets import ModelViewSet,GenericViewSet
 from rest_framework.generics import ListAPIView,RetrieveAPIView
-from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import mixins
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.tokens import RefreshToken
 from .models import *
 from .serializers import *
 from .forms import Profilephoto
 
 
-class TokenObtainPairViewWithUserId(TokenObtainPairView):
+class CustomTokenObtainPairView(TokenObtainPairView):
     def post(self, request, *args, **kwargs):
-        response = super().post(request, *args, **kwargs)
-        token = response.data['access']
-        user_id = self.token_user_id(token)
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        print(serializer)
+        user = User.objects.get(username=request.data['username'])
+        refresh = RefreshToken.for_user(user)
         return Response({
-            'access': token,
-            'refresh': response.data['refresh'],
-            'user_id': user_id,
-        })
-
-    def token_user_id(self, token):
-        decoded_token = self.get_token_object(token).payload
-        return decoded_token.get('user_id')
+            'id': user.id,
+            'email': str(user.email),
+            'username': str(user.username),
+            'access': str(refresh.access_token),
+            'refresh': str(refresh),
+        }, status=status.HTTP_200_OK)
 
 class ProfileViewSet(ModelViewSet):
     queryset = Profile.objects.select_related('user').all()
