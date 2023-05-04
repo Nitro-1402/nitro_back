@@ -7,6 +7,7 @@ from rest_framework.generics import ListAPIView,RetrieveAPIView
 from rest_framework import mixins
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
+from djoser.serializers import UserSerializer as BaseUserSerializer
 from .models import *
 from .serializers import *
 from .forms import Profilephoto
@@ -18,9 +19,10 @@ class CustomTokenObtainPairView(TokenObtainPairView):
         serializer.is_valid(raise_exception=True)
         print(serializer)
         user = User.objects.get(username=request.data['username'])
+        user_serialized = BaseUserSerializer(user)
         refresh = RefreshToken.for_user(user)
         return Response({
-            'user_id': user.id,
+            'user': user_serialized,
             'access': str(refresh.access_token),
             'refresh': str(refresh),
         }, status=status.HTTP_200_OK)
