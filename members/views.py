@@ -18,7 +18,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = User.objects.filter(username=request.data['username']).values_list('id','email','username')
-        print('here is user:' + user)
+        print('here is user:' + str(user))
         refresh = RefreshToken.for_user(user)
         return Response({
             'user': user,
