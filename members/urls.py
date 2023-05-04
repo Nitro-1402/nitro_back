@@ -12,5 +12,5 @@ router.register('follow', views.AddFollowViewSet, basename='follow')
 urlpatterns = [
     path('',include(router.urls)),
     path('unfollow/', views.DeleteFollowViewSet.as_view(), name='unfollow'),
-    path('api/token/', views.TokenObtainPairViewWithUserId.as_view(), name='token_obtain_pair_with_user_id')
+    path('api/token/', views.CustomTokenObtainPairView.as_view(), name='token_obtain_pair_with_user_id')
 ]
