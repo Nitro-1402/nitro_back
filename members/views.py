@@ -19,10 +19,10 @@ class CustomTokenObtainPairView(TokenObtainPairView):
         serializer.is_valid(raise_exception=True)
         print(serializer)
         user = User.objects.get(username=request.data['username'])
-        user_serialized = BaseUserSerializer(user)
+        # user_serialized = BaseUserSerializer(user)
         refresh = RefreshToken.for_user(user)
         return Response({
-            'user': user_serialized,
+            'user': user,
             'access': str(refresh.access_token),
             'refresh': str(refresh),
         }, status=status.HTTP_200_OK)
