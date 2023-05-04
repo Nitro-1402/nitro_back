@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
 from .models import *
 from .serializers import *
+from .pagination import *
 
 class NewsViewSet(ModelViewSet):
     queryset = News.objects.prefetch_related(
@@ -15,6 +16,7 @@ class ActorViewSet(ModelViewSet):
 class CategoryViewSet(ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    pagination_class = CategoryPagination
 
 class MovieViewSet(ModelViewSet):
     queryset = Movie.objects.select_related('director').prefetch_related('actors').prefetch_related('category_set').all()
