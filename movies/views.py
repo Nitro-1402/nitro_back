@@ -33,3 +33,7 @@ class SeasonViewSet(ModelViewSet):
 class EpisodeViewSet(ModelViewSet):
     queryset = Series_episode.objects.select_related('season').all()
     serializer_class = EpisodeSerializer
+
+class RatingViewSet(ModelViewSet):
+    queryset = Rating.objects.select_related('user').select_related('movie').all()
+    serializer_class = RatingSerializer
