@@ -8,6 +8,7 @@ from rest_framework import mixins
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.renderers import JSONRenderer
+from rest_framework.decorators import api_view, renderer_classes
 from .models import *
 from .serializers import *
 from .forms import Profilephoto
@@ -52,6 +53,8 @@ class DeleteFollowViewSet(APIView):
         follow.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+@api_view(['GET', 'POST'])
+@renderer_classes((JSONRenderer))
 def profilephotoview(request):
     if request.method == 'POST' :
         form = Profilephoto(request.POST , request.FILES)
