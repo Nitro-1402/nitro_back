@@ -12,5 +12,6 @@ router.register('follow', views.AddFollowViewSet, basename='follow')
 urlpatterns = [
     path('',include(router.urls)),
     path('unfollow/', views.DeleteFollowViewSet.as_view(), name='unfollow'),
-    path('login/', views.CustomTokenObtainPairView.as_view(), name='token_obtain_pair_with_user')
+    path('login/', views.CustomTokenObtainPairView.as_view(), name='token_obtain_pair_with_user'),
+    path('upload/' , views.profilephotoview , name = 'upload_profile_photo')
 ]
