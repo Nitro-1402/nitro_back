@@ -7,6 +7,7 @@ from rest_framework.generics import ListAPIView,RetrieveAPIView
 from rest_framework import mixins
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.renderers import JSONRenderer
 from .models import *
 from .serializers import *
 from .forms import Profilephoto
@@ -56,9 +57,9 @@ def profilephotoview(request):
         form = Profilephoto(request.POST , request.FILES)
         if form.is_valid():
             form.save()
-            return Response(status=status.HTTP_200_OK)
+            return Response(status=status.HTTP_200_OK , renderer_classes=[JSONRenderer])
         else:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response(status=status.HTTP_400_BAD_REQUEST , renderer_classes=[JSONRenderer])
     else:
         form = Profilephoto()
-    return Response(status=status.HTTP_400_BAD_REQUEST)
+    return Response(status=status.HTTP_400_BAD_REQUEST , renderer_classes=[JSONRenderer])
