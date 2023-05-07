@@ -56,5 +56,9 @@ def profilephotoview(request):
         form = Profilephoto(request.POST , request.FILES)
         if form.is_valid():
             form.save()
+            return Response({'status': 'success'})
+        else:
+            return Response({'status': 'error' , 'errors': form.errors})
     else:
         form = Profilephoto()
+    return Response({'status': 'error' , 'errors': 'Invalid request method'})
