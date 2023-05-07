@@ -56,9 +56,9 @@ def profilephotoview(request):
         form = Profilephoto(request.POST , request.FILES)
         if form.is_valid():
             form.save()
-            return Response({'status': 'success'})
+            return Response(status=status.HTTP_200_OK)
         else:
-            return Response({'status': 'error' , 'errors': form.errors})
+            return Response(status=status.HTTP_400_BAD_REQUEST)
     else:
         form = Profilephoto()
-    return Response({'status': 'error' , 'errors': 'Invalid request method'})
+    return Response(status=status.HTTP_400_BAD_REQUEST)
