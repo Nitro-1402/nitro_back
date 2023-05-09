@@ -2,6 +2,7 @@ from rest_framework.viewsets import ModelViewSet,GenericViewSet
 from rest_framework import mixins
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.views import APIView
 from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import get_object_or_404
 from .models import *
@@ -26,3 +27,11 @@ class LikeCommentViewSet(mixins.CreateModelMixin,
     #     follow = get_object_or_404(LikeComment, comment_id=comment_id, user_id=user_id)
     #     follow.delete()
     #     return Response(status=status.HTTP_204_NO_CONTENT)
+
+class DeleteLikeView(APIView):
+    def delete(self, request):
+        comment_id = request.GET.get('comment_id')
+        user_id = request.GET.get('user_id')
+        follow = get_object_or_404(LikeComment, comment_id=comment_id, user_id=user_id)
+        follow.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

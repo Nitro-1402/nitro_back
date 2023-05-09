@@ -8,4 +8,5 @@ router.register('likes', views.LikeCommentViewSet, basename='like')
 
 urlpatterns = [
     path('',include(router.urls)),
+    path('deleteLike/', views.DeleteLikeView.as_view(), name='deleteLike'),
 ]
