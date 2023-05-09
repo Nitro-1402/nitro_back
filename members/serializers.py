@@ -22,7 +22,7 @@ class EmailUserSerializer(BaseUserSerializer):
 class EditProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ['photo', 'first_name', 'last_name','user']
+        fields = ['id' , 'photo', 'first_name', 'last_name','user']
     
     user = EmailUserSerializer(read_only=False)
 
