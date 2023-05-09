@@ -17,13 +17,13 @@ class CommentRelatedField(serializers.RelatedField):
         raise Exception('Unexpected type of tagged object')
 
 class CommentSerializer(serializers.ModelSerializer):
-    content_type = serializers.CharField(source='content_type__model')
+    # content_type = serializers.CharField(source='content_type__model')
     # content_type = ContentTypeRelatedField()
-    content_object = CommentRelatedField(read_only=True)
+    # content_object = CommentRelatedField(read_only=True)
 
     class Meta:
         model = Comment
-        fields = ('id', 'message', 'created_at', 'parent_comment', 'user', 'content_type', 'object_id', 'content_object')
+        fields = '__all__'
 
     # def get_content_object(self, obj):
     #     content_type = ContentType.objects.get_for_model(obj.content_object.__class__)
