@@ -39,6 +39,7 @@ class Movie(models.Model):
     meta_rating = models.PositiveSmallIntegerField(null=True , blank=True , validators=[MaxValueValidator(100)])
     imdb_rating = models.PositiveSmallIntegerField(null=True , blank=True , validators=[MaxValueValidator(100)])
     publish_date = models.DateField()
+    country = models.CharField(max_length=255)
     director = models.ForeignKey('Director', on_delete=models.PROTECT)
     actors = models.ManyToManyField('Actor')
     comments = GenericRelation(Comment)
