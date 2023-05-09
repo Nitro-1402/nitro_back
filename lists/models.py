@@ -5,11 +5,11 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 class User_list(models.Model):
     LIST_FAVORITE = 'F'
     LIST_WATCHLIST = 'W'
-    LIST_CUSTOM = 'C'
+    LIST_BOOKMARK = 'B'
     LIST_CHOICES = [
         (LIST_FAVORITE, 'Favorites'),
         (LIST_WATCHLIST, 'Watchlist'),
-        (LIST_CUSTOM, 'Custom'),
+        (LIST_BOOKMARK, 'Bookmark'),
     ] 
     title = models.CharField(max_length=255,default="Favorites")
     user_list_type = models.CharField(
