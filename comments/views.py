@@ -9,11 +9,12 @@ from .models import *
 from .serializers import *
 
 class CommentViewSet(ModelViewSet):
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['content_type_id', 'object_id']
     queryset = Comment.objects.select_related('user').select_related('parent_comment').select_related('content_type').all()
     serializer_class = CommentSerializer
 
 class LikeCommentViewSet(mixins.CreateModelMixin,
-                        mixins.DestroyModelMixin,
                         mixins.ListModelMixin,
                         GenericViewSet):
     filter_backends = [DjangoFilterBackend]
