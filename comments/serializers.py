@@ -19,7 +19,7 @@ class CommentRelatedField(serializers.RelatedField):
 class CommentSerializer(serializers.ModelSerializer):
     content_type = serializers.CharField(source='content_type__model')
     # content_type = ContentTypeRelatedField()
-    content_object = CommentRelatedField()
+    content_object = CommentRelatedField(read_only=True)
 
     class Meta:
         model = Comment
