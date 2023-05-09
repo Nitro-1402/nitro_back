@@ -1,8 +1,8 @@
 from rest_framework import serializers
 from django.contrib.contenttypes.models import ContentType
 from .models import *
-from ..movies.models import Movie,News
-from ..movies.serializers import MovieSerializer,NewsSerializer
+from movies.models import Movie,News
+from movies.serializers import MovieSerializer,NewsSerializer
 
 class CommentRelatedField(serializers.RelatedField):
     

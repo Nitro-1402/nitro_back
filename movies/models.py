@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.core.validators import MaxValueValidator
 from django.contrib.contenttypes.fields import GenericRelation
-from ..comments.models import *
+from comments.models import *
 def movie_thumbnail_path(instance, filename):
     return 'movies/thumbnails/{0}/{1}'.format(instance.title,filename)
 
