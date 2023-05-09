@@ -16,9 +16,6 @@ class Profile(models.Model):
     photo = models.ImageField(upload_to=profile_photo_path,blank=True , null=True)
     first_name = models.CharField(max_length=255,blank=True , null=True)
     last_name = models.CharField(max_length=255,blank=True , null=True)
-    watched_list = models.ManyToManyField(Movie,blank=True, related_name='profile_watched_list')
-    bookmark_list = models.ManyToManyField(Movie,blank=True, related_name='profile_bookmark_list')
-    favourites_list = models.ManyToManyField(Movie,blank=True, related_name='profile_favourites_list')
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     
     def __str__(self) -> str:

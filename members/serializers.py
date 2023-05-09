@@ -99,8 +99,3 @@ class AddFollowSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserFollow
         fields = ['follower_id', 'following_id']
-
-class WatchedListSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Profile
-        fields = ['watched_list']

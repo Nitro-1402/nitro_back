@@ -21,6 +21,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
         refresh = RefreshToken.for_user(user)
         return Response({
             'id': user.id,
+            'profile_id' : user.profile.id,
             'email': str(user.email),
             'username': str(user.username),
             'access': str(refresh.access_token),
@@ -58,13 +59,3 @@ def profilephotoview(request):
             form.save()
     else:
         form = Profilephoto()
-
-class WatchedListViewSet(ModelViewSet):
-
-    serializer_class = WatchedListSerializer
-
-    def get_queryset(self):
-        return Profile.objects.filter(user_id=self.kwargs['profile_pk'])
-    
-    def get_serializer_context(self): 
-        return {'user_id': self.kwargs['profile_pk']}
