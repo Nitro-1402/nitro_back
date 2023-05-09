@@ -19,11 +19,11 @@ class CommentRelatedField(serializers.RelatedField):
 class CommentSerializer(serializers.ModelSerializer):
     # content_type = serializers.CharField(source='content_type__model')
     # content_type = ContentTypeRelatedField()
-    # content_object = CommentRelatedField(read_only=True)
+    content_object = CommentRelatedField(read_only=True)
 
     class Meta:
         model = Comment
-        fields = '__all__'
+        fields = ['id', 'message', 'created_at', 'parent_comment', 'user', 'content_type', 'object_id', 'content_object']
 
     # def get_content_object(self, obj):
     #     content_type = ContentType.objects.get_for_model(obj.content_object.__class__)
