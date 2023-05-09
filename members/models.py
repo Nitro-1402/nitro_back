@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.conf import settings
+from movies.models import Movie
 
 def profile_photo_path(instance, filename):
     return 'members/photos/{0}'.format(instance.user.username)
@@ -15,6 +16,9 @@ class Profile(models.Model):
     photo = models.ImageField(upload_to=profile_photo_path,blank=True , null=True)
     first_name = models.CharField(max_length=255,blank=True , null=True)
     last_name = models.CharField(max_length=255,blank=True , null=True)
+    watched_list = models.ManyToManyField(Movie,null=True,blank=True)
+    bookmark_list = models.ManyToManyField(Movie,null=True,blank=True)
+    favourites_list = models.ManyToManyField(Movie,null=True,blank=True)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     
     def __str__(self) -> str:

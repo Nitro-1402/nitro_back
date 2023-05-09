@@ -20,9 +20,7 @@ class User_list(models.Model):
 
 
 
-class List_movie(models.Model):
-    user_list = models.ForeignKey(User_list, on_delete=models.CASCADE)
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
-    content_object = GenericForeignKey()
+# class List_movie(models.Model):
+#     user_list = models.ForeignKey(User_list, on_delete=models.CASCADE)
+#     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
 
