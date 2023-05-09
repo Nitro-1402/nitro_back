@@ -8,7 +8,7 @@ from .models import *
 class AddWatchedListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Watchedlist
-        fields = ['profile_id', 'movie_id']
+        fields = ['profile', 'movie']
 
 class RetrieveWatchedListSerializer(serializers.ModelSerializer):
     class Meta:
