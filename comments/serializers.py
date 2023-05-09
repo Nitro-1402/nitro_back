@@ -38,3 +38,13 @@ class LikeCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = LikeComment
         fields = ['id', 'comment', 'user', 'like_type']
+
+class LikedCommentsSerializer(serializers.ModelSerializer):
+    liked_comments = serializers.SerializerMethodField()
+
+    def get_liked_comments(self, liked_comment:LikeComment):
+        return liked_comment.comment.id 
+
+    class Meta:
+        model = LikeComment
+        fields = ['liked_comments']

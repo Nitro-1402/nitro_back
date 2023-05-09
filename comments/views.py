@@ -28,3 +28,10 @@ class DeleteLikeView(APIView):
         follow = get_object_or_404(LikeComment, comment_id=comment_id, user_id=user_id)
         follow.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+class LikedCommentsView(APIView):
+    def get(self, request):
+        user_id = request.GET.get('user_id')
+        queryset = LikeComment.objects.filter(user_id = user_id)
+        serializer = LikedCommentsSerializer(queryset, many=True)
+        return Response(serializer.data)
