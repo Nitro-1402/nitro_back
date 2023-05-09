@@ -24,7 +24,7 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = ['id', 'message', 'created_at', 'parent_comment', 'user',
                    'is_okay', 'content_type', 'object_id', 'content_object']
         
-class CreateLike(serializers.ModelSerializer):
+class LikeCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = LikeComment
         fields = ['id', 'comment', 'user', 'like_type']
