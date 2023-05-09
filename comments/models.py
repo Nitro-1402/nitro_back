@@ -19,7 +19,7 @@ class LikeComment(models.Model):
 
     LIKETYPE_CHOICES = [
         (LIKETYPE_LIKE, 'Like'),
-        (LIKETYPE_LIKE, 'Dislike'),
+        (LIKETYPE_DISLIKE, 'Dislike'),
     ]
 
     created_at = models.DateTimeField(auto_now_add=True)
