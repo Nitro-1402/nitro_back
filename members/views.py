@@ -58,3 +58,13 @@ def profilephotoview(request):
             form.save()
     else:
         form = Profilephoto()
+
+class WatchedListViewSet(ModelViewSet):
+
+    serializer_class = WatchedListSerializer
+
+    def get_queryset(self):
+        return Profile.objects.filter(user_id=self.kwargs['profile_pk'])
+    
+    def get_serializer_context(self): 
+        return {'user_id': self.kwargs['profile_pk']}
