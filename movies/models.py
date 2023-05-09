@@ -1,7 +1,8 @@
 from django.db import models
 from django.conf import settings
 from django.core.validators import MaxValueValidator
-
+from django.contrib.contenttypes.fields import GenericRelation
+from comments.models import *
 def movie_thumbnail_path(instance, filename):
     return 'movies/thumbnails/{0}/{1}'.format(instance.title,filename)
 
@@ -40,6 +41,7 @@ class Movie(models.Model):
     publish_date = models.DateField()
     director = models.ForeignKey('Director', on_delete=models.PROTECT)
     actors = models.ManyToManyField('Actor')
+    comments = GenericRelation(Comment)
 
     def __str__(self) -> str:
         return self.title
@@ -99,6 +101,7 @@ class News(models.Model):
     movies = models.ManyToManyField(Movie, blank=True)
     actors = models.ManyToManyField(Actor, blank=True)
     directors = models.ManyToManyField(Director, blank=True)
+    comments = GenericRelation(Comment)
 
     def __str__(self) -> str:
         return self.title

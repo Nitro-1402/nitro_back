@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'corsheaders',
     'djoser',
+    'django_filters',
     'members',
     'movies',
     'lists',
