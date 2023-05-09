@@ -11,9 +11,9 @@ class CommentRelatedField(serializers.RelatedField):
         Serialize tagged objects to a simple textual representation.
         """
         if isinstance(value, Movie):
-            return MovieSerializer(value).data
+            return value.title
         elif isinstance(value, News):
-            return NewsSerializer(value).data
+            return value.title
         raise Exception('Unexpected type of tagged object')
 
 class CommentSerializer(serializers.ModelSerializer):
