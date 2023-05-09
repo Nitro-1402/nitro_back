@@ -27,5 +27,8 @@ class LikeComment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='likes') 
     like_type = models.CharField(
         max_length=1, choices=LIKETYPE_CHOICES, default=LIKETYPE_LIKE)
+    
+    class Meta:
+        unique_together = [['user', 'comment']]
 
 
