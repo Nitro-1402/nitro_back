@@ -1,5 +1,6 @@
-from rest_framework import serializers
 from django.contrib.contenttypes.models import ContentType
+from django.db.models.aggregates import Count,Sum
+from rest_framework import serializers
 from .models import *
 from movies.models import Movie,News
 from movies.serializers import MovieSerializer,NewsSerializer
@@ -18,11 +19,20 @@ class CommentRelatedField(serializers.RelatedField):
 
 class CommentSerializer(serializers.ModelSerializer):
     content_object = CommentRelatedField(read_only=True)
+    like_count = serializers.SerializerMethodField()
+    dislike_count = serializers.SerializerMethodField()
 
+    def get_like_count(self, comment:Comment):
+        return comment.likes.filter(like_type = 'L').count()
+    
+    def get_dislike_count(self, comment:Comment):
+        return comment.likes.filter(like_type = 'D').count()
+        
     class Meta:
         model = Comment
         fields = ['id', 'message', 'created_at', 'parent_comment', 'user',
-                   'is_okay', 'content_type', 'object_id', 'content_object']
+                   'is_okay', 'content_type', 'object_id', 'content_object',
+                   'like_count', 'dislike_count']
         
 class LikeCommentSerializer(serializers.ModelSerializer):
     class Meta:

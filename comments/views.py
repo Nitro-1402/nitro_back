@@ -21,13 +21,6 @@ class LikeCommentViewSet(mixins.CreateModelMixin,
     queryset = LikeComment.objects.all()
     serializer_class = LikeCommentSerializer
 
-    # def delete(self, request):
-    #     comment_id = request.GET.get('comment_id')
-    #     user_id = request.GET.get('user_id')
-    #     follow = get_object_or_404(LikeComment, comment_id=comment_id, user_id=user_id)
-    #     follow.delete()
-    #     return Response(status=status.HTTP_204_NO_CONTENT)
-
 class DeleteLikeView(APIView):
     def delete(self, request):
         comment_id = request.GET.get('comment_id')
