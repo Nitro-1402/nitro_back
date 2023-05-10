@@ -10,7 +10,7 @@ from .serializers import *
 
 class CommentViewSet(ModelViewSet):
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['content_type_id', 'object_id']
+    filterset_fields = ['content_type_id', 'object_id', 'user']
     queryset = Comment.objects.select_related('user').select_related('parent_comment').select_related('content_type').all()
     serializer_class = CommentSerializer
 
