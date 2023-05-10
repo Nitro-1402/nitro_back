@@ -3,8 +3,11 @@ from rest_framework_nested import routers
 from . import views
 
 router = routers.DefaultRouter()
-router.register('', views.CommentViewSet, basename='comment')
+router.register('comments', views.CommentViewSet, basename='comment')
+router.register('likes', views.LikeCommentViewSet, basename='like')
 
 urlpatterns = [
     path('',include(router.urls)),
+    path('deleteLike/', views.DeleteLikeView.as_view(), name='deleteLike'),
+    path('likedComments/', views.LikedCommentsView.as_view(), name='likedComments')
 ]
