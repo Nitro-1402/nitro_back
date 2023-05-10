@@ -103,4 +103,4 @@ class AddFollowSerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.Serializer):
     class Meta:
         model = Post
-        fields = ['body', 'profile']
+        fields = '__all__'
