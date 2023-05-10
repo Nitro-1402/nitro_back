@@ -20,26 +20,27 @@ class CategorySerializer(serializers.ModelSerializer):
 class MovieSerializer(serializers.ModelSerializer):
     class Meta: 
         model = Movie
-        fields = ['title' , 'thumbnail' , 'movie_type' , 'poster' , 'description' , 'meta_rating' , 'imdb_rating' , 'publish_date' , 
+        fields = ['id', 'title' , 'thumbnail' , 'movie_type' , 'poster' , 'description' , 'meta_rating' , 'imdb_rating' , 'publish_date' , 
                   'director' , 'actors' , 'category_set']
         
 class DirectorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Director
-        fields = ['name' , 'photo' , 'bio' , 'birth_date']
+        fields = ['id', 'name' , 'photo' , 'bio' , 'birth_date']
 
 class SeasonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Series_season
-        fields = ['title' , 'season_number' , 'description' , 'publish_date' , 'series']
+        fields = ['id', 'title' , 'season_number' , 'description' , 'publish_date' , 'series']
 
 class EpisodeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Series_episode
-        fields = ['title' , 'episode_number' , 'description' , 'publish_date' , 'season']
+        fields = ['id' , 'title' , 'episode_number' , 'description' , 'publish_date' , 'season']
 
 
 class RatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rating
         fields = ['rating' , 'user' , 'movie']
+
