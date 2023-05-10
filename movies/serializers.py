@@ -36,4 +36,11 @@ class SeasonSerializer(serializers.ModelSerializer):
 class EpisodeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Series_episode
-        fields = ['id', 'title' , 'episode_number' , 'description' , 'publish_date' , 'season']
+        fields = ['id' , 'title' , 'episode_number' , 'description' , 'publish_date' , 'season']
+
+
+class RatingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rating
+        fields = ['rating' , 'user' , 'movie']
+
