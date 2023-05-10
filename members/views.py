@@ -21,6 +21,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
         refresh = RefreshToken.for_user(user)
         return Response({
             'id': user.id,
+            'profile_id' : user.profile.id,
             'email': str(user.email),
             'username': str(user.username),
             'access': str(refresh.access_token),

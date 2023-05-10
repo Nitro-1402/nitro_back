@@ -8,7 +8,6 @@ router.register('followers', views.FollowersListViewSet, basename='followers')
 router.register('followings', views.FollowingsListViewSet, basename='followings')
 router.register('follow', views.AddFollowViewSet, basename='follow')
 
-
 urlpatterns = [
     path('',include(router.urls)),
     path('unfollow/', views.DeleteFollowViewSet.as_view(), name='unfollow'),

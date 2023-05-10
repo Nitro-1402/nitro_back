@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.conf import settings
+from movies.models import Movie
 
 def profile_photo_path(instance, filename):
     return 'members/photos/{0}'.format(instance.user.username)
