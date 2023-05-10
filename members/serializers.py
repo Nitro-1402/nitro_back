@@ -99,3 +99,8 @@ class AddFollowSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserFollow
         fields = ['follower_id', 'following_id']
+
+class PostSerializer(serializers.Serializer):
+    class Meta:
+        model = Post
+        fields = ['body', 'user']

@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -51,6 +52,13 @@ class DeleteFollowViewSet(APIView):
         follow = get_object_or_404(UserFollow, follower_id=follower_id, following_id=following_id)
         follow.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+class PostViewSet(ModelViewSet):
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['profile']
+
+    queryset = Post.objects.select_related('profile').all()
+    serializer_class = PostSerializer
 
 def profilephotoview(request):
     if request.method == 'POST' :
