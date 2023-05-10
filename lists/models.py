@@ -4,9 +4,12 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 from movies.models import Movie
 from members.models import Profile
+
 class Watchedlist(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='watched_list')
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+
+
 
 
 
