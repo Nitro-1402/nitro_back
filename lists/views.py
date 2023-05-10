@@ -16,3 +16,19 @@ class AddWatchedListViewSet(mixins.CreateModelMixin,GenericViewSet):
 class RetrieveWatchedListViewSet(mixins.RetrieveModelMixin,GenericViewSet):
     queryset = Profile.objects.prefetch_related('watched_list').all()
     serializer_class = RetrieveWatchedListSerializer
+
+class AddFavouritesViewSet(mixins.CreateModelMixin,GenericViewSet):
+    queryset = Favourites.objects.select_related('user_id').select_related('movie_id').all()
+    serializer_class = AddFavouritesSerializer
+
+class RetrieveFavouritesViewSet(mixins.RetrieveModelMixin,GenericViewSet):
+    queryset = Profile.objects.prefetch_related('favourites').all()
+    serializer_class = RetrieveFavouritesSerializer
+
+class AddBookmarksViewSet(mixins.CreateModelMixin,GenericViewSet):
+    queryset = Bookmarks.objects.select_related('user_id').select_related('movie_id').all()
+    serializer_class = AddBookmarksSerializer
+
+class RetrieveBookmarksViewSet(mixins.RetrieveModelMixin,GenericViewSet):
+    queryset = Profile.objects.prefetch_related('bookmarks').all()
+    serializer_class = RetrieveBookmarksSerializer

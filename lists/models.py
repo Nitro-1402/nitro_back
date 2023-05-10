@@ -9,6 +9,24 @@ class Watchedlist(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='watched_list')
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
 
+    class Meta:
+        unique_together = [['profile', 'movie']]
+
+class Favourites(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='favourites')
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = [['profile', 'movie']]
+
+class Bookmarks(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='bookmarks')
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = [['profile', 'movie']]
+
+
 
 
 
