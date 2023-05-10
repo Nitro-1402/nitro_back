@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.db.models import Avg
 from .models import *
 
 class NewsSerializer(serializers.ModelSerializer):
@@ -20,8 +21,15 @@ class CategorySerializer(serializers.ModelSerializer):
 class MovieSerializer(serializers.ModelSerializer):
     class Meta: 
         model = Movie
-        fields = ['id', 'title' , 'thumbnail' , 'movie_type' , 'poster' , 'description' , 'meta_rating' , 'imdb_rating' , 'publish_date' , 
-                  'director' , 'actors' , 'category_set']
+
+        fields = ['title' , 'thumbnail' , 'movie_type' , 'poster' , 'description' , 'meta_rating' , 'imdb_rating' , 'publish_date' , 
+                  'director' , 'actors' , 'category_set' , 'rating']
+        
+    rating = serializers.SerializerMethodField(method_name='calculate_average_rate' , read_only= True)
+
+    def calculate_average_rate(self , movie : Movie):
+        return Rating.objects.filter(movie = movie).aggregate(Avg('rating'))['rating__avg']
+
         
 class DirectorSerializer(serializers.ModelSerializer):
     class Meta:
