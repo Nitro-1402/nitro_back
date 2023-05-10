@@ -27,7 +27,7 @@ class MovieSerializer(serializers.ModelSerializer):
     rating = serializers.SerializerMethodField(method_name='calculate_average_rate' , read_only= True)
 
     def calculate_average_rate(self , movie : Movie):
-        return Rating.objects.filter(movie = movie).aggregate(Avg('rating'))['reting__avg']
+        return Rating.objects.filter(movie = movie).aggregate(Avg('rating'))['rating__avg']
         
 class DirectorSerializer(serializers.ModelSerializer):
     class Meta:
