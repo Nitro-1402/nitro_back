@@ -49,7 +49,7 @@ class AddFollowViewSet(mixins.CreateModelMixin,GenericViewSet):
     queryset = UserFollow.objects.select_related('follower_id').select_related('following_id').all()
     serializer_class = AddFollowSerializer
 
-class DeleteFollowViewSet(APIView):
+class DeleteFollowView(APIView):
     def delete(self, request):
         follower_id = request.GET.get('follower_id')
         following_id = request.GET.get('following_id')
@@ -63,6 +63,22 @@ class PostViewSet(ModelViewSet):
 
     queryset = Post.objects.select_related('profile').all()
     serializer_class = PostSerializer
+
+class SubscribersViewSet(mixins.RetrieveModelMixin,GenericViewSet):
+    queryset = Profile.objects.prefetch_related('subscribers__subscriber_id__user').all()
+    serializer_class = SubscribersSerializer
+
+class AddSubscriberViewSet(mixins.CreateModelMixin,GenericViewSet):
+    queryset = Subscribe.objects.select_related('user_id').select_related('subscriber_id').all()
+    serializer_class = AddSubscriberSerializer
+
+class DeleteSubscribeView(APIView):
+    def delete(self, request):
+        user_id = request.GET.get('user_id')
+        subscriber_id = request.GET.get('subscriber_id')
+        subscribe = get_object_or_404(Subscribe, user_id=user_id, subscriber_id=subscriber_id)
+        subscribe.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 def profilephotoview(request):
     if request.method == 'POST' :

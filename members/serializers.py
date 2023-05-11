@@ -130,4 +130,4 @@ class SubscribersSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ['subscribers']
     
-    subscribers = FollowingInstanceSerializer(many=True)
+    subscribers = SubscriberInstanceSerializer(many=True)
