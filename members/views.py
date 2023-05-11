@@ -20,9 +20,13 @@ class CustomTokenObtainPairView(TokenObtainPairView):
         print(serializer)
         user = User.objects.get(username=request.data['username'])
         refresh = RefreshToken.for_user(user)
+        try:
+            profile_id = user.profile.id
+        except:
+            profile_id = 0
         return Response({
             'id': user.id,
-            'profile_id' : user.profile.id,
+            'profile_id' : profile_id,
             'email': str(user.email),
             'username': str(user.username),
             'access': str(refresh.access_token),
