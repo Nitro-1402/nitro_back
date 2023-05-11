@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -19,9 +20,13 @@ class CustomTokenObtainPairView(TokenObtainPairView):
         print(serializer)
         user = User.objects.get(username=request.data['username'])
         refresh = RefreshToken.for_user(user)
+        try:
+            profile_id = user.profile.id
+        except:
+            profile_id = 0
         return Response({
             'id': user.id,
-            'profile_id' : user.profile.id,
+            'profile_id' : profile_id,
             'email': str(user.email),
             'username': str(user.username),
             'access': str(refresh.access_token),
@@ -51,6 +56,13 @@ class DeleteFollowViewSet(APIView):
         follow = get_object_or_404(UserFollow, follower_id=follower_id, following_id=following_id)
         follow.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+class PostViewSet(ModelViewSet):
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['profile']
+
+    queryset = Post.objects.select_related('profile').all()
+    serializer_class = PostSerializer
 
 def profilephotoview(request):
     if request.method == 'POST' :

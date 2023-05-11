@@ -25,3 +25,7 @@ class UserFollow(models.Model):
     follower_id = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='followings')
     following_id = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='followers')
     created = models.DateTimeField(auto_now_add=True)
+
+class Post(models.Model):
+    body = models.TextField()
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
