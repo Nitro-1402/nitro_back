@@ -24,8 +24,13 @@ class Profile(models.Model):
 class UserFollow(models.Model):
     follower_id = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='followings')
     following_id = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='followers')
-    created = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 class Post(models.Model):
     body = models.TextField()
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+
+class Subscribe(models.Model):
+    user_id = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='subscribers')
+    subscriber_id = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='subscribed_to')
+    created_at = models.DateTimeField(auto_now_add=True)

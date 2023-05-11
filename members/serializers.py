@@ -104,3 +104,30 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = '__all__'
+
+class AddSubscriberSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subscribe
+        fields = ['user_id', 'subscriber_id']
+
+class SubscriberInstanceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subscribe
+        fields = ['username', 'photo']
+    
+    username = serializers.SerializerMethodField()
+    photo = serializers.SerializerMethodField()
+    def get_username(self, subscribe:Subscribe):
+        return subscribe.subscriber_id.user.username
+    
+    def get_photo(self, subscribe:Subscribe):
+        if subscribe.subscriber_id.photo:
+            return subscribe.subscriber_id.photo
+        return
+
+class SubscribersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ['subscribers']
+    
+    subscribers = FollowingInstanceSerializer(many=True)
