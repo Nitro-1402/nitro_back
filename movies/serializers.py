@@ -16,14 +16,14 @@ class ActorSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ['title']
+        fields = ['id', 'title']
 
 class MovieSerializer(serializers.ModelSerializer):
     class Meta: 
         model = Movie
 
-        fields = ['title' , 'thumbnail' , 'movie_type' , 'poster' , 'description' , 'meta_rating' , 'imdb_rating' , 'publish_date' , 
-                  'director' , 'actors' , 'category_set' , 'rating']
+        fields = ['id', 'title' , 'thumbnail' , 'movie_type' , 'poster' , 'description' , 'meta_rating' , 'imdb_rating' , 'publish_date' , 
+                  'director' , 'actors' , 'category_set' , 'rating', 'country']
         
     rating = serializers.SerializerMethodField(method_name='calculate_average_rate' , read_only= True)
 
@@ -50,5 +50,5 @@ class EpisodeSerializer(serializers.ModelSerializer):
 class RatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rating
-        fields = ['rating' , 'user' , 'movie']
+        fields = ['id', 'rating' , 'user' , 'movie']
 
