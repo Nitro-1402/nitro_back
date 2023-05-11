@@ -8,8 +8,8 @@ router.register('followers', views.FollowersListViewSet, basename='followers')
 router.register('followings', views.FollowingsListViewSet, basename='followings')
 router.register('follow', views.AddFollowViewSet, basename='follow')
 router.register('post', views.PostViewSet, basename='post')
-router.register('subscribe', views.AddSubscriberSerializer, basename='subscribe')
-router.register('subscribers', views.SubscribersSerializer, basename='subscribers')
+router.register('subscribe', views.AddSubscriberViewSet, basename='subscribe')
+router.register('subscribers', views.SubscribersViewSet, basename='subscribers')
 
 urlpatterns = [
     path('',include(router.urls)),
