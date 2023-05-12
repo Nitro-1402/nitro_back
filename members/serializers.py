@@ -27,21 +27,14 @@ class EditProfileSerializer(serializers.ModelSerializer):
     user = EmailUserSerializer(read_only=False)
 
     def update(self, instance:Profile, validated_data):
-        print('Hello')
         instance.photo = validated_data.get('photo')
         instance.first_name = validated_data.get('first_name')
         instance.last_name = validated_data.get('last_name')
         if validated_data.get('user') is not None:
             email_field = validated_data.get('user')['email']
-            print(email_field)
             user_instace = User.objects.get(id=instance.user.id)
-            print(user_instace.email)
-            if User.objects.filter(id=instance.user.id, email=email_field).exists():
-                print('-------------entered this IF')
-                pass
-            else:
-                user_instace.email = email_field
-                instance.user.email = email_field
+            user_instace.email = email_field
+            instance.user.email = email_field
             user_instace.save()
             instance.save()
             return instance
