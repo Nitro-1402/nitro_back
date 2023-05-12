@@ -6,10 +6,12 @@ from rest_framework import status
 from rest_framework.viewsets import ModelViewSet,GenericViewSet
 from rest_framework.generics import ListAPIView,RetrieveAPIView
 from rest_framework import mixins
+from rest_framework.permissions import *
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import *
 from .serializers import *
+from .permissions import *
 from .forms import Profilephoto
 
 
@@ -49,7 +51,7 @@ class AddFollowViewSet(mixins.CreateModelMixin,GenericViewSet):
     queryset = UserFollow.objects.select_related('follower_id').select_related('following_id').all()
     serializer_class = AddFollowSerializer
 
-class DeleteFollowViewSet(APIView):
+class DeleteFollowView(APIView):
     def delete(self, request):
         follower_id = request.GET.get('follower_id')
         following_id = request.GET.get('following_id')
@@ -61,8 +63,34 @@ class PostViewSet(ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['profile']
 
-    queryset = Post.objects.select_related('profile').all()
+    queryset = Post.objects.filter(is_premium = False).select_related('profile')
     serializer_class = PostSerializer
+
+class PremiumPostViewSet(ModelViewSet):
+    permission_classes = [IsSubscriber] 
+    serializer_class = PremiumPostSerializer
+
+    def get_queryset(self):
+        return Post.objects.filter(profile_id=self.kwargs['profile_pk']).filter(is_premium=True)
+    
+    def get_serializer_context(self): 
+        return {'profile_id': self.kwargs['profile_pk']}
+
+class SubscribersViewSet(mixins.RetrieveModelMixin,GenericViewSet):
+    queryset = Profile.objects.prefetch_related('subscribers__subscriber_id__user').all()
+    serializer_class = SubscribersSerializer
+
+class AddSubscriberViewSet(mixins.CreateModelMixin,GenericViewSet):
+    queryset = Subscribe.objects.select_related('user_id').select_related('subscriber_id').all()
+    serializer_class = AddSubscriberSerializer
+
+class DeleteSubscribeView(APIView):
+    def delete(self, request):
+        user_id = request.GET.get('user_id')
+        subscriber_id = request.GET.get('subscriber_id')
+        subscribe = get_object_or_404(Subscribe, user_id=user_id, subscriber_id=subscriber_id)
+        subscribe.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 def profilephotoview(request):
     if request.method == 'POST' :
