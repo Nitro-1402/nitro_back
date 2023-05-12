@@ -26,6 +26,22 @@ class EditProfileSerializer(serializers.ModelSerializer):
     
     user = EmailUserSerializer(read_only=False)
 
+    def update(self, instance:Profile, validated_data):
+        instance.photo = validated_data.get('photo')
+        instance.first_name = validated_data.get('first_name')
+        instance.last_name = validated_data.get('last_name')
+        if validated_data.get('user') is not None:
+            email_field = validated_data.get('user')['email']
+            user_instace = User.objects.get(id=instance.user.id)
+            user_instace.email = email_field
+            instance.user.email = email_field
+            user_instace.save()
+            instance.save()
+            return instance
+        else:
+            instance.save()
+            return instance
+
 
 class UserCreateSerializer(BaseUserCreateSerializer):
     
@@ -120,7 +136,7 @@ class PremiumPostSerializer(serializers.ModelSerializer):
 class AddSubscriberSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subscribe
-        fields = ['user_id', 'subscriber_id']
+        fields = ['profile_id', 'subscriber_id']
 
 class SubscriberInstanceSerializer(serializers.ModelSerializer):
     class Meta:

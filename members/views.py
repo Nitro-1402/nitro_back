@@ -34,9 +34,14 @@ class CustomTokenObtainPairView(TokenObtainPairView):
             'refresh': str(refresh),
         }, status=status.HTTP_200_OK)
 
-class ProfileViewSet(ModelViewSet):
+class ProfileViewSet(mixins.RetrieveModelMixin,
+                   mixins.UpdateModelMixin,
+                   mixins.DestroyModelMixin,
+                   mixins.ListModelMixin,
+                   GenericViewSet):
     queryset = Profile.objects.select_related('user').all()
     serializer_class = EditProfileSerializer
+
 
 class FollowersListViewSet(mixins.RetrieveModelMixin,GenericViewSet):
     queryset = Profile.objects.prefetch_related('followers').all()
@@ -80,7 +85,7 @@ class SubscribersViewSet(mixins.RetrieveModelMixin,GenericViewSet):
     serializer_class = SubscribersSerializer
 
 class AddSubscriberViewSet(mixins.CreateModelMixin,GenericViewSet):
-    queryset = Subscribe.objects.select_related('user_id').select_related('subscriber_id').all()
+    queryset = Subscribe.objects.select_related('profile_id').select_related('subscriber_id').all()
     serializer_class = AddSubscriberSerializer
 
 class DeleteSubscribeView(APIView):
