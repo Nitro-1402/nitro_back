@@ -31,7 +31,9 @@ class EditProfileSerializer(serializers.ModelSerializer):
         instance.first_name = validated_data.get('first_name')
         instance.last_name = validated_data.get('last_name')
         email_field = validated_data.get('user')['email']
+        print(email_field)
         user_instace = User.objects.get(id=instance.user.id)
+        print(user_instace.email)
         if User.objects.filter(id=instance.user.id, email=email_field).exists():
             print('-------------entered this IF')
             pass
