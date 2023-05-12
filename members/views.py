@@ -6,10 +6,12 @@ from rest_framework import status
 from rest_framework.viewsets import ModelViewSet,GenericViewSet
 from rest_framework.generics import ListAPIView,RetrieveAPIView
 from rest_framework import mixins
+from rest_framework.permissions import *
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import *
 from .serializers import *
+from .permissions import *
 from .forms import Profilephoto
 
 
@@ -61,8 +63,18 @@ class PostViewSet(ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['profile']
 
-    queryset = Post.objects.select_related('profile').all()
+    queryset = Post.objects.filter(is_premium = False).select_related('profile')
     serializer_class = PostSerializer
+
+class PremiumPostViewSet(ModelViewSet):
+    permission_classes = [IsSubscriber] 
+    serializer_class = PremiumPostSerializer
+
+    def get_queryset(self):
+        return Post.objects.filter(profile_id=self.kwargs['profile_pk']).filter(is_premium=True)
+    
+    def get_serializer_context(self): 
+        return {'profile_id': self.kwargs['profile_pk']}
 
 class SubscribersViewSet(mixins.RetrieveModelMixin,GenericViewSet):
     queryset = Profile.objects.prefetch_related('subscribers__subscriber_id__user').all()

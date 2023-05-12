@@ -28,6 +28,7 @@ class UserFollow(models.Model):
 
 class Post(models.Model):
     body = models.TextField()
+    is_premium = models.BooleanField(default=False)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
 
 class Subscribe(models.Model):

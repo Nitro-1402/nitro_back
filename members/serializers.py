@@ -103,7 +103,16 @@ class AddFollowSerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = '__all__'
+        fields = ['id', 'body', 'profile', 'is_premium']
+
+class PremiumPostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = ['id', 'body', 'is_premium']
+    
+    def create(self, validated_data):
+        profile_id = self.context['profile_id']
+        return Post.objects.create(profile_id=profile_id, **validated_data)
 
 class AddSubscriberSerializer(serializers.ModelSerializer):
     class Meta:
