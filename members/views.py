@@ -43,6 +43,7 @@ class ProfileViewSet(mixins.RetrieveModelMixin,
     queryset = Profile.objects.select_related('user').all()
     serializer_class = EditProfileSerializer
 
+
 class FollowersListViewSet(mixins.RetrieveModelMixin,GenericViewSet):
     queryset = Profile.objects.prefetch_related('followers').all()
     serializer_class = FollowersSerializer
