@@ -6,7 +6,7 @@ class IsSubscriber(permissions.BasePermission):
         if request.user.is_authenticated:
             if request.user.is_staff:
                 return True
-            if request.user.profile.id == view.kwargs['profile_pk']:
+            if request.user.profile.id == Profile.objects.get(id=view.kwargs['profile_pk']).id:
                 return True
             if request.method in permissions.SAFE_METHODS:
                 subscribed_to_list = Profile.objects.filter(user_id=request.user.id).values_list('subscribed_to')
