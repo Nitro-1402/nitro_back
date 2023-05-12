@@ -1,5 +1,5 @@
 from rest_framework import permissions
-from .models import Profile
+from .models import Profile, Subscribe
 
 class IsSubscriber(permissions.BasePermission):
     def has_permission(self, request, view):
@@ -8,7 +8,7 @@ class IsSubscriber(permissions.BasePermission):
                 return True
             print(str(request.user.id))
             subscribed_to_list = Profile.objects.filter(user_id=request.user.id).values_list('subscribed_to')
-            subscribed_to_list = [item.user_id for item in subscribed_to_list]
+            subscribed_to_list = Subscribe.objects.filter(id__in=subscribed_to_list).values_list('user_id')
             print("subscribed to" + str(subscribed_to_list))
             is_subscribed = False
             print("pofile_pk" + str(view.kwargs['profile_pk']))
