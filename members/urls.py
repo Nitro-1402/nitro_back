@@ -12,7 +12,7 @@ router.register('subscribe', views.AddSubscriberViewSet, basename='subscribe')
 router.register('subscribers', views.SubscribersViewSet, basename='subscribers')
 
 profiles_router = routers.NestedDefaultRouter(router, 'profiles', lookup='profile')
-profiles_router.register('premiumPosts', views.PostViewSet, basename='profile-premiumPosts')
+profiles_router.register('premiumPosts', views.PremiumPostViewSet, basename='profile-premiumPosts')
 
 urlpatterns = [
     path('',include(router.urls)),
