@@ -35,7 +35,11 @@ class CustomTokenObtainPairView(TokenObtainPairView):
             'refresh': str(refresh),
         }, status=status.HTTP_200_OK)
 
-class ProfileViewSet(ModelViewSet):
+class ProfileViewSet(mixins.RetrieveModelMixin,
+                   mixins.UpdateModelMixin,
+                   mixins.DestroyModelMixin,
+                   mixins.ListModelMixin,
+                   GenericViewSet):
     queryset = Profile.objects.select_related('user').all()
     serializer_class = EditProfileSerializer
 
