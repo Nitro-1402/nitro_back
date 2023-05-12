@@ -12,7 +12,6 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from .models import *
 from .serializers import *
 from .permissions import *
-from .forms import Profilephoto
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):
