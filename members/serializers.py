@@ -26,6 +26,14 @@ class EditProfileSerializer(serializers.ModelSerializer):
     
     user = EmailUserSerializer(read_only=False)
 
+    def update(self, instance:Profile, validated_data):
+        instance.photo = validated_data.get('photo')
+        instance.first_name = validated_data.get('first_name')
+        instance.last_name = validated_data.get('last_name')
+        instance.user.email = validated_data.get('user').email
+        instance.save()
+        return instance
+
 
 class UserCreateSerializer(BaseUserCreateSerializer):
     
