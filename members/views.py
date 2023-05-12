@@ -91,11 +91,3 @@ class DeleteSubscribeView(APIView):
         subscribe = get_object_or_404(Subscribe, user_id=user_id, subscriber_id=subscriber_id)
         subscribe.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-def profilephotoview(request):
-    if request.method == 'POST' :
-        form = Profilephoto(request.POST , request.FILES)
-        if form.is_valid():
-            form.save()
-    else:
-        form = Profilephoto()
