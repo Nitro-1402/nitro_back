@@ -30,8 +30,9 @@ class EditProfileSerializer(serializers.ModelSerializer):
         instance.photo = validated_data.get('photo')
         instance.first_name = validated_data.get('first_name')
         instance.last_name = validated_data.get('last_name')
-        instance.user.email = validated_data.get('user')['email']
-        print(instance.user.email)
+        user_instace = User.objects.get(id=instance.user.id)
+        user_instace.email = validated_data.get('user')['email']
+        user_instace.save()
         instance.save()
         return instance
 
