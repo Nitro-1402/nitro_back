@@ -9,7 +9,7 @@ class IsSubscriber(permissions.BasePermission):
             print(str(request.user.id))
             subscribed_to_list = Profile.objects.filter(user_id=request.user.id).values_list('subscribed_to')
             return bool(Profile.objects.filter(
-                id=self.kwargs['profile_pk']).filter(subscribers__in=subscribed_to_list).exists())
+                id=view.kwargs['profile_pk']).filter(subscribers__in=subscribed_to_list).exists())
             print("subscribed to" + str(subscribed_to_list))
             is_subscribed = False
             print("pofile_pk" + str(view.kwargs['profile_pk']))
