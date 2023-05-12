@@ -138,7 +138,7 @@ class PremiumPostSerializer(serializers.ModelSerializer):
 class AddSubscriberSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subscribe
-        fields = ['user_id', 'subscriber_id']
+        fields = ['profile_id', 'subscriber_id']
 
 class SubscriberInstanceSerializer(serializers.ModelSerializer):
     class Meta:

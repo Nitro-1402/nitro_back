@@ -85,7 +85,7 @@ class SubscribersViewSet(mixins.RetrieveModelMixin,GenericViewSet):
     serializer_class = SubscribersSerializer
 
 class AddSubscriberViewSet(mixins.CreateModelMixin,GenericViewSet):
-    queryset = Subscribe.objects.select_related('user_id').select_related('subscriber_id').all()
+    queryset = Subscribe.objects.select_related('profile_id').select_related('subscriber_id').all()
     serializer_class = AddSubscriberSerializer
 
 class DeleteSubscribeView(APIView):
