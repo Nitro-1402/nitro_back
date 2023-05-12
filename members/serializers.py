@@ -47,6 +47,7 @@ class EditProfileSerializer(serializers.ModelSerializer):
             return instance
         else:
             instance.save()
+            return instance
 
 
 class UserCreateSerializer(BaseUserCreateSerializer):
