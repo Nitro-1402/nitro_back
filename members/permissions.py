@@ -3,7 +3,7 @@ from .models import Profile, Subscribe
 
 class IsSubscriber(permissions.BasePermission):
     def has_permission(self, request, view):
-        if request.user:
+        if request.user.is_authenticated:
             if request.user.is_staff:
                 return True
             if request.user.profile.id == view.kwargs['profile_pk']:
