@@ -6,8 +6,8 @@ class IsSubscriber(permissions.BasePermission):
         if request.user:
             if request.user.is_staff:
                 return True
-            print(str(request.user.id))
-            subscribed_to_list = Profile.objects.filter(user_id=request.user.id).values_list('subscribed_to')
+            print(str(request.user.profile.id))
+            subscribed_to_list = Profile.objects.filter(user_id=request.user.profile.id).values_list('subscribed_to')
             subscribed_to_list = Subscribe.objects.filter(id__in=subscribed_to_list).values_list('user_id')
             print("subscribed to" + str(subscribed_to_list))
             is_subscribed = False
