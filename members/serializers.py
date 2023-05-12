@@ -30,12 +30,13 @@ class EditProfileSerializer(serializers.ModelSerializer):
         instance.photo = validated_data.get('photo')
         instance.first_name = validated_data.get('first_name')
         instance.last_name = validated_data.get('last_name')
+        email_field = validated_data.get('user')['email']
         user_instace = User.objects.get(id=instance.user.id)
-        if user_instace.email == validated_data.get('user')['email']:
+        if User.objects.filter(id=instance.user.id, email=email_field).exists():
             pass
         else:
-            user_instace.email = validated_data.get('user')['email']
-        instance.user.email = validated_data.get('user')['email']
+            user_instace.email = email_field
+        instance.user.email = email_field
         user_instace.save()
         instance.save()
         return instance
