@@ -31,7 +31,10 @@ class EditProfileSerializer(serializers.ModelSerializer):
         instance.first_name = validated_data.get('first_name')
         instance.last_name = validated_data.get('last_name')
         user_instace = User.objects.get(id=instance.user.id)
-        user_instace.email = validated_data.get('user')['email']
+        if user_instace.email == validated_data.get('user')['email']:
+            pass
+        else:
+            user_instace.email = validated_data.get('user')['email']
         instance.user.email = validated_data.get('user')['email']
         user_instace.save()
         instance.save()
