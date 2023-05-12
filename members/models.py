@@ -32,6 +32,6 @@ class Post(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
 
 class Subscribe(models.Model):
-    user_id = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='subscribers')
+    profile_id = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='subscribers')
     subscriber_id = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='subscribed_to')
     created_at = models.DateTimeField(auto_now_add=True)
