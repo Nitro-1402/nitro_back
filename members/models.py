@@ -4,7 +4,7 @@ from django.conf import settings
 from movies.models import Movie
 
 def profile_photo_path(instance, filename):
-    return 'profiles/photos/{0}/{1}'.format(instance.user.username, filename)
+    return 'profiles/photos/{0}/'.format(instance.user.username)
 
 class User(AbstractUser):
     email = models.EmailField(unique=True)
