@@ -7,7 +7,7 @@ import uuid
 
 
 def profile_photo_path(instance, filename):
-    return 'profiles/photos/{0}'.format(instance.user.username)
+    return 'profiles/photos/{0}.jpg'.format(instance.user.username)
 
 def get_profile_path(instance, filename):
     ext = filename.split('.')[-1]
@@ -21,7 +21,7 @@ class User(AbstractUser):
         return self.username
 
 class Profile(models.Model):
-    photo = models.ImageField(upload_to=get_profile_path,blank=True , null=True)
+    photo = models.ImageField(upload_to=profile_photo_path,blank=True , null=True)
     first_name = models.CharField(max_length=255,blank=True , null=True)
     last_name = models.CharField(max_length=255,blank=True , null=True)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
