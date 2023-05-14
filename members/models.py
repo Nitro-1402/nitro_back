@@ -2,9 +2,17 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.conf import settings
 from movies.models import Movie
+import os
+import uuid
+
 
 def profile_photo_path(instance, filename):
     return 'profiles/photos/{0}'.format(instance.user.username)
+
+def get_profile_path(instance, filename):
+    ext = filename.split('.')[-1]
+    filename = "%s.%s" % (uuid.uuid4(), ext)
+    return os.path.join('profile/photo', filename)
 
 class User(AbstractUser):
     email = models.EmailField(unique=True)
@@ -13,7 +21,7 @@ class User(AbstractUser):
         return self.username
 
 class Profile(models.Model):
-    photo = models.ImageField(upload_to=profile_photo_path,blank=True , null=True)
+    photo = models.ImageField(upload_to=get_profile_path,blank=True , null=True)
     first_name = models.CharField(max_length=255,blank=True , null=True)
     last_name = models.CharField(max_length=255,blank=True , null=True)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
