@@ -77,7 +77,7 @@ class FollowerInstanceSerializer(serializers.ModelSerializer):
     
     def get_photo(self, user_follow:UserFollow):
         if user_follow.follower_id.photo:
-            return user_follow.follower_id.photo.file
+            return user_follow.follower_id.photo.url
         return
     
 
@@ -100,7 +100,7 @@ class FollowingInstanceSerializer(serializers.ModelSerializer):
     
     def get_photo(self, user_follow:UserFollow):
         if user_follow.following_id.photo:
-            return user_follow.follower_id.photo.file
+            return user_follow.follower_id.photo.url
         return
     
 
