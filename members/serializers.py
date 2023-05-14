@@ -77,7 +77,7 @@ class FollowerInstanceSerializer(serializers.ModelSerializer):
     
     def get_photo(self, user_follow:UserFollow):
         if user_follow.follower_id.photo:
-            return "http://nitroback.pythonanywhere.com/media/profiles/photos/{0}.jpg".format(user_follow.follower_id.user.username)
+            return user_follow.follower_id.photo.url
         return
     
 
@@ -100,7 +100,7 @@ class FollowingInstanceSerializer(serializers.ModelSerializer):
     
     def get_photo(self, user_follow:UserFollow):
         if user_follow.following_id.photo:
-            return "http://nitroback.pythonanywhere.com/media/profiles/photos/{0}.jpg".format(user_follow.follower_id.user.username)
+            return user_follow.follower_id.photo.url
         return
     
 
@@ -150,7 +150,7 @@ class SubscriberInstanceSerializer(serializers.ModelSerializer):
     
     def get_photo(self, subscribe:Subscribe):
         if subscribe.subscriber_id.photo:
-            return "http://nitroback.pythonanywhere.com/media/profiles/photos/{0}.jpg".format(user_follow.follower_id.user.username)
+            return "http://nitroback.pythonanywhere.com/media/profiles/photos/{0}.jpg".format(subscribe.subscriber_id.user.username)
         return
 
 class SubscribersSerializer(serializers.ModelSerializer):
