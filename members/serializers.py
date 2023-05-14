@@ -150,7 +150,7 @@ class SubscriberInstanceSerializer(serializers.ModelSerializer):
     
     def get_photo(self, subscribe:Subscribe):
         if subscribe.subscriber_id.photo:
-            return "http://nitroback.pythonanywhere.com/media/profiles/photos/{0}.jpg".format(subscribe.subscriber_id.user.username)
+            return "http://nitroback.pythonanywhere.com" + str(subscribe.subscriber_id.photo.url)
         return
 
 class SubscribersSerializer(serializers.ModelSerializer):
