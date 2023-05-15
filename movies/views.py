@@ -12,6 +12,7 @@ class NewsViewSet(ModelViewSet):
 class ActorViewSet(ModelViewSet):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
+    authentication_classes = []
 
 class CategoryViewSet(ModelViewSet):
     queryset = Category.objects.all()

@@ -2,9 +2,17 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.conf import settings
 from movies.models import Movie
+import os
+import uuid
+
 
 def profile_photo_path(instance, filename):
-    return 'members/photos/{0}'.format(instance.user.username)
+    return 'profiles/photos/{0}.jpg'.format(instance.user.username)
+
+def get_profile_path(instance, filename):
+    ext = filename.split('.')[-1]
+    filename = "%s.%s" % (uuid.uuid4(), ext)
+    return os.path.join('profile/photo', filename)
 
 class User(AbstractUser):
     email = models.EmailField(unique=True)
