@@ -3,6 +3,7 @@ from rest_framework import mixins
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
+from rest_framework.permissions import *
 from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import get_object_or_404
 from .models import *
@@ -11,6 +12,7 @@ from .serializers import *
 class CommentViewSet(ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['content_type_id', 'object_id', 'user']
+    permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Comment.objects.select_related('user').select_related('parent_comment').select_related('content_type').all()
     serializer_class = CommentSerializer
 
