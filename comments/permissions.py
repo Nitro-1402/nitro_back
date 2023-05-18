@@ -9,7 +9,8 @@ class CommentPermission(permissions.BasePermission):
             if request.user.is_staff:
                 return True
             if request.method == 'POST':
-                return True
+                if int(request.user.profile.id) == int(request.data.get('profile')):
+                    return True
             if Profile.objects.filter(id=request.user.profile.id,comment__in=view.kwargs['pk']).exists():
                 return True
         else:
