@@ -23,7 +23,7 @@ class LikeCommentPermission(permissions.BasePermission):
             if request.user.is_staff:
                 return True
             if request.method == 'POST':
-                if request.user.profile.id == request.data.get('profile'):
+                if int(request.user.profile.id) == int(request.data.get('profile')):
                     return True
         else:
             return False
