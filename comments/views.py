@@ -17,11 +17,11 @@ class CommentViewSet(ModelViewSet):
     queryset = Comment.objects.select_related('user').select_related('parent_comment').select_related('content_type').all()
     serializer_class = CommentSerializer
 
-    def get_authenticators(self):
+    # def get_authenticators(self):
 
-        if self.request.method in SAFE_METHODS:
-            return []
-        return [JWTAuthentication]
+    #     if self.request.method in SAFE_METHODS:
+    #         return []
+    #     return [JWTAuthentication]
 
 class LikeCommentViewSet(mixins.CreateModelMixin,
                         mixins.ListModelMixin,
