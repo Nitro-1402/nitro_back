@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.permissions import *
+from rest_framework.decorators import action
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import get_object_or_404
@@ -34,6 +35,15 @@ class LikeCommentViewSet(mixins.CreateModelMixin,
     filterset_fields = ['comment_id', 'user_id']
     queryset = LikeComment.objects.all()
     serializer_class = LikeCommentSerializer
+
+    @action(detail=False, methods=['DELETE'])
+    def delete_by_field(self, request):
+        comment_id = request.data.get('comment_id')
+        user_id = request.data.get('user_id')
+        comment = Comment.objects.filter(comment_id=comment_id, user_id=user_id)
+        comment.delete()
+
+        return Response({'message': 'Comments deleted'}, status=status.HTTP_204_NO_CONTENT)
 
 class DeleteLikeView(APIView):
     def delete(self, request):
