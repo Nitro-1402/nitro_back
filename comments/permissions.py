@@ -10,7 +10,7 @@ class CommentPermission(permissions.BasePermission):
                 return True
             if request.method == 'POST':
                 return True
-            if Profile.objects.filter(id=request.user.profile.id,comment_set__in=view.kwargs['pk']).exists():
+            if Profile.objects.filter(id=request.user.profile.id,comment__in=view.kwargs['pk']).exists():
                 return True
             if request.method in permissions.SAFE_METHODS:
                 subscribed_to_list = Profile.objects.filter(user_id=request.user.id).values_list('subscribed_to')
