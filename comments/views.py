@@ -38,8 +38,8 @@ class LikeCommentViewSet(mixins.CreateModelMixin,
 
     @action(detail=False, methods=['DELETE'])
     def delete(self, request):
-        comment_id = request.GET.get('comment')
-        profile_id = request.GET.get('profile')
+        comment_id = request.data.get('comment')
+        profile_id = request.data.get('profile')
 
         like = get_object_or_404(LikeComment, comment_id=comment_id, profile_id=profile_id)
         like.delete()
