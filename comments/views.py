@@ -16,7 +16,7 @@ class CommentViewSet(ModelViewSet):
     filterset_fields = ['content_type_id', 'object_id', 'profile']
     permission_classes = [IsAuthenticatedOrReadOnly]
     authentication_classes = [JWTAuthentication]
-    queryset = Comment.objects.select_related('user').select_related('parent_comment').select_related('content_type').all()
+    queryset = Comment.objects.select_related('profile').select_related('parent_comment').select_related('content_type').all()
     serializer_class = CommentSerializer
 
     def get_authenticators(self):
