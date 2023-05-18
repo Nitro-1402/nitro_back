@@ -32,7 +32,7 @@ class LikeCommentViewSet(mixins.CreateModelMixin,
                         GenericViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['comment_id', 'profile_id']
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [LikeCommentPermission]
     queryset = LikeComment.objects.all()
     serializer_class = LikeCommentSerializer
 
