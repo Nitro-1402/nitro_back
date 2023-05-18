@@ -23,7 +23,7 @@ class LikeCommentPermission(permissions.BasePermission):
         elif request.user.is_authenticated:
             if request.user.is_staff:
                 return True
-            elif request.method == 'POST':
+            elif request.method == 'POST' or request.method == 'DELETE':
                 if int(request.user.profile.id) == int(request.data.get('profile')):
                     return True
         else:
