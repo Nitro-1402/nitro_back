@@ -19,8 +19,11 @@ class CommentViewSet(ModelViewSet):
     serializer_class = CommentSerializer
 
     def get_authenticators(self):
-        if self.request.method in SAFE_METHODS:
-            return []  
+        if self.request is not None:
+            if self.request.method in SAFE_METHODS:
+                return []  
+            else:
+                return super().get_authenticators()
         else:
             return super().get_authenticators()
 
