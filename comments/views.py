@@ -13,7 +13,7 @@ from .permissions import *
 
 class CommentViewSet(ModelViewSet):
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['content_type_id', 'object_id', 'user']
+    filterset_fields = ['content_type_id', 'object_id', 'profile']
     permission_classes = [IsAuthenticatedOrReadOnly]
     authentication_classes = [JWTAuthentication]
     queryset = Comment.objects.select_related('user').select_related('parent_comment').select_related('content_type').all()
@@ -32,21 +32,21 @@ class LikeCommentViewSet(mixins.CreateModelMixin,
                         mixins.ListModelMixin,
                         GenericViewSet):
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['comment_id', 'user_id']
+    filterset_fields = ['comment_id', 'profile_id']
     queryset = LikeComment.objects.all()
     serializer_class = LikeCommentSerializer
 
 class DeleteLikeView(APIView):
     def delete(self, request):
         comment_id = request.GET.get('comment_id')
-        user_id = request.GET.get('user_id')
-        follow = get_object_or_404(LikeComment, comment_id=comment_id, user_id=user_id)
+        profile_id = request.GET.get('profile_id')
+        follow = get_object_or_404(LikeComment, comment_id=comment_id, profile_id=profile_id)
         follow.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
 class LikedCommentsView(APIView):
     def get(self, request):
-        user_id = request.GET.get('user_id')
-        queryset = LikeComment.objects.filter(user_id = user_id)
+        profile_id = request.GET.get('profile_id')
+        queryset = LikeComment.objects.filter(user_id = profile_id)
         serializer = LikedCommentsSerializer(queryset, many=True)
         return Response(serializer.data)
