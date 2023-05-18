@@ -14,7 +14,7 @@ from .permissions import *
 class CommentViewSet(ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['content_type_id', 'object_id', 'profile']
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [CommentPermission]
     authentication_classes = [JWTAuthentication]
     queryset = Comment.objects.select_related('profile').select_related('parent_comment').select_related('content_type').all()
     serializer_class = CommentSerializer
