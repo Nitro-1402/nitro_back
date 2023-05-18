@@ -8,10 +8,10 @@ class CommentPermission(permissions.BasePermission):
         elif request.user.is_authenticated:
             if request.user.is_staff:
                 return True
-            if request.method == 'POST':
+            elif request.method == 'POST':
                 if int(request.user.profile.id) == int(request.data.get('profile')):
                     return True
-            if Profile.objects.filter(id=request.user.profile.id,comment__in=view.kwargs['pk']).exists():
+            elif Profile.objects.filter(id=request.user.profile.id,comment__in=view.kwargs['pk']).exists():
                 return True
         else:
             return False
@@ -23,7 +23,7 @@ class LikeCommentPermission(permissions.BasePermission):
         elif request.user.is_authenticated:
             if request.user.is_staff:
                 return True
-            if request.method == 'POST':
+            elif request.method == 'POST':
                 if int(request.user.profile.id) == int(request.data.get('profile')):
                     return True
         else:
