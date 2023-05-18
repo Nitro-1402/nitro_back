@@ -33,8 +33,19 @@ class LikeCommentViewSet(mixins.CreateModelMixin,
                         GenericViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['comment_id', 'profile_id']
+    permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = LikeComment.objects.all()
     serializer_class = LikeCommentSerializer
+
+
+    def get_authenticators(self):
+        if self.request is not None:
+            if self.request.method in SAFE_METHODS:
+                return []  
+            else:
+                return super().get_authenticators()
+        else:
+            return super().get_authenticators()
 
 class DeleteLikeView(APIView):
     def delete(self, request):
