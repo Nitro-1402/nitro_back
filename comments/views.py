@@ -9,6 +9,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import get_object_or_404
 from .models import *
 from .serializers import *
+from .permissions import *
 
 class CommentViewSet(ModelViewSet):
     filter_backends = [DjangoFilterBackend]
