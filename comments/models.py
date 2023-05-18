@@ -24,11 +24,11 @@ class LikeComment(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='likes')
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='likes') 
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='likes') 
     like_type = models.CharField(
         max_length=1, choices=LIKETYPE_CHOICES, default=LIKETYPE_LIKE)
     
     class Meta:
-        unique_together = [['user', 'comment']]
+        unique_together = [['profile', 'comment']]
 
 
