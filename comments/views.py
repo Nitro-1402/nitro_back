@@ -14,14 +14,15 @@ class CommentViewSet(ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['content_type_id', 'object_id', 'user']
     permission_classes = [IsAuthenticatedOrReadOnly]
+    authentication_classes = [JWTAuthentication]
     queryset = Comment.objects.select_related('user').select_related('parent_comment').select_related('content_type').all()
     serializer_class = CommentSerializer
 
-    # def get_authenticators(self):
-
-    #     if self.request.method in SAFE_METHODS:
-    #         return []
-    #     return [JWTAuthentication]
+    def get_authenticators(self):
+        if self.request.method in SAFE_METHODS:
+            return []  
+        else:
+            return super().get_authenticators()
 
 class LikeCommentViewSet(mixins.CreateModelMixin,
                         mixins.ListModelMixin,
