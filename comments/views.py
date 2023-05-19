@@ -48,8 +48,8 @@ class LikeCommentViewSet(mixins.CreateModelMixin,
 
     @action(detail=False, methods=['GET'])
     def profileLikes(self,request):
-        profile_id = request.GET.get('profile_id')
-        queryset = LikeComment.objects.filter(user_id = profile_id)
+        profile_id = request.data.get('profile')
+        queryset = LikeComment.objects.filter(profile_id = profile_id)
         serializer = LikedCommentsSerializer(queryset, many=True)
         return Response(serializer.data)
 
