@@ -46,6 +46,13 @@ class LikeCommentViewSet(mixins.CreateModelMixin,
 
         return Response({'message': 'like deleted'}, status=status.HTTP_204_NO_CONTENT)
 
+    @action(detail=False, methods=['GET'])
+    def profileLikes(self,request):
+        profile_id = request.GET.get('profile_id')
+        queryset = LikeComment.objects.filter(user_id = profile_id)
+        serializer = LikedCommentsSerializer(queryset, many=True)
+        return Response(serializer.data)
+
 
     def get_authenticators(self):
         if self.request is not None:
@@ -55,14 +62,6 @@ class LikeCommentViewSet(mixins.CreateModelMixin,
                 return super().get_authenticators()
         else:
             return super().get_authenticators()
-
-class DeleteLikeView(APIView):
-    def delete(self, request):
-        comment_id = request.GET.get('comment_id')
-        profile_id = request.GET.get('profile_id')
-        follow = get_object_or_404(LikeComment, comment_id=comment_id, profile_id=profile_id)
-        follow.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
     
 class LikedCommentsView(APIView):
     def get(self, request):
