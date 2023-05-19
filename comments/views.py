@@ -62,10 +62,3 @@ class LikeCommentViewSet(mixins.CreateModelMixin,
                 return super().get_authenticators()
         else:
             return super().get_authenticators()
-    
-class LikedCommentsView(APIView):
-    def get(self, request):
-        profile_id = request.GET.get('profile_id')
-        queryset = LikeComment.objects.filter(user_id = profile_id)
-        serializer = LikedCommentsSerializer(queryset, many=True)
-        return Response(serializer.data)

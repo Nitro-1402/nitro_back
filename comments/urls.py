@@ -8,5 +8,4 @@ router.register('likes', views.LikeCommentViewSet, basename='like')
 
 urlpatterns = [
     path('',include(router.urls)),
-    path('likedComments/', views.LikedCommentsView.as_view(), name='likedComments')
 ]
