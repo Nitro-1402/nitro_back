@@ -5,7 +5,7 @@ from .models import *
 class NewsSerializer(serializers.ModelSerializer):
     class Meta:
         model = News
-        fields = ['id', 'title', 'thumbnail', 'photo', 'description', 'movies', 'actors', 'directors']
+        fields = ['id', 'title', 'thumbnail', 'photo', 'description', 'publish_date', 'movies', 'actors', 'directors']
 
 class ActorSerializer(serializers.ModelSerializer):
     class Meta:
@@ -50,5 +50,5 @@ class EpisodeSerializer(serializers.ModelSerializer):
 class RatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rating
-        fields = ['id', 'rating' , 'user' , 'movie']
+        fields = ['id', 'rating' , 'profile' , 'movie']
 

@@ -17,7 +17,5 @@ profiles_router.register('premiumPosts', views.PremiumPostViewSet, basename='pro
 urlpatterns = [
     path('',include(router.urls)),
     path('',include(profiles_router.urls)),
-    path('unfollow/', views.DeleteFollowView.as_view(), name='unfollow'),
     path('login/', views.CustomTokenObtainPairView.as_view(), name='token_obtain_pair_with_user'),
-    path('unsubscribe/', views.DeleteSubscribeView.as_view(), name='unsubscribe')
 ]

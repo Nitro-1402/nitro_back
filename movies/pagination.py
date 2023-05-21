@@ -5,3 +5,6 @@ class CategoryPagination(PageNumberPagination):
 
 class MoviePagination(PageNumberPagination):
     page_size = 20
+
+class NewsPagination(PageNumberPagination):
+    page_size = 8

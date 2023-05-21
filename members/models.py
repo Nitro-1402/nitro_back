@@ -1,7 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.conf import settings
-from movies.models import Movie
 import os
 import uuid
 
@@ -34,6 +33,9 @@ class UserFollow(models.Model):
     following_id = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='followers')
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        unique_together = [['follower_id', 'following_id']]
+
 class Post(models.Model):
     body = models.TextField()
     is_premium = models.BooleanField(default=False)
@@ -43,3 +45,6 @@ class Subscribe(models.Model):
     profile_id = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='subscribers')
     subscriber_id = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='subscribed_to')
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = [['profile_id', 'subscriber_id']]
