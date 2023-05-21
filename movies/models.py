@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.core.validators import MaxValueValidator
 from django.contrib.contenttypes.fields import GenericRelation
+from datetime import date
 from comments.models import *
 
 def movie_thumbnail_path(instance, filename):
@@ -100,6 +101,7 @@ class News(models.Model):
     thumbnail = models.ImageField(upload_to=news_thumbnail_path)
     photo = models.ImageField(upload_to=news_photo_path)
     description = models.TextField()
+    publish_date = models.DateField(default=date.today, blank=True)
     movies = models.ManyToManyField(Movie, blank=True)
     actors = models.ManyToManyField(Actor, blank=True)
     directors = models.ManyToManyField(Director, blank=True)

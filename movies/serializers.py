@@ -5,7 +5,7 @@ from .models import *
 class NewsSerializer(serializers.ModelSerializer):
     class Meta:
         model = News
-        fields = ['id', 'title', 'thumbnail', 'photo', 'description', 'movies', 'actors', 'directors']
+        fields = ['id', 'title', 'thumbnail', 'photo', 'description', 'publish_date', 'movies', 'actors', 'directors']
 
 class ActorSerializer(serializers.ModelSerializer):
     class Meta:
