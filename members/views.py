@@ -85,8 +85,8 @@ class AddFollowViewSet(mixins.CreateModelMixin,GenericViewSet):
 
     @action(detail=False, methods=['DELETE'])
     def unfollow(self, request):
-        follower_id = request.GET.get('follower_id')
-        following_id = request.GET.get('following_id')
+        follower_id = request.data.get('follower_id')
+        following_id = request.data.get('following_id')
         follow = get_object_or_404(UserFollow, follower_id=follower_id, following_id=following_id)
         follow.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
