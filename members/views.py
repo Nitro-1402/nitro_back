@@ -94,9 +94,19 @@ class AddFollowViewSet(mixins.CreateModelMixin,GenericViewSet):
 class PostViewSet(ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['profile']
+    permission_classes = [PostPermission]
 
     queryset = Post.objects.filter(is_premium = False).select_related('profile')
     serializer_class = PostSerializer
+
+    def get_authenticators(self):
+        if self.request is not None:
+            if self.request.method in SAFE_METHODS:
+                return []  
+            else:
+                return super().get_authenticators()
+        else:
+            return super().get_authenticators()
 
 class PremiumPostViewSet(ModelViewSet):
     permission_classes = [IsSubscriber] 
