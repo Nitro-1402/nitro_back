@@ -138,8 +138,8 @@ class AddSubscriberViewSet(mixins.CreateModelMixin,GenericViewSet):
 
     @action(detail=False, methods=['DELETE'])
     def unsubscribe(self, request):
-        profile_id = request.GET.get('user_id')
-        subscriber_id = request.GET.get('subscriber_id')
+        profile_id = request.data.get('user_id')
+        subscriber_id = request.data.get('subscriber_id')
         subscribe = get_object_or_404(Subscribe, profile_id=profile_id, subscriber_id=subscriber_id)
         subscribe.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
