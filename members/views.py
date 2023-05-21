@@ -36,12 +36,19 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
 class ProfileViewSet(mixins.RetrieveModelMixin,
                    mixins.UpdateModelMixin,
-                   mixins.DestroyModelMixin,
                    mixins.ListModelMixin,
                    GenericViewSet):
     queryset = Profile.objects.select_related('user').all()
     serializer_class = EditProfileSerializer
 
+    def get_authenticators(self):
+        if self.request is not None:
+            if self.request.method in SAFE_METHODS:
+                return []  
+            else:
+                return super().get_authenticators()
+        else:
+            return super().get_authenticators()
 
 class FollowersListViewSet(mixins.RetrieveModelMixin,GenericViewSet):
     queryset = Profile.objects.prefetch_related('followers').all()
