@@ -122,12 +122,22 @@ class SubscribersViewSet(mixins.RetrieveModelMixin,GenericViewSet):
     queryset = Profile.objects.prefetch_related('subscribers__subscriber_id__user').all()
     serializer_class = SubscribersSerializer
 
+    def get_authenticators(self):
+        if self.request is not None:
+            if self.request.method in SAFE_METHODS:
+                return []  
+            else:
+                return super().get_authenticators()
+        else:
+            return super().get_authenticators()
+
 class AddSubscriberViewSet(mixins.CreateModelMixin,GenericViewSet):
     queryset = Subscribe.objects.select_related('profile_id').select_related('subscriber_id').all()
     serializer_class = AddSubscriberSerializer
+    permission_classes = [SubscribePermission]
 
-class DeleteSubscribeView(APIView):
-    def delete(self, request):
+    @action(detail=False, methods=['DELETE'])
+    def unsubscribe(self, request):
         user_id = request.GET.get('user_id')
         subscriber_id = request.GET.get('subscriber_id')
         subscribe = get_object_or_404(Subscribe, user_id=user_id, subscriber_id=subscriber_id)
