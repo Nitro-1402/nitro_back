@@ -17,6 +17,16 @@ class AddWatchedListViewSet(mixins.CreateModelMixin,GenericViewSet):
     serializer_class = AddWatchedListSerializer
     permission_classes = [AddToPermission]
 
+    @action(detail=False, methods=['DELETE'])
+    def delete(self, request):
+        movie_id = request.data.get('movie')
+        profile_id = request.data.get('profile')
+
+        like = get_object_or_404(Watchedlist, movie=movie_id, profile=profile_id)
+        like.delete()
+
+        return Response({'message': 'watched movie deleted'}, status=status.HTTP_204_NO_CONTENT)
+
 class RetrieveWatchedListViewSet(mixins.RetrieveModelMixin,GenericViewSet):
     queryset = Profile.objects.prefetch_related('watched_list').all()
     serializer_class = RetrieveWatchedListSerializer
@@ -34,6 +44,16 @@ class AddFavouritesViewSet(mixins.CreateModelMixin,GenericViewSet):
     queryset = Favourites.objects.select_related('user_id').select_related('movie_id').all()
     serializer_class = AddFavouritesSerializer
     permission_classes = [AddToPermission]
+
+    @action(detail=False, methods=['DELETE'])
+    def delete(self, request):
+        movie_id = request.data.get('movie')
+        profile_id = request.data.get('profile')
+
+        like = get_object_or_404(Favourites, movie=movie_id, profile=profile_id)
+        like.delete()
+
+        return Response({'message': 'favourite movie deleted'}, status=status.HTTP_204_NO_CONTENT)
 
 class RetrieveFavouritesViewSet(mixins.RetrieveModelMixin,GenericViewSet):
     queryset = Profile.objects.prefetch_related('favourites').all()
@@ -61,7 +81,7 @@ class AddBookmarksViewSet(mixins.CreateModelMixin,GenericViewSet):
         like = get_object_or_404(Bookmarks, movie=movie_id, profile=profile_id)
         like.delete()
 
-        return Response({'message': 'like deleted'}, status=status.HTTP_204_NO_CONTENT)
+        return Response({'message': 'bookmarked movie deleted'}, status=status.HTTP_204_NO_CONTENT)
 
 class RetrieveBookmarksViewSet(mixins.RetrieveModelMixin,GenericViewSet):
     queryset = Profile.objects.prefetch_related('bookmarks').all()
