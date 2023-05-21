@@ -40,6 +40,7 @@ class ProfileViewSet(mixins.RetrieveModelMixin,
                    GenericViewSet):
     queryset = Profile.objects.select_related('user').all()
     serializer_class = EditProfileSerializer
+    permission_classes = [ProfilePermission]
 
     def get_authenticators(self):
         if self.request is not None:
