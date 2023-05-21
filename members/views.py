@@ -7,6 +7,7 @@ from rest_framework.viewsets import ModelViewSet,GenericViewSet
 from rest_framework.generics import ListAPIView,RetrieveAPIView
 from rest_framework import mixins
 from rest_framework.permissions import *
+from rest_framework.decorators import action
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import *
@@ -82,14 +83,14 @@ class AddFollowViewSet(mixins.CreateModelMixin,GenericViewSet):
     serializer_class = AddFollowSerializer
     permission_classes = [AddFollowPermission]
 
-class DeleteFollowView(APIView):
-    def delete(self, request):
+    @action(detail=False, methods=['DELETE'])
+    def unfollow(self, request):
         follower_id = request.GET.get('follower_id')
         following_id = request.GET.get('following_id')
         follow = get_object_or_404(UserFollow, follower_id=follower_id, following_id=following_id)
         follow.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-    
+
 class PostViewSet(ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['profile']
