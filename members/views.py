@@ -55,9 +55,27 @@ class FollowersListViewSet(mixins.RetrieveModelMixin,GenericViewSet):
     queryset = Profile.objects.prefetch_related('followers').all()
     serializer_class = FollowersSerializer
 
+    def get_authenticators(self):
+        if self.request is not None:
+            if self.request.method in SAFE_METHODS:
+                return []  
+            else:
+                return super().get_authenticators()
+        else:
+            return super().get_authenticators()
+
 class FollowingsListViewSet(mixins.RetrieveModelMixin,GenericViewSet):
     queryset = Profile.objects.prefetch_related('followings').all()
     serializer_class = FollowingsSerializer
+
+    def get_authenticators(self):
+        if self.request is not None:
+            if self.request.method in SAFE_METHODS:
+                return []  
+            else:
+                return super().get_authenticators()
+        else:
+            return super().get_authenticators()
 
 class AddFollowViewSet(mixins.CreateModelMixin,GenericViewSet):
     queryset = UserFollow.objects.select_related('follower_id').select_related('following_id').all()
