@@ -1,5 +1,4 @@
 from rest_framework import permissions
-from members.models import Profile, Subscribe
 
 class AddToPermission(permissions.BasePermission):
     def has_permission(self, request, view):
