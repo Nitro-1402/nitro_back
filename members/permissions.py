@@ -1,17 +1,21 @@
 from rest_framework import permissions
 from .models import Profile, Subscribe
 
-class IsSubscriber(permissions.BasePermission):
+class PremiumPostPermission(permissions.BasePermission):
     def has_permission(self, request, view):
         if request.user.is_authenticated:
             if request.user.is_staff:
                 return True
-            if request.user.profile.id == Profile.objects.get(id=view.kwargs['profile_pk']).id:
-                return True
-            if request.method in permissions.SAFE_METHODS:
+            elif request.method in permissions.SAFE_METHODS:
                 subscribed_to_list = Profile.objects.filter(user_id=request.user.id).values_list('subscribed_to')
                 return bool(Profile.objects.filter(
                     id=view.kwargs['profile_pk']).filter(subscribers__in=subscribed_to_list).exists())
+            else:
+                if int(request.user.profile.id) == int(view.kwargs['profile_pk']):
+                    return True
+            # else:
+            #     if request.user.profile.id == Profile.objects.get(id=view.kwargs['profile_pk']).id:
+            #         return True
         return False
     
 class ProfilePermission(permissions.BasePermission):

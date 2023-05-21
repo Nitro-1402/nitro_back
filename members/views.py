@@ -109,7 +109,7 @@ class PostViewSet(ModelViewSet):
             return super().get_authenticators()
 
 class PremiumPostViewSet(ModelViewSet):
-    permission_classes = [IsSubscriber] 
+    permission_classes = [PremiumPostPermission] 
     serializer_class = PremiumPostSerializer
 
     def get_queryset(self):
