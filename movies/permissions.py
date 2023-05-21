@@ -15,3 +15,12 @@ class RatingPermission(permissions.BasePermission):
                 return bool(Profile.objects.filter(id=request.user.profile.id,rating__in=view.kwargs['pk']).exists())
         else:
             return False
+        
+class IsAdminOrReadOnly(permissions.BasePermission):
+    def has_permission(self, request, view):
+
+        return bool(
+            request.method in permissions.SAFE_METHODS or
+            request.user and
+            request.user.is_staff
+        )

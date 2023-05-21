@@ -11,6 +11,7 @@ class NewsViewSet(ModelViewSet):
         'movies').prefetch_related('actors').prefetch_related('directors').all()
     serializer_class = NewsSerializer
     pagination_class = NewsPagination
+    permission_classes = [IsAdminOrReadOnly]
 
     def get_authenticators(self):
         if self.request is not None:
@@ -24,6 +25,7 @@ class NewsViewSet(ModelViewSet):
 class ActorViewSet(ModelViewSet):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
+    permission_classes = [IsAdminOrReadOnly]
 
     def get_authenticators(self):
         if self.request is not None:
@@ -38,6 +40,7 @@ class CategoryViewSet(ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     pagination_class = None
+    permission_classes = [IsAdminOrReadOnly]
 
     def get_authenticators(self):
         if self.request is not None:
@@ -52,6 +55,7 @@ class MovieViewSet(ModelViewSet):
     queryset = Movie.objects.select_related('director').prefetch_related('actors').prefetch_related('category_set').all()
     serializer_class = MovieSerializer
     pagination_class = MoviePagination
+    permission_classes = [IsAdminOrReadOnly]
 
     def get_authenticators(self):
         if self.request is not None:
@@ -66,6 +70,7 @@ class MovieViewSet(ModelViewSet):
 class DirctorViewSet(ModelViewSet):
     queryset = Director.objects.all()
     serializer_class = DirectorSerializer
+    permission_classes = [IsAdminOrReadOnly]
 
     def get_authenticators(self):
         if self.request is not None:
@@ -79,6 +84,7 @@ class DirctorViewSet(ModelViewSet):
 class SeasonViewSet(ModelViewSet):
     queryset = Series_season.objects.select_related('series').all()
     serializer_class = SeasonSerializer
+    permission_classes = [IsAdminOrReadOnly]
 
     def get_authenticators(self):
         if self.request is not None:
@@ -92,6 +98,7 @@ class SeasonViewSet(ModelViewSet):
 class EpisodeViewSet(ModelViewSet):
     queryset = Series_episode.objects.select_related('season').all()
     serializer_class = EpisodeSerializer
+    permission_classes = [IsAdminOrReadOnly]
 
     def get_authenticators(self):
         if self.request is not None:
