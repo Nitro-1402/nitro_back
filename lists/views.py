@@ -5,6 +5,7 @@ from rest_framework import status
 from rest_framework.viewsets import ModelViewSet,GenericViewSet
 from rest_framework.generics import ListAPIView,RetrieveAPIView
 from rest_framework.permissions import *
+from rest_framework.decorators import action
 from rest_framework import mixins
 from .models import *
 from .serializers import *
@@ -51,6 +52,16 @@ class AddBookmarksViewSet(mixins.CreateModelMixin,GenericViewSet):
     queryset = Bookmarks.objects.select_related('user_id').select_related('movie_id').all()
     serializer_class = AddBookmarksSerializer
     permission_classes = [AddToPermission]
+
+    @action(detail=False, methods=['DELETE'])
+    def delete(self, request):
+        movie_id = request.data.get('movie')
+        profile_id = request.data.get('profile')
+
+        like = get_object_or_404(Bookmarks, movie=movie_id, profile=profile_id)
+        like.delete()
+
+        return Response({'message': 'like deleted'}, status=status.HTTP_204_NO_CONTENT)
 
 class RetrieveBookmarksViewSet(mixins.RetrieveModelMixin,GenericViewSet):
     queryset = Profile.objects.prefetch_related('bookmarks').all()
