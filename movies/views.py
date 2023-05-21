@@ -4,6 +4,7 @@ from rest_framework.permissions import *
 from .models import *
 from .serializers import *
 from .pagination import *
+from .permissions import *
 
 class NewsViewSet(ModelViewSet):
     queryset = News.objects.prefetch_related(
@@ -104,6 +105,7 @@ class EpisodeViewSet(ModelViewSet):
 class RatingViewSet(ModelViewSet):
     queryset = Rating.objects.select_related('profile').select_related('movie').all()
     serializer_class = RatingSerializer
+    permission_classes = [RatingPermission]
 
     def get_authenticators(self):
         if self.request is not None:
