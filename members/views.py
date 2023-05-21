@@ -109,8 +109,8 @@ class PostViewSet(ModelViewSet):
             return super().get_authenticators()
 
 class PremiumPostViewSet(ModelViewSet):
-    permission_classes = [PremiumPostPermission] 
     serializer_class = PremiumPostSerializer
+    permission_classes = [PremiumPostPermission] 
 
     def get_queryset(self):
         return Post.objects.filter(profile_id=self.kwargs['profile_pk']).filter(is_premium=True)
