@@ -102,7 +102,7 @@ class EpisodeViewSet(ModelViewSet):
             return super().get_authenticators()
 
 class RatingViewSet(ModelViewSet):
-    queryset = Rating.objects.select_related('user').select_related('movie').all()
+    queryset = Rating.objects.select_related('profile').select_related('movie').all()
     serializer_class = RatingSerializer
 
     def get_authenticators(self):

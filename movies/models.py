@@ -4,6 +4,7 @@ from django.core.validators import MaxValueValidator
 from django.contrib.contenttypes.fields import GenericRelation
 from datetime import date
 from comments.models import *
+from members.models import Profile
 
 def movie_thumbnail_path(instance, filename):
     return 'movies/thumbnails/{0}/{1}'.format(instance.title,filename)
@@ -90,11 +91,11 @@ class Director(models.Model):
     
 class Rating(models.Model):
     rating = models.PositiveSmallIntegerField(validators=[MaxValueValidator(100)])
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return self.user + ' rated ' + self.movie + ' with rating: ' + self.rating
+        return self.profile + ' rated ' + self.movie + ' with rating: ' + self.rating
 
 class News(models.Model):
     title = models.CharField(max_length=255)

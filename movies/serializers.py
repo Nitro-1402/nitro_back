@@ -50,5 +50,5 @@ class EpisodeSerializer(serializers.ModelSerializer):
 class RatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rating
-        fields = ['id', 'rating' , 'user' , 'movie']
+        fields = ['id', 'rating' , 'profile' , 'movie']
 
