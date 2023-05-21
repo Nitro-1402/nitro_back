@@ -6,13 +6,12 @@ class PremiumPostPermission(permissions.BasePermission):
         if request.user.is_authenticated:
             if request.user.is_staff:
                 return True
+            elif int(request.user.profile.id) == int(view.kwargs['profile_pk']):
+                    return True
             elif request.method in permissions.SAFE_METHODS:
                 subscribed_to_list = Profile.objects.filter(user_id=request.user.id).values_list('subscribed_to')
                 return bool(Profile.objects.filter(
                     id=view.kwargs['profile_pk']).filter(subscribers__in=subscribed_to_list).exists())
-            else:
-                if int(request.user.profile.id) == int(view.kwargs['profile_pk']):
-                    return True
             # else:
             #     if request.user.profile.id == Profile.objects.get(id=view.kwargs['profile_pk']).id:
             #         return True
