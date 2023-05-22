@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import *
-from rest_framework.filters import SearchFilter
+from rest_framework.filters import SearchFilter , OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import *
 from .serializers import *
@@ -59,7 +59,8 @@ class MovieViewSet(ModelViewSet):
     serializer_class = MovieSerializer
     pagination_class = MoviePagination
     permission_classes = [IsAdminOrReadOnly]
-    filter_backends = [SearchFilter , DjangoFilterBackend]
+    filter_backends = [SearchFilter , DjangoFilterBackend , OrderingFilter]
+    ordering_fields = ['rating' , 'publish_date']
     search_fields = ['title' , 'director__name' , 'actors__name']   
     filterset_class = MovieFilter
 
