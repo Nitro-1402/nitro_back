@@ -114,7 +114,7 @@ class News(models.Model):
 
 class Category(models.Model):
     title = models.CharField(max_length=255)
-    movies = models.ManyToManyField(Movie, blank=True)
+    movies = models.ManyToManyField(Movie, blank=True , related_name='category_set')
     
     def __str__(self) -> str:
         return self.title

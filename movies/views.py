@@ -2,10 +2,12 @@ from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import *
 from rest_framework.filters import SearchFilter
+from django_filters.rest_framework import DjangoFilterBackend
 from .models import *
 from .serializers import *
 from .pagination import *
 from .permissions import *
+from .filters import *
 
 class NewsViewSet(ModelViewSet):
     queryset = News.objects.prefetch_related(
@@ -57,8 +59,9 @@ class MovieViewSet(ModelViewSet):
     serializer_class = MovieSerializer
     pagination_class = MoviePagination
     permission_classes = [IsAdminOrReadOnly]
-    filter_backends = [SearchFilter]
+    filter_backends = [SearchFilter , DjangoFilterBackend]
     search_fields = ['title' , 'director__name' , 'actors__name']   
+    filterset_class = MovieFilter
 
     def get_authenticators(self):
         if self.request is not None:
