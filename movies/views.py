@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import *
+from rest_framework.filters import OrderingFilter
 from .models import *
 from .serializers import *
 from .pagination import *
@@ -56,6 +57,8 @@ class MovieViewSet(ModelViewSet):
     serializer_class = MovieSerializer
     pagination_class = MoviePagination
     permission_classes = [IsAdminOrReadOnly]
+    filter_backends = [OrderingFilter]
+    ordering_fields = ['rating' , 'publish_date']
 
     def get_authenticators(self):
         if self.request is not None:
