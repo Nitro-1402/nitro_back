@@ -5,15 +5,15 @@ from djoser.serializers import UserSerializer as BaseUserSerializer
 from rest_framework import serializers
 from .models import *
 
-class RWMethodField(serializers.SerializerMethodField):
+# class RWMethodField(serializers.SerializerMethodField):
 
-    def __init__(self, method_name=None, **kwargs):
-        self.method_name = method_name
-        kwargs['source'] = '*'
-        super().__init__(**kwargs)
+#     def __init__(self, method_name=None, **kwargs):
+#         self.method_name = method_name
+#         kwargs['source'] = '*'
+#         super().__init__(**kwargs)
     
-    def to_internal_value(self, data):
-        return self.parent.fields[self.field_name].to_representation(data)
+#     def to_internal_value(self, data):
+#         return self.parent.fields[self.field_name].to_representation(data)
     
 class EmailUserSerializer(BaseUserSerializer):
     class Meta(BaseUserSerializer.Meta):
@@ -27,20 +27,21 @@ class EditProfileSerializer(serializers.ModelSerializer):
     user = EmailUserSerializer(read_only=False)
 
     def update(self, instance:Profile, validated_data):
-        instance.photo = validated_data.get('photo')
-        instance.first_name = validated_data.get('first_name')
-        instance.last_name = validated_data.get('last_name')
+        if validated_data.get('photo') is not None:
+            instance.photo = validated_data.get('photo')
+        if validated_data.get('first_name') is not None:
+            instance.first_name = validated_data.get('first_name')
+        if validated_data.get('last_name') is not None:
+            instance.last_name = validated_data.get('last_name')
         if validated_data.get('user') is not None:
             email_field = validated_data.get('user')['email']
             user_instace = User.objects.get(id=instance.user.id)
             user_instace.email = email_field
             instance.user.email = email_field
             user_instace.save()
-            instance.save()
-            return instance
-        else:
-            instance.save()
-            return instance
+        
+        instance.save()
+        return instance
 
 
 class UserCreateSerializer(BaseUserCreateSerializer):

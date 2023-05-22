@@ -8,6 +8,7 @@ from rest_framework.generics import ListAPIView,RetrieveAPIView
 from rest_framework import mixins
 from rest_framework.permissions import *
 from rest_framework.decorators import action
+from rest_framework.parsers import *
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import *
@@ -42,6 +43,7 @@ class ProfileViewSet(mixins.RetrieveModelMixin,
     queryset = Profile.objects.select_related('user').all()
     serializer_class = EditProfileSerializer
     permission_classes = [ProfilePermission]
+    parser_classes = [FormParser,MultiPartParser]
 
     def get_authenticators(self):
         if self.request is not None:
