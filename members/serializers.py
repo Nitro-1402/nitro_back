@@ -36,6 +36,8 @@ class EditProfileSerializer(serializers.ModelSerializer):
         if validated_data.get('user') is not None:
             email_field = validated_data.get('user')['email']
             user_instace = User.objects.get(id=instance.user.id)
+            print(str(user_instace.email))
+            print(str(email_field))
             if str(user_instace.email) != str(email_field):
                 user_instace.email = email_field
                 instance.user.email = email_field
