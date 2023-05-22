@@ -58,7 +58,7 @@ class MovieViewSet(ModelViewSet):
     pagination_class = MoviePagination
     permission_classes = [IsAdminOrReadOnly]
     filter_backends = [SearchFilter]
-    search_fields = ['title' , 'description' , 'director' , 'actors']   
+    search_fields = ['title' , 'director' , 'actors']   
 
     def get_authenticators(self):
         if self.request is not None:
