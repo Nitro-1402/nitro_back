@@ -51,9 +51,8 @@ class Movie(models.Model):
     def __str__(self) -> str:
         return self.title
     
-    @property
     def remaining_days(self):
-        remainday = (self.publish_date.date() - datetime.datetime.now().date()).days
+        remainday = (self.publish_date - datetime.datetime.now().date()).days
         if remainday <= 0:
             remainday = 0
         return remainday
