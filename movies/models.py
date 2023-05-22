@@ -5,6 +5,7 @@ from django.contrib.contenttypes.fields import GenericRelation
 from datetime import date
 from comments.models import *
 from members.models import Profile
+import datetime
 
 def movie_thumbnail_path(instance, filename):
     return 'movies/thumbnails/{0}/{1}'.format(instance.title,filename)
@@ -49,6 +50,13 @@ class Movie(models.Model):
 
     def __str__(self) -> str:
         return self.title
+    
+    @property
+    def remaining_days(self):
+        remainday = (self.publish_date.date() - datetime.datetime.now().date()).days
+        if remainday <= 0:
+            remainday = 0
+        return remainday
     
 
 class Series_season(models.Model):
