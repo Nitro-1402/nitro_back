@@ -15,6 +15,7 @@ django-cors-headers = "*"
 djoser = "*"
 djangorestframework-simplejwt = "*"
 django-filter = "*"
+datetime = "*"
 
 [dev-packages]
 
