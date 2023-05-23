@@ -183,7 +183,7 @@ SIMPLE_JWT = {
 }
 
 DJOSER = {
-    'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
+    'PASSWORD_RESET_CONFIRM_URL': 'auth/users/reset_password/{uid}/{token}',
     'PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND' : True , 
     'PASSWORD_RESET_CONFIRM_RETYPE' : True , 
     'SERIALIZERS': {
