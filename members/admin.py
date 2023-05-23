@@ -1,8 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import User
+from . import models
 
-@admin.register(User)
+@admin.register(models.User)
 class UserAdmin(BaseUserAdmin):
     add_fieldsets = (
         (
@@ -13,3 +13,8 @@ class UserAdmin(BaseUserAdmin):
             },
         ),
     )
+
+admin.site.register(models.Post)
+admin.site.register(models.Profile)
+admin.site.register(models.Subscribe)
+admin.site.register(models.UserFollow)
