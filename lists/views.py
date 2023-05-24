@@ -29,7 +29,7 @@ class AddWatchedListViewSet(mixins.CreateModelMixin,GenericViewSet):
         return Response({'message': 'watched movie deleted'}, status=status.HTTP_204_NO_CONTENT)
 
 class RetrieveWatchedListViewSet(mixins.RetrieveModelMixin,GenericViewSet):
-    queryset = Profile.objects.prefetch_related('watched_list').all()
+    queryset = Profile.objects.prefetch_related('watched_list__movie').all()
     serializer_class = RetrieveWatchedListSerializer
 
     def get_authenticators(self):

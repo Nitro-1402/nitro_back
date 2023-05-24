@@ -3,6 +3,7 @@ from django.conf import settings
 from djoser.serializers import UserCreateSerializer as BaseUserCreateSerializer
 from djoser.serializers import UserSerializer as BaseUserSerializer
 from rest_framework import serializers
+from rest_framework.fields import CurrentUserDefault
 from .models import *
 
 # class RWMethodField(serializers.SerializerMethodField):
@@ -22,9 +23,19 @@ class EmailUserSerializer(BaseUserSerializer):
 class EditProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ['photo', 'first_name', 'last_name','user']
+        fields = ['photo', 'first_name', 'last_name', 'user', 'is_followed']
     
     user = EmailUserSerializer(read_only=False)
+
+    is_followed = serializers.SerializerMethodField()
+
+    def get_is_followed(self, profile:Profile):
+        me = self.context['request'].user
+        if me.is_authenticated and not me.is_staff:
+            return bool(Profile.objects.filter(id=profile.id).filter(followers__follower_id=me.profile.id).exists())
+        else:
+            return False
+
 
     def update(self, instance:Profile, validated_data):
         if validated_data.get('photo') is not None:
