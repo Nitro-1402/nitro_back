@@ -15,7 +15,7 @@ class RetrieveWatchedListSerializer(serializers.ModelSerializer):
     watched_list = serializers.SerializerMethodField()
 
     def get_watched_list(self, profile:Profile):
-        movies = profile.watched_list.values('movie_id')
+        movies = profile.watched_list.values('movie')
         return MovieSerializer(movies, many=True).data
     class Meta:
         model = Profile
