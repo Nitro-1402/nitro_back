@@ -31,6 +31,8 @@ class EditProfileSerializer(serializers.ModelSerializer):
 
     def get_is_followed(self, profile:Profile):
         me = self.context['request'].user
+        print(me.is_authenticatd)
+        print(me.is_staff)
         if me.is_authenticated and not me.is_staff:
             my_followings = Profile.objects.filter(id=me.profile.id).values_list('followings')
             print(me.profile.followings)
