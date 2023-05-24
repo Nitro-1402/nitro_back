@@ -33,7 +33,7 @@ class EditProfileSerializer(serializers.ModelSerializer):
         me = self.context['request'].user
         if me.is_authenticated and not me.is_staff:
             # my_followings = Profile.objects.filter(id=me.profile.id).values_list('followings')
-            return bool(Profile.objects.filter(id=profile.id).filter(followers__in=me.profile.followings).exists())
+            return bool(Profile.objects.filter(id=profile.id).filter(followers__follower_id__in=me.profile.id).exists())
         else:
             return False
 
