@@ -51,7 +51,10 @@ class ProfileViewSet(mixins.RetrieveModelMixin,
     def get_authenticators(self):
         if self.request is not None:
             if self.request.method in SAFE_METHODS:
-                return []  
+                if self.request.user is not None:
+                    return super().get_authenticators()
+                else:
+                    return []  
             else:
                 return super().get_authenticators()
         else:
