@@ -4,7 +4,9 @@ from djoser.serializers import UserCreateSerializer as BaseUserCreateSerializer
 from djoser.serializers import UserSerializer as BaseUserSerializer
 from rest_framework import serializers
 from .models import *
+from django.db.models import Count
 from movies.serializers import MovieSerializer
+
 
 class AddWatchedListSerializer(serializers.ModelSerializer):
     class Meta:
@@ -52,3 +54,9 @@ class RetrieveBookmarksSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ['bookmarks']
+
+class SeggustionsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Watchedlist
+        fields = ['movie_id']
+
