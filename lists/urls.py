@@ -9,6 +9,8 @@ router.register('addFavourites', views.AddFavouritesViewSet, basename='addFavour
 router.register('favourites', views.RetrieveFavouritesViewSet, basename='favourites')
 router.register('addBookmarks', views.AddBookmarksViewSet, basename='addBookmarks')
 router.register('bookmarks', views.RetrieveBookmarksViewSet, basename='bookmarks')
+router.register('seggestions', views.SeggestionsViewSet, basename='seggestions')
+
 
 
 urlpatterns = [

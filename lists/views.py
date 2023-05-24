@@ -12,6 +12,7 @@ from .serializers import *
 from .permissions import *
 from members.models import Profile
 
+
 class AddWatchedListViewSet(mixins.CreateModelMixin,GenericViewSet):
     queryset = Watchedlist.objects.select_related('user_id').select_related('movie_id').all()
     serializer_class = AddWatchedListSerializer
@@ -95,3 +96,7 @@ class RetrieveBookmarksViewSet(mixins.RetrieveModelMixin,GenericViewSet):
                 return super().get_authenticators()
         else:
             return super().get_authenticators()
+        
+class SeggestionsViewSet(ModelViewSet):
+    queryset = Watchedlist.objects.select_related('user_id').select_related('movie_id').all()
+    serializer_class = SeggustionsSerializer

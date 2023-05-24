@@ -4,6 +4,7 @@ from djoser.serializers import UserCreateSerializer as BaseUserCreateSerializer
 from djoser.serializers import UserSerializer as BaseUserSerializer
 from rest_framework import serializers
 from .models import *
+from django.db.models import Count
 
 class AddWatchedListSerializer(serializers.ModelSerializer):
     class Meta:
@@ -49,3 +50,13 @@ class RetrieveBookmarksSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ['bookmarks']
+
+class SeggustionsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Watchedlist
+        fields = ['seggestions']
+
+    seggestions = serializers.SerializerMethodField(method_name='SeggestionList' , read_only = True)
+
+    def SeggestionList(self):
+        return Watchedlist.objects.values('movie_id').annotate(count = Count('movie_id')).order_by('-count')[:5]
