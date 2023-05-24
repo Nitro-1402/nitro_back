@@ -58,5 +58,5 @@ class SeggustionsSerializer(serializers.ModelSerializer):
 
     seggestions = serializers.SerializerMethodField(method_name='SeggestionList' , read_only = True)
 
-    def SeggestionList(self):
+    def SeggestionList(self , obj):
         return Watchedlist.objects.values('movie_id').annotate(count = Count('movie_id')).order_by('-count')[:5]
