@@ -30,7 +30,8 @@ class RetrieveFavouritesSerializer(serializers.ModelSerializer):
     favourites = serializers.SerializerMethodField()
 
     def get_favourites(self, profile:Profile):
-        return profile.favourites.values_list('movie_id')
+        movies = Movie.objects.filter(id__in=profile.favourites.values_list('movie_id'))
+        return MovieSerializer(movies, many=True).data
 
     class Meta:
         model = Profile
@@ -45,7 +46,8 @@ class RetrieveBookmarksSerializer(serializers.ModelSerializer):
     bookmarks = serializers.SerializerMethodField()
 
     def get_bookmarks(self, profile:Profile):
-        return profile.bookmarks.values_list('movie_id')
+        movies = Movie.objects.filter(id__in=profile.bookmarks.values_list('movie_id'))
+        return MovieSerializer(movies, many=True).data
 
     class Meta:
         model = Profile
