@@ -22,9 +22,19 @@ class EmailUserSerializer(BaseUserSerializer):
 class EditProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ['photo', 'first_name', 'last_name','user']
+        fields = ['photo', 'first_name', 'last_name', 'user', 'is_followed']
     
     user = EmailUserSerializer(read_only=False)
+
+    is_followed = serializers.SerializerMethodField()
+
+    def get_is_followed(self, profile:Profile):
+        if self.user is not None:
+            my_profile_id = self.user.profile.id
+            return Profile.objects.filter(id=my_profile_id, followings_following_id__in=profile.id).exists()
+        else:
+            return False
+
 
     def update(self, instance:Profile, validated_data):
         if validated_data.get('photo') is not None:
