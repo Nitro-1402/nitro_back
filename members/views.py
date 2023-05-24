@@ -45,6 +45,9 @@ class ProfileViewSet(mixins.RetrieveModelMixin,
     permission_classes = [ProfilePermission]
     parser_classes = [FormParser,MultiPartParser]
 
+    def get_serializer_context(self):
+        return {'request': self.request}
+
     def get_authenticators(self):
         if self.request is not None:
             if self.request.method in SAFE_METHODS:

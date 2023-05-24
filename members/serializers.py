@@ -3,6 +3,7 @@ from django.conf import settings
 from djoser.serializers import UserCreateSerializer as BaseUserCreateSerializer
 from djoser.serializers import UserSerializer as BaseUserSerializer
 from rest_framework import serializers
+from rest_framework.fields import CurrentUserDefault
 from .models import *
 
 # class RWMethodField(serializers.SerializerMethodField):
@@ -29,9 +30,9 @@ class EditProfileSerializer(serializers.ModelSerializer):
     is_followed = serializers.SerializerMethodField()
 
     def get_is_followed(self, profile:Profile):
-        if self.user is not None:
-            my_profile_id = self.user.profile.id
-            return Profile.objects.filter(id=my_profile_id, followings_following_id__in=profile.id).exists()
+        user = CurrentUserDefault()
+        if user is not None:
+            return Profile.objects.filter(id=user.profile.id, followings_following_id__in=profile.id).exists()
         else:
             return False
 
