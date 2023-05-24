@@ -54,9 +54,5 @@ class RetrieveBookmarksSerializer(serializers.ModelSerializer):
 class SeggustionsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Watchedlist
-        fields = ['seggestions']
+        fields = ['movie_id']
 
-    seggestions = serializers.SerializerMethodField(method_name='SeggestionList' , read_only = True)
-
-    def SeggestionList(self , obj):
-        return Watchedlist.objects.values('movie_id').annotate(count = Count('movie_id')).order_by('-count')[:5]

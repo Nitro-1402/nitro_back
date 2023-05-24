@@ -98,5 +98,5 @@ class RetrieveBookmarksViewSet(mixins.RetrieveModelMixin,GenericViewSet):
             return super().get_authenticators()
         
 class SeggestionsViewSet(ModelViewSet):
-    queryset = Watchedlist.objects.select_related('profile').select_related('movie')
+    queryset =Watchedlist.objects.values('movie_id').annotate(count = Count('movie_id')).order_by('-count')[:5]
     serializer_class = SeggustionsSerializer
