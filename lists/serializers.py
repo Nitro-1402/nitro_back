@@ -4,6 +4,7 @@ from djoser.serializers import UserCreateSerializer as BaseUserCreateSerializer
 from djoser.serializers import UserSerializer as BaseUserSerializer
 from rest_framework import serializers
 from .models import *
+from movies.serializers import MovieSerializer
 
 class AddWatchedListSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,7 +15,8 @@ class RetrieveWatchedListSerializer(serializers.ModelSerializer):
     watched_list = serializers.SerializerMethodField()
 
     def get_watched_list(self, profile:Profile):
-        return profile.watched_list.values_list('movie_id')
+        movies = profile.watched_list.movie_id.all()
+        return MovieSerializer(movies)
 
     class Meta:
         model = Profile
