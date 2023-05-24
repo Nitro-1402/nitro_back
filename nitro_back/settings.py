@@ -183,9 +183,18 @@ SIMPLE_JWT = {
 }
 
 DJOSER = {
+    'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
+    'PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND' : True , 
+    'PASSWORD_RESET_CONFIRM_RETYPE' : True , 
     'SERIALIZERS': {
         'user_create': 'members.serializers.UserCreateSerializer'
-    }
+    } , 
 }
 
 SEND_ACTIVATION_EMAIL = False
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'nitroback007@gmail.com'
+EMAIL_HOST_PASSWORD = 'itvcbyjyrxtycumr'
