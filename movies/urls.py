@@ -15,4 +15,4 @@ router.register('ratings' , views.RatingViewSet , basename='ratings')
 movies_router = routers.NestedDefaultRouter(router, 'movies', lookup='movie')
 movies_router.register('season', views.SeasonViewSet, basename='movie-season')
 
-urlpatterns = router.urls + movies_router
+urlpatterns = router.urls + movies_router.urls
