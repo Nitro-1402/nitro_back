@@ -71,7 +71,7 @@ class Series_season(models.Model):
 
 class Series_episode(models.Model):
     title = models.CharField(max_length=255)
-    photo = models.ImageField(upload_to=episode_photo_path)
+    photo = models.ImageField(upload_to=episode_photo_path, null=True)
     episode_number = models.PositiveBigIntegerField()
     publish_date = models.DateField()
     season = models.ForeignKey(Series_season, on_delete=models.CASCADE)
