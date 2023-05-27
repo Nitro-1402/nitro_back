@@ -58,5 +58,11 @@ class RetrieveBookmarksSerializer(serializers.ModelSerializer):
 class SeggustionsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Watchedlist
-        fields = ['movie_id']
+        fields = ['movie']
+
+    movie = MovieSerializer()
+
+    # def get_movie_id(self, watched_list: Watchedlist):
+    #     movies = Movie.objects.filter(id= watched_list.movie_id)
+    #     return Movie()
 
