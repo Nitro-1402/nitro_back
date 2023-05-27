@@ -53,7 +53,9 @@ class RetrieveBookmarksSerializer(serializers.ModelSerializer):
         fields = ['bookmarks']
 
 class SeggustionsSerializer(serializers.ModelSerializer):
+    selected_movie = MovieSerializer() 
     class Meta:
         model = Watchedlist
-        fields = ['movies']
+        fields = ['movie']
 
+    
