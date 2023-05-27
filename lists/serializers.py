@@ -59,7 +59,7 @@ class SeggustionsSerializer(serializers.ModelSerializer):
 
     selected_movie = serializers.SerializerMethodField(method_name= 'get_movie')
 
-    def get_movie(self):
+    def get_movie(self , object):
         movie = self.get_object()
         serializer = MovieSerializer(instance= movie)
         return serializer.data
