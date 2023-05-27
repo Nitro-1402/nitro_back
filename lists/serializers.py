@@ -60,6 +60,6 @@ class SeggustionsSerializer(serializers.ModelSerializer):
     movie = serializers.SerializerMethodField(method_name='get_movie_from_id')
 
     def get_movie_from_id(self , movie : Movie):
-        return Movie.objects.filter(id = movie.id )
+        return Movie.objects.filter(movie = movie.id )
 
 
