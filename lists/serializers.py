@@ -56,6 +56,6 @@ class SeggustionsSerializer(serializers.ModelSerializer):
     selected_movie = MovieSerializer() 
     class Meta:
         model = Watchedlist
-        fields = ['movie']
+        fields = ['selected_movie']
 
     
