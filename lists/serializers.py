@@ -62,7 +62,4 @@ class SuggestionsSerializer(serializers.ModelSerializer):
 
     movie = MovieSerializer()
 
-    # def get_movie_id(self, watched_list: Watchedlist):
-    #     movies = Movie.objects.filter(id= watched_list.movie_id)
-    #     return Movie()
 
