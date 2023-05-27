@@ -125,6 +125,8 @@ class SeasonViewSet(ModelViewSet):
 class EpisodeViewSet(ModelViewSet):
     queryset = Series_episode.objects.select_related('season').all()
     serializer_class = EpisodeSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['season__season_number', 'season__series__title']
     permission_classes = [IsAdminOrReadOnly]
 
     def get_authenticators(self):
