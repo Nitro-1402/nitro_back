@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ModelViewSet, GenericViewSet
+from rest_framework import mixins
 from rest_framework.permissions import *
 from rest_framework.filters import SearchFilter , OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
@@ -103,7 +104,9 @@ class DirctorViewSet(ModelViewSet):
         else:
             return super().get_authenticators()
         
-class SeasonViewSet(ModelViewSet):
+class SeasonViewSet(mixins.CreateModelMixin,
+                   mixins.ListModelMixin,
+                   GenericViewSet):
     serializer_class = SeasonSerializer
     permission_classes = [IsAdminOrReadOnly]
 
@@ -122,7 +125,9 @@ class SeasonViewSet(ModelViewSet):
         else:
             return super().get_authenticators()
 
-class EpisodeViewSet(ModelViewSet):
+class EpisodeViewSet(mixins.CreateModelMixin,
+                   mixins.ListModelMixin,
+                   GenericViewSet):
     queryset = Series_episode.objects.select_related('season').all()
     serializer_class = EpisodeSerializer
     filter_backends = [DjangoFilterBackend]
