@@ -99,4 +99,8 @@ class RetrieveBookmarksViewSet(mixins.RetrieveModelMixin,GenericViewSet):
         
 class SuggestionsViewSet(mixins.ListModelMixin,GenericViewSet):
     queryset =Watchedlist.objects.values('movie_id').annotate(count = Count('movie_id')).order_by('-count')[:5]
+    movies = []
+    for item in queryset:
+        movie = Movie.objects.get(id=item['movie_id'])
+        movies.append(movie)
     serializer_class = SeggustionsSerializer
