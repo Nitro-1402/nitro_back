@@ -10,6 +10,7 @@ router.register('follow', views.AddFollowViewSet, basename='follow')
 router.register('posts', views.PostViewSet, basename='post')
 router.register('subscribe', views.AddSubscriberViewSet, basename='subscribe')
 router.register('subscribers', views.SubscribersViewSet, basename='subscribers')
+router.register('forMe', views.ForMeViewSet, basename='forMe')
 
 profiles_router = routers.NestedDefaultRouter(router, 'profiles', lookup='profile')
 profiles_router.register('premiumPosts', views.PremiumPostViewSet, basename='profile-premiumPosts')
