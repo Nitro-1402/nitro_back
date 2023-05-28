@@ -43,12 +43,18 @@ class DirectorSerializer(serializers.ModelSerializer):
 class SeasonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Series_season
-        fields = ['id', 'title' , 'season_number' , 'description' , 'publish_date' , 'series']
+        fields = ['id', 'title' , 'season_number' , 'series']
+
+    series = serializers.StringRelatedField()
+
+    def create(self, validated_data):
+        movie_id = self.context['movie_id']
+        return Series_season.objects.create(series_id = movie_id, **validated_data)
 
 class EpisodeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Series_episode
-        fields = ['id' , 'title' , 'episode_number' , 'description' , 'publish_date' , 'season']
+        fields = ['id' , 'title' ,'photo', 'episode_number' , 'publish_date' , 'season']
 
 
 class RatingSerializer(serializers.ModelSerializer):

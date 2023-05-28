@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ModelViewSet, GenericViewSet
+from rest_framework import mixins
 from rest_framework.permissions import *
 from rest_framework.filters import SearchFilter , OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
@@ -19,7 +20,10 @@ class NewsViewSet(ModelViewSet):
     def get_authenticators(self):
         if self.request is not None:
             if self.request.method in SAFE_METHODS:
-                return []  
+                if self.request.user is not None:
+                    return super().get_authenticators()
+                else:
+                    return []  
             else:
                 return super().get_authenticators()
         else:
@@ -33,7 +37,10 @@ class ActorViewSet(ModelViewSet):
     def get_authenticators(self):
         if self.request is not None:
             if self.request.method in SAFE_METHODS:
-                return []  
+                if self.request.user is not None:
+                    return super().get_authenticators()
+                else:
+                    return []  
             else:
                 return super().get_authenticators()
         else:
@@ -48,7 +55,10 @@ class CategoryViewSet(ModelViewSet):
     def get_authenticators(self):
         if self.request is not None:
             if self.request.method in SAFE_METHODS:
-                return []  
+                if self.request.user is not None:
+                    return super().get_authenticators()
+                else:
+                    return []  
             else:
                 return super().get_authenticators()
         else:
@@ -67,7 +77,10 @@ class MovieViewSet(ModelViewSet):
     def get_authenticators(self):
         if self.request is not None:
             if self.request.method in SAFE_METHODS:
-                return []  
+                if self.request.user is not None:
+                    return super().get_authenticators()
+                else:
+                    return []  
             else:
                 return super().get_authenticators()
         else:
@@ -82,17 +95,27 @@ class DirctorViewSet(ModelViewSet):
     def get_authenticators(self):
         if self.request is not None:
             if self.request.method in SAFE_METHODS:
-                return []  
+                if self.request.user is not None:
+                    return super().get_authenticators()
+                else:
+                    return []  
             else:
                 return super().get_authenticators()
         else:
             return super().get_authenticators()
-
-class SeasonViewSet(ModelViewSet):
-    queryset = Series_season.objects.select_related('series').all()
+        
+class SeasonViewSet(mixins.CreateModelMixin,
+                   mixins.ListModelMixin,
+                   GenericViewSet):
     serializer_class = SeasonSerializer
     permission_classes = [IsAdminOrReadOnly]
 
+    def get_queryset(self):
+        return Series_season.objects.filter(series_id=self.kwargs['movie_pk']).select_related('series').all()
+    
+    def get_serializer_context(self): 
+        return {'movie_id': self.kwargs['movie_pk']}
+    
     def get_authenticators(self):
         if self.request is not None:
             if self.request.method in SAFE_METHODS:
@@ -102,15 +125,22 @@ class SeasonViewSet(ModelViewSet):
         else:
             return super().get_authenticators()
 
-class EpisodeViewSet(ModelViewSet):
+class EpisodeViewSet(mixins.CreateModelMixin,
+                   mixins.ListModelMixin,
+                   GenericViewSet):
     queryset = Series_episode.objects.select_related('season').all()
     serializer_class = EpisodeSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['season__season_number', 'season__series__title']
     permission_classes = [IsAdminOrReadOnly]
 
     def get_authenticators(self):
         if self.request is not None:
             if self.request.method in SAFE_METHODS:
-                return []  
+                if self.request.user is not None:
+                    return super().get_authenticators()
+                else:
+                    return []  
             else:
                 return super().get_authenticators()
         else:
@@ -124,7 +154,10 @@ class RatingViewSet(ModelViewSet):
     def get_authenticators(self):
         if self.request is not None:
             if self.request.method in SAFE_METHODS:
-                return []  
+                if self.request.user is not None:
+                    return super().get_authenticators()
+                else:
+                    return []  
             else:
                 return super().get_authenticators()
         else:

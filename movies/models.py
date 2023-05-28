@@ -25,6 +25,9 @@ def news_thumbnail_path(instance, filename):
 def news_photo_path(instance, filename):
     return 'news/photo/{0}/{1}'.format(instance.title,filename)
 
+def episode_photo_path(instance, filename):
+    return 'episode/photo/{0}/{1}'.format(instance.episode_number,filename)
+
 class Movie(models.Model):
     MOVIETYPE_MOVIE = 'M'
     MOVIETYPE_SERIES = 'S'
@@ -61,8 +64,6 @@ class Movie(models.Model):
 class Series_season(models.Model):
     title = models.CharField(max_length=255)
     season_number = models.PositiveBigIntegerField()
-    description = models.TextField()
-    publish_date = models.DateField()
     series = models.ForeignKey(Movie, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
@@ -70,8 +71,8 @@ class Series_season(models.Model):
 
 class Series_episode(models.Model):
     title = models.CharField(max_length=255)
+    photo = models.ImageField(upload_to=episode_photo_path, null=True)
     episode_number = models.PositiveBigIntegerField()
-    description = models.TextField()
     publish_date = models.DateField()
     season = models.ForeignKey(Series_season, on_delete=models.CASCADE)
 
