@@ -131,7 +131,9 @@ class AddFollowSerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ['id', 'body', 'profile']
+        fields = ['id', 'body', 'profile', 'is_premium']
+
+    is_premium = serializers.BooleanField(read_only=True)
 
     def create(self, validated_data):
         return Post.objects.create(is_premium=False, **validated_data)
