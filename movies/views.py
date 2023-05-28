@@ -1,8 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework import mixins
 from rest_framework.permissions import *
 from rest_framework.filters import SearchFilter , OrderingFilter
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import *
 from .serializers import *
@@ -146,10 +149,24 @@ class EpisodeViewSet(mixins.CreateModelMixin,
         else:
             return super().get_authenticators()
 
-class RatingViewSet(ModelViewSet):
+class RatingViewSet(mixins.CreateModelMixin,
+                   mixins.RetrieveModelMixin,
+                   mixins.UpdateModelMixin,
+                   mixins.ListModelMixin,
+                   GenericViewSet):
     queryset = Rating.objects.select_related('profile').select_related('movie').all()
     serializer_class = RatingSerializer
     permission_classes = [RatingPermission]
+
+    @action(detail=False, methods=['DELETE'])
+    def delete(self, request):
+        movie_id = request.data.get('movie')
+        profile_id = request.data.get('profile')
+
+        rating = get_object_or_404(Rating, movie=movie_id, profile=profile_id)
+        rating.delete()
+
+        return Response({'message': 'rating deleted'}, status=status.HTTP_204_NO_CONTENT)
 
     def get_authenticators(self):
         if self.request is not None:
