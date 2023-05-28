@@ -24,6 +24,10 @@ class MovieSerializer(serializers.ModelSerializer):
 
         fields = ['id', 'title' , 'thumbnail' , 'movie_type' , 'poster' , 'description' , 'meta_rating' , 'imdb_rating' , 'publish_date' , 
                   'director' , 'actors' , 'category_set' , 'rating', 'country' , 'remaining_days']
+                  
+    director = serializers.StringRelatedField()
+    actors = serializers.StringRelatedField()
+    category_set = serializers.StringRelatedField()
         
     rating = serializers.SerializerMethodField(method_name='calculate_average_rate' , read_only= True)
     remaining_days = serializers.SerializerMethodField(method_name='calculate_days_until_publish' , read_only= True)
