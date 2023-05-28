@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from django.db.models import Q
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -134,6 +135,15 @@ class PremiumPostViewSet(ModelViewSet):
     
     def get_serializer_context(self): 
         return {'profile_id': self.kwargs['profile_pk']}
+    
+class ForMeViewSet(mixins.ListModelMixin, GenericViewSet):
+    serializer_class = PostSerializer
+
+    def get_queryset(self):
+        followings = self.request.user.profile.followings.values_list('following_id')
+        subscribed_to = self.request.user.profile.subscribed_to.values_list('profile_id')
+        return Post.objects.filter(Q(profile__in=followings) | Q(profile__in=subscribed_to))
+
 
 class SubscribersViewSet(mixins.RetrieveModelMixin,GenericViewSet):
     queryset = Profile.objects.prefetch_related('subscribers__subscriber_id__user').all()
