@@ -11,8 +11,11 @@ class RatingPermission(permissions.BasePermission):
             elif request.method == 'POST':
                 if int(request.user.profile.id) == int(request.data.get('profile')):
                     return True
-            elif request.method == 'DELETE'  or request.method == 'PUT' or request.method == 'PATCH':
+            elif request.method == 'PUT' or request.method == 'PATCH':
                 return bool(Profile.objects.filter(id=request.user.profile.id,rating__in=view.kwargs['pk']).exists())
+            elif request.method == 'DELETE':
+                if int(request.user.profile.id) == int(request.data.get('profile')):
+                    return True
         else:
             return False
         

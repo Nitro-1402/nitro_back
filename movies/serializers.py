@@ -24,6 +24,22 @@ class MovieSerializer(serializers.ModelSerializer):
 
         fields = ['id', 'title' , 'thumbnail' , 'movie_type' , 'poster' , 'description' , 'meta_rating' , 'imdb_rating' , 'publish_date' , 
                   'director' , 'actors' , 'category_set' , 'rating', 'country' , 'remaining_days']
+                  
+    director = serializers.SlugRelatedField(
+        many=False,
+        queryset=Director.objects.all(),
+        slug_field='name'
+    )
+    actors = serializers.SlugRelatedField(
+        many=True,
+        queryset=Actor.objects.all(),
+        slug_field='name'
+    )
+    category_set = serializers.SlugRelatedField(
+        many=True,
+        queryset=Category.objects.all(),
+        slug_field='title'
+    )
         
     rating = serializers.SerializerMethodField(method_name='calculate_average_rate' , read_only= True)
     remaining_days = serializers.SerializerMethodField(method_name='calculate_days_until_publish' , read_only= True)
