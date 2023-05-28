@@ -21,18 +21,22 @@ class CommentSerializer(serializers.ModelSerializer):
     content_object = CommentRelatedField(read_only=True)
     like_count = serializers.SerializerMethodField()
     dislike_count = serializers.SerializerMethodField()
+    username = serializers.SerializerMethodField()
 
     def get_like_count(self, comment:Comment):
         return comment.likes.filter(like_type = 'L').count()
     
     def get_dislike_count(self, comment:Comment):
         return comment.likes.filter(like_type = 'D').count()
+    
+    def get_username(self, comment:Comment):
+        return comment.profile.user.username
         
     class Meta:
         model = Comment
         fields = ['id', 'message', 'created_at', 'parent_comment', 'profile',
                    'is_okay', 'content_type', 'object_id', 'content_object',
-                   'like_count', 'dislike_count']
+                   'like_count', 'dislike_count', 'username']
         
 class LikeCommentSerializer(serializers.ModelSerializer):
     class Meta:
