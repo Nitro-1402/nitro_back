@@ -27,7 +27,11 @@ class MovieSerializer(serializers.ModelSerializer):
                   
     director = serializers.StringRelatedField()
     actors = serializers.StringRelatedField()
-    category_set = serializers.StringRelatedField()
+    category_set = serializers.SlugRelatedField(
+        many=True,
+        queryset=Category.objects.all(),
+        slug_field='title'
+    )
         
     rating = serializers.SerializerMethodField(method_name='calculate_average_rate' , read_only= True)
     remaining_days = serializers.SerializerMethodField(method_name='calculate_days_until_publish' , read_only= True)
