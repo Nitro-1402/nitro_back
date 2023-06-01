@@ -151,7 +151,6 @@ class PostSerializer(serializers.ModelSerializer):
         fields = ['id', 'body', 'profile_id', 'profile', 'is_premium']
 
     is_premium = serializers.BooleanField(read_only=True)
-    profile_id = serializers.PrimaryKeyRelatedField(write_only=True)
     profile = PostProfileSerializer()
 
 
