@@ -160,7 +160,7 @@ class PostSerializer(serializers.ModelSerializer):
 class CreatePostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields= ['id', 'body', 'profile_id']
+        fields= ['id', 'body', 'profile']
 
     def create(self, validate_data):
         return Post.objects.create(is_premium=False, **validate_data)
