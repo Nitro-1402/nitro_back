@@ -100,19 +100,36 @@ class AddFollowViewSet(mixins.CreateModelMixin,GenericViewSet):
 
     @action(detail=False, methods=['DELETE'])
     def unfollow(self, request):
-        follower_id = request.data.get('follower_id')
-        following_id = request.data.get('following_id')
+        follower_id = request.GET.get('follower_id')
+        following_id = request.GET.get('following_id')
         follow = get_object_or_404(UserFollow, follower_id=follower_id, following_id=following_id)
         follow.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class PostViewSet(ModelViewSet):
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['profile']
+    filterset_fields = ['profile_id']
     permission_classes = [PostPermission]
 
     queryset = Post.objects.filter(is_premium = False).select_related('profile')
-    serializer_class = PostSerializer
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return PostSerializer
+        else:
+            return CreatePostSerializer
+
+    @action(detail=False, methods=['GET'])
+    def myPosts(self, request):
+        if not (request.user.is_anonymous or request.user.is_staff):
+            profile_id = request.user.profile.id
+            queryset = Post.objects.filter(profile=profile_id)
+            serializer = PostSerializer(queryset, many=True)
+            return Response(serializer.data)
+        else:
+            return Response({'message' : 'you are not an authenticated user'}, 
+                            status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
 
     def get_authenticators(self):
         if self.request is not None:
@@ -127,8 +144,13 @@ class PostViewSet(ModelViewSet):
             return super().get_authenticators()
 
 class PremiumPostViewSet(ModelViewSet):
-    serializer_class = PremiumPostSerializer
     permission_classes = [PremiumPostPermission] 
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return PremiumPostSerializer
+        else:
+            return CreatePremiumPostSerializer
 
     def get_queryset(self):
         return Post.objects.filter(profile_id=self.kwargs['profile_pk']).filter(is_premium=True)
@@ -168,8 +190,8 @@ class AddSubscriberViewSet(mixins.CreateModelMixin,GenericViewSet):
 
     @action(detail=False, methods=['DELETE'])
     def unsubscribe(self, request):
-        profile_id = request.data.get('profile_id')
-        subscriber_id = request.data.get('subscriber_id')
+        profile_id = request.GET.get('profile_id')
+        subscriber_id = request.GET.get('subscriber_id')
         subscribe = get_object_or_404(Subscribe, profile_id=profile_id, subscriber_id=subscriber_id)
         subscribe.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

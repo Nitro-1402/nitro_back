@@ -20,8 +20,8 @@ class AddWatchedListViewSet(mixins.CreateModelMixin,GenericViewSet):
 
     @action(detail=False, methods=['DELETE'])
     def delete(self, request):
-        movie_id = request.data.get('movie')
-        profile_id = request.data.get('profile')
+        movie_id = request.GET.get('movie')
+        profile_id = request.GET.get('profile')
 
         like = get_object_or_404(Watchedlist, movie=movie_id, profile=profile_id)
         like.delete()
@@ -51,8 +51,8 @@ class AddFavouritesViewSet(mixins.CreateModelMixin,GenericViewSet):
 
     @action(detail=False, methods=['DELETE'])
     def delete(self, request):
-        movie_id = request.data.get('movie')
-        profile_id = request.data.get('profile')
+        movie_id = request.GET.get('movie')
+        profile_id = request.GET.get('profile')
 
         like = get_object_or_404(Favourites, movie=movie_id, profile=profile_id)
         like.delete()
@@ -82,8 +82,8 @@ class AddBookmarksViewSet(mixins.CreateModelMixin,GenericViewSet):
 
     @action(detail=False, methods=['DELETE'])
     def delete(self, request):
-        movie_id = request.data.get('movie')
-        profile_id = request.data.get('profile')
+        movie_id = request.GET.get('movie')
+        profile_id = request.GET.get('profile')
 
         like = get_object_or_404(Bookmarks, movie=movie_id, profile=profile_id)
         like.delete()

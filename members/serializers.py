@@ -128,20 +128,60 @@ class AddFollowSerializer(serializers.ModelSerializer):
         model = UserFollow
         fields = ['follower_id', 'following_id']
 
+class PostProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ['photo', 'first_name', 'last_name', 'username']
+
+    photo = serializers.SerializerMethodField()
+    username = serializers.SerializerMethodField()
+
+    def get_photo(self, profile:Profile):
+        if profile.photo:
+            return "http://nitroback.pythonanywhere.com" + str(profile.photo.url)
+        return
+    
+    def get_username(self, profile:Profile):
+        return profile.user.username
+
+
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ['id', 'body', 'profile', 'is_premium']
 
     is_premium = serializers.BooleanField(read_only=True)
+    profile = PostProfileSerializer(read_only=True)
+
 
     def create(self, validated_data):
         return Post.objects.create(is_premium=False, **validated_data)
+    
+class CreatePostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields= ['id', 'body', 'profile']
 
-class PremiumPostSerializer(serializers.ModelSerializer):
+    def create(self, validate_data):
+        return Post.objects.create(is_premium=False, **validate_data)
+
+    
+
+class CreatePremiumPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ['id', 'body']
+    
+    def create(self, validated_data):
+        profile_id = self.context['profile_id']
+        return Post.objects.create(profile_id=profile_id, is_premium=True, **validated_data)
+    
+class PremiumPostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = ['id', 'body', 'profile']
+
+    profile = PostProfileSerializer()
     
     def create(self, validated_data):
         profile_id = self.context['profile_id']
