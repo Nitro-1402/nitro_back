@@ -112,7 +112,12 @@ class PostViewSet(ModelViewSet):
     permission_classes = [PostPermission]
 
     queryset = Post.objects.filter(is_premium = False).select_related('profile')
-    serializer_class = PostSerializer
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return PostSerializer
+        else:
+            return CreatePostSerializer
 
     @action(detail=False, methods=['GET'])
     def myPosts(self, request):
@@ -139,8 +144,13 @@ class PostViewSet(ModelViewSet):
             return super().get_authenticators()
 
 class PremiumPostViewSet(ModelViewSet):
-    serializer_class = PremiumPostSerializer
     permission_classes = [PremiumPostPermission] 
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return PremiumPostSerializer
+        else:
+            return CreatePremiumPostSerializer
 
     def get_queryset(self):
         return Post.objects.filter(profile_id=self.kwargs['profile_pk']).filter(is_premium=True)

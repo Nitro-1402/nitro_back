@@ -148,7 +148,7 @@ class PostProfileSerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ['id', 'body', 'profile_id', 'profile', 'is_premium']
+        fields = ['id', 'body', 'profile', 'is_premium']
 
     is_premium = serializers.BooleanField(read_only=True)
     profile = PostProfileSerializer(read_only=True)
@@ -156,11 +156,32 @@ class PostSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return Post.objects.create(is_premium=False, **validated_data)
+    
+class CreatePostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields= ['id', 'body', 'profile_id']
 
-class PremiumPostSerializer(serializers.ModelSerializer):
+    def create(self, validate_data):
+        return Post.objects.create(is_premium=False, **validate_data)
+
+    
+
+class CreatePremiumPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ['id', 'body']
+    
+    def create(self, validated_data):
+        profile_id = self.context['profile_id']
+        return Post.objects.create(profile_id=profile_id, is_premium=True, **validated_data)
+    
+class PremiumPostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = ['id', 'body', 'profile']
+
+    profile = PostProfileSerializer()
     
     def create(self, validated_data):
         profile_id = self.context['profile_id']
