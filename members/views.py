@@ -108,7 +108,7 @@ class AddFollowViewSet(mixins.CreateModelMixin,GenericViewSet):
 
 class PostViewSet(ModelViewSet):
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['profile']
+    filterset_fields = ['profile_id']
     permission_classes = [PostPermission]
 
     queryset = Post.objects.filter(is_premium = False).select_related('profile')

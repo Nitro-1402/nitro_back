@@ -47,7 +47,7 @@ class PostPermission(permissions.BasePermission):
             if request.user.is_staff:
                 return True
             elif request.method == 'POST':
-                if int(request.user.profile.id) == int(request.data.get('profile')):
+                if int(request.user.profile.id) == int(request.data.get('profile_id')):
                     return True
             else:
                 return bool(Profile.objects.filter(id=request.user.profile.id, post__in=view.kwargs['pk']).exists())
