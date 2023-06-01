@@ -100,8 +100,8 @@ class AddFollowViewSet(mixins.CreateModelMixin,GenericViewSet):
 
     @action(detail=False, methods=['DELETE'])
     def unfollow(self, request):
-        follower_id = request.data.get('follower_id')
-        following_id = request.data.get('following_id')
+        follower_id = request.GET.get('follower_id')
+        following_id = request.GET.get('following_id')
         follow = get_object_or_404(UserFollow, follower_id=follower_id, following_id=following_id)
         follow.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -113,6 +113,18 @@ class PostViewSet(ModelViewSet):
 
     queryset = Post.objects.filter(is_premium = False).select_related('profile')
     serializer_class = PostSerializer
+
+    @action(detail=False, methods=['GET'])
+    def myPosts(self, request):
+        profile_id = request.user.profile.id
+        if profile_id > 0:
+            queryset = Post.objects.filter(profile=profile_id)
+            serializer = PostSerializer(queryset, many=True)
+            return Response(serializer.data)
+        else:
+            return Response({'message' : 'you are not an authenticated user'}, 
+                            status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
 
     def get_authenticators(self):
         if self.request is not None:
@@ -168,8 +180,8 @@ class AddSubscriberViewSet(mixins.CreateModelMixin,GenericViewSet):
 
     @action(detail=False, methods=['DELETE'])
     def unsubscribe(self, request):
-        profile_id = request.data.get('profile_id')
-        subscriber_id = request.data.get('subscriber_id')
+        profile_id = request.GET.get('profile_id')
+        subscriber_id = request.GET.get('subscriber_id')
         subscribe = get_object_or_404(Subscribe, profile_id=profile_id, subscriber_id=subscriber_id)
         subscribe.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
