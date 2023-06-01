@@ -116,7 +116,7 @@ class PostViewSet(ModelViewSet):
 
     @action(detail=False, methods=['GET'])
     def myPosts(self, request):
-        if not request.user.is_anonymous:
+        if not (request.user.is_anonymous or request.user.is_staff):
             profile_id = request.user.profile.id
             queryset = Post.objects.filter(profile=profile_id)
             serializer = PostSerializer(queryset, many=True)
