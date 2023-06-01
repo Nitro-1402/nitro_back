@@ -116,8 +116,8 @@ class PostViewSet(ModelViewSet):
 
     @action(detail=False, methods=['GET'])
     def myPosts(self, request):
-        profile_id = request.user.profile.id
-        if profile_id > 0:
+        if request.user is not None:
+            profile_id = request.user.profile.id
             queryset = Post.objects.filter(profile=profile_id)
             serializer = PostSerializer(queryset, many=True)
             return Response(serializer.data)
