@@ -71,23 +71,32 @@ class MovieSerializer(serializers.ModelSerializer):
         return
     
     def get_is_favourites(self, movie: Movie):
-        me = self.context['request'].user
-        if me.is_authenticated and not me.is_staff:
-            return bool(Favourites.objects.filter(movie_id=movie.id).filter(profile_id=me.profile.id).exists())
+        if self.context['request'] is not None:
+            me = self.context['request'].user
+            if me.is_authenticated and not me.is_staff:
+                return bool(Favourites.objects.filter(movie_id=movie.id).filter(profile_id=me.profile.id).exists())
+            else:
+                return False
         else:
             return False
     
     def get_is_watchedList(self, movie: Movie):
-        me = self.context['request'].user
-        if me.is_authenticated and not me.is_staff:
-            return bool(Watchedlist.objects.filter(movie_id=movie.id).filter(profile_id=me.profile.id).exists())
+        if self.context['request'] is not None:
+            me = self.context['request'].user
+            if me.is_authenticated and not me.is_staff:
+                return bool(Watchedlist.objects.filter(movie_id=movie.id).filter(profile_id=me.profile.id).exists())
+            else:
+                return False
         else:
             return False
     
     def get_is_bookmarks(self, movie: Movie):
-        me = self.context['request'].user
-        if me.is_authenticated and not me.is_staff:
-            return bool(Bookmarks.objects.filter(movie_id=movie.id).filter(profile_id=me.profile.id).exists())
+        if self.context['request'] is not None:
+            me = self.context['request'].user
+            if me.is_authenticated and not me.is_staff:
+                return bool(Bookmarks.objects.filter(movie_id=movie.id).filter(profile_id=me.profile.id).exists())
+            else:
+                return False
         else:
             return False
     
