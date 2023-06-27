@@ -2,6 +2,8 @@ from rest_framework import serializers
 from django.db.models import Avg
 from .models import *
 
+url_prefix = "http://nitroback.pythonanywhere.com"
+
 class NewsSerializer(serializers.ModelSerializer):
     class Meta:
         model = News
@@ -43,6 +45,8 @@ class MovieSerializer(serializers.ModelSerializer):
         
     rating = serializers.SerializerMethodField(method_name='calculate_average_rate' , read_only= True)
     remaining_days = serializers.SerializerMethodField(method_name='calculate_days_until_publish' , read_only= True)
+    thumbnail = serializers.SerializerMethodField()
+    poster = serializers.SerializerMethodField()
 
     def calculate_average_rate(self , movie : Movie):
         return Rating.objects.filter(movie = movie).aggregate(Avg('rating'))['rating__avg']
@@ -50,6 +54,16 @@ class MovieSerializer(serializers.ModelSerializer):
     def calculate_days_until_publish(self , movie : Movie):
         return movie.remaining_days()
 
+    def get_thumbnail(self, movie: Movie):
+        if Movie.thumbnail:
+            return url_prefix + str(movie.thumbnail.url)
+        return
+    
+    def get_poster(self, movie: Movie):
+        if Movie.poster:
+            return url_prefix + str(movie.poster.url)
+        return
+    
         
 class DirectorSerializer(serializers.ModelSerializer):
     class Meta:
