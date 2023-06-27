@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.db.models import Avg
 from .models import *
+from lists.models import *
 
 url_prefix = "http://nitroback.pythonanywhere.com"
 
@@ -25,7 +26,8 @@ class MovieSerializer(serializers.ModelSerializer):
         model = Movie
 
         fields = ['id', 'title' , 'thumbnail' , 'movie_type' , 'poster' , 'description' , 'meta_rating' , 'imdb_rating' , 'publish_date' , 
-                  'director' , 'actors' , 'category_set' , 'rating', 'country' , 'remaining_days']
+                  'director' , 'actors' , 'category_set' , 'rating', 'country' , 'remaining_days',
+                  'is_favourites', 'is_watchedList', 'is_bookmarks']
                   
     director = serializers.SlugRelatedField(
         many=False,
@@ -47,11 +49,15 @@ class MovieSerializer(serializers.ModelSerializer):
     remaining_days = serializers.SerializerMethodField(method_name='calculate_days_until_publish' , read_only= True)
     thumbnail = serializers.SerializerMethodField()
     poster = serializers.SerializerMethodField()
+    is_favourites = serializers.SerializerMethodField()
+    is_watchedList = serializers.SerializerMethodField()
+    is_bookmarks = serializers.SerializerMethodField()
 
-    def calculate_average_rate(self , movie : Movie):
+
+    def calculate_average_rate(self , movie: Movie):
         return Rating.objects.filter(movie = movie).aggregate(Avg('rating'))['rating__avg']
     
-    def calculate_days_until_publish(self , movie : Movie):
+    def calculate_days_until_publish(self , movie: Movie):
         return movie.remaining_days()
 
     def get_thumbnail(self, movie: Movie):
@@ -63,6 +69,29 @@ class MovieSerializer(serializers.ModelSerializer):
         if Movie.poster:
             return url_prefix + str(movie.poster.url)
         return
+    
+    def get_is_favourites(self, movie: Movie):
+        me = self.context['request'].user
+        if me.is_authenticated and not me.is_staff:
+            return bool(Favourites.objects.filter(movie_id=movie.id).filter(profile_id=me.profile.id).exists())
+        else:
+            return False
+    
+    def get_is_watchedList(self, movie: Movie):
+        me = self.context['request'].user
+        if me.is_authenticated and not me.is_staff:
+            return bool(Watchedlist.objects.filter(movie_id=movie.id).filter(profile_id=me.profile.id).exists())
+        else:
+            return False
+    
+    def get_is_bookmarks(self, movie: Movie):
+        me = self.context['request'].user
+        if me.is_authenticated and not me.is_staff:
+            return bool(Bookmarks.objects.filter(movie_id=movie.id).filter(profile_id=me.profile.id).exists())
+        else:
+            return False
+    
+
     
         
 class DirectorSerializer(serializers.ModelSerializer):

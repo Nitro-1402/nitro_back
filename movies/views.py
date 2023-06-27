@@ -77,6 +77,9 @@ class MovieViewSet(ModelViewSet):
     search_fields = ['title' , 'director__name' , 'actors__name']   
     filterset_class = MovieFilter
 
+    def get_serializer_context(self):
+        return {'request': self.request}
+
     def get_authenticators(self):
         if self.request is not None:
             if self.request.method in SAFE_METHODS:
