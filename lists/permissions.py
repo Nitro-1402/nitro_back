@@ -6,7 +6,7 @@ class AddToPermission(permissions.BasePermission):
             if request.user.is_staff:
                 return True
             else:
-                if int(request.user.profile.id) == int(request.data.get('profile')):
+                if int(request.user.profile.id) == int(request.GET.get('profile')):
                     return True
         else:
             return False
