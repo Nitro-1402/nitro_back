@@ -18,7 +18,7 @@ class AddWatchedListViewSet(mixins.CreateModelMixin,GenericViewSet):
     serializer_class = AddWatchedListSerializer
     permission_classes = [AddToPermission]
 
-    @action(detail=False, methods=['DELETE'])
+    @action(detail=False, methods=['DELETE'], permission_classes=[DeletePermission])
     def delete(self, request):
         movie_id = request.GET.get('movie')
         profile_id = request.GET.get('profile')
@@ -49,7 +49,7 @@ class AddFavouritesViewSet(mixins.CreateModelMixin,GenericViewSet):
     serializer_class = AddFavouritesSerializer
     permission_classes = [AddToPermission]
 
-    @action(detail=False, methods=['DELETE'])
+    @action(detail=False, methods=['DELETE'], permission_classes=[DeletePermission])
     def delete(self, request):
         movie_id = request.GET.get('movie')
         profile_id = request.GET.get('profile')
@@ -80,7 +80,7 @@ class AddBookmarksViewSet(mixins.CreateModelMixin,GenericViewSet):
     serializer_class = AddBookmarksSerializer
     permission_classes = [AddToPermission]
 
-    @action(detail=False, methods=['DELETE'])
+    @action(detail=False, methods=['DELETE'], permission_classes=[DeletePermission])
     def delete(self, request):
         movie_id = request.GET.get('movie')
         profile_id = request.GET.get('profile')
