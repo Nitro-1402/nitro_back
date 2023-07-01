@@ -15,6 +15,11 @@ class ActorSerializer(serializers.ModelSerializer):
         model = Actor
         fields = ['id', 'name', 'photo', 'bio', 'birth_date']
 
+class SimpleActorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Actor
+        fields = ['id', 'name']
+
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -34,11 +39,12 @@ class MovieSerializer(serializers.ModelSerializer):
         queryset=Director.objects.all(),
         slug_field='name'
     )
-    actors = serializers.SlugRelatedField(
-        many=True,
-        queryset=Actor.objects.all(),
-        slug_field='name'
-    )
+    # actors = serializers.SlugRelatedField(
+    #     many=True,
+    #     queryset=Actor.objects.all(),
+    #     slug_field='name'
+    # )
+    actors = SimpleActorSerializer(many=True)
     category_set = serializers.SlugRelatedField(
         many=True,
         queryset=Category.objects.all(),
