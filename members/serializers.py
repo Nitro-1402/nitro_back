@@ -23,16 +23,24 @@ class EmailUserSerializer(BaseUserSerializer):
 class EditProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ['photo', 'first_name', 'last_name', 'user', 'is_followed']
+        fields = ['photo', 'first_name', 'last_name', 'user', 'is_followed', 'is_subscribed']
     
     user = EmailUserSerializer(read_only=False)
 
     is_followed = serializers.SerializerMethodField()
+    is_subscribed = serializers.SerializerMethodField()
 
     def get_is_followed(self, profile:Profile):
         me = self.context['request'].user
         if me.is_authenticated and not me.is_staff:
             return bool(Profile.objects.filter(id=profile.id).filter(followers__follower_id=me.profile.id).exists())
+        else:
+            return False
+        
+    def get_is_subscribed(self, profile:Profile):
+        me = self.context['request'].user
+        if me.is_authenticated and not me.is_staff:
+            return bool(Profile.objects.filter(id=profile.id).filter(subscribers__subscriber_id=me.profile.id).exists())
         else:
             return False
 
