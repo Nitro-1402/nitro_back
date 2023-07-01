@@ -102,6 +102,9 @@ class Rating(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
 
+    class Meta:
+        unique_together = [['profile', 'movie']]
+
     def __str__(self) -> str:
         return self.profile + ' rated ' + self.movie + ' with rating: ' + self.rating
 
