@@ -36,7 +36,7 @@ class MovieSerializer(serializers.ModelSerializer):
 
         fields = ['id', 'title' , 'thumbnail' , 'movie_type' , 'poster' , 'description' , 'meta_rating' , 'imdb_rating' , 'publish_date' , 
                   'director' , 'actors' , 'category_set' , 'rating', 'country' , 'remaining_days',
-                  'is_favourites', 'is_watchedList', 'is_bookmarks']
+                  'is_favourites', 'is_watchedList', 'is_bookmarks', 'my_rating']
                   
     director = SimpleDirectorSerializer(many=False)
     actors = SimpleActorSerializer(many=True)
@@ -53,6 +53,8 @@ class MovieSerializer(serializers.ModelSerializer):
     is_favourites = serializers.SerializerMethodField()
     is_watchedList = serializers.SerializerMethodField()
     is_bookmarks = serializers.SerializerMethodField()
+    my_rating = serializers.SerializerMethodField()
+
 
 
     def calculate_average_rate(self , movie: Movie):
@@ -100,7 +102,16 @@ class MovieSerializer(serializers.ModelSerializer):
                 return False
         else:
             return False
-    
+        
+    def get_my_rating(self, movie: Movie):
+        if 'request' in self.context:
+            me = self.context['request'].user
+            if me.is_authenticated and not me.is_staff:
+                return Rating.objects.filter(movie_id=movie.id).filter(profile_id=me.profile.id).values_list('rating')
+            else:
+                return 0
+        else:
+            return 0
 
     
         
