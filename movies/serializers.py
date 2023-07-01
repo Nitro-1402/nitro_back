@@ -107,11 +107,10 @@ class MovieSerializer(serializers.ModelSerializer):
         if 'request' in self.context:
             me = self.context['request'].user
             if me.is_authenticated and not me.is_staff:
-                return Rating.objects.filter(movie_id=movie.id).filter(profile_id=me.profile.id).values_list('rating')[0]
-            else:
-                return 0
-        else:
-            return 0
+                if Rating.objects.filter(movie_id=movie.id).filter(profile_id=me.profile.id).exists():
+                    return Rating.objects.filter(movie_id=movie.id).filter(profile_id=me.profile.id).values_list('rating')[0]
+        
+        return 0
 
     
         
