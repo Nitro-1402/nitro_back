@@ -20,6 +20,10 @@ class SimpleActorSerializer(serializers.ModelSerializer):
         model = Actor
         fields = ['id', 'name']
 
+class SimpleDirectorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Director
+        fields = ['id', 'name']
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -34,16 +38,7 @@ class MovieSerializer(serializers.ModelSerializer):
                   'director' , 'actors' , 'category_set' , 'rating', 'country' , 'remaining_days',
                   'is_favourites', 'is_watchedList', 'is_bookmarks']
                   
-    director = serializers.SlugRelatedField(
-        many=False,
-        queryset=Director.objects.all(),
-        slug_field='name'
-    )
-    # actors = serializers.SlugRelatedField(
-    #     many=True,
-    #     queryset=Actor.objects.all(),
-    #     slug_field='name'
-    # )
+    director = SimpleDirectorSerializer(many=False)
     actors = SimpleActorSerializer(many=True)
     category_set = serializers.SlugRelatedField(
         many=True,
