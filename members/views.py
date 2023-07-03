@@ -98,7 +98,7 @@ class AddFollowViewSet(mixins.CreateModelMixin,GenericViewSet):
     serializer_class = AddFollowSerializer
     permission_classes = [AddFollowPermission]
 
-    @action(detail=False, methods=['DELETE'])
+    @action(detail=False, methods=['DELETE'], permission_classes=[DeleteFollowPermission])
     def unfollow(self, request):
         follower_id = request.GET.get('follower_id')
         following_id = request.GET.get('following_id')
@@ -188,7 +188,7 @@ class AddSubscriberViewSet(mixins.CreateModelMixin,GenericViewSet):
     serializer_class = AddSubscriberSerializer
     permission_classes = [SubscribePermission]
 
-    @action(detail=False, methods=['DELETE'])
+    @action(detail=False, methods=['DELETE'], permission_classes=[UnsubscribePermission])
     def unsubscribe(self, request):
         profile_id = request.GET.get('profile_id')
         subscriber_id = request.GET.get('subscriber_id')
