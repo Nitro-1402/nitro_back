@@ -23,14 +23,10 @@ class NewsViewSet(ModelViewSet):
     def get_authenticators(self):
         if self.request is not None:
             if self.request.method in SAFE_METHODS:
-                if self.request.user is not None:
-                    return super().get_authenticators()
-                else:
-                    return []  
-            else:
-                return super().get_authenticators()
-        else:
-            return super().get_authenticators()
+                if self.request.user.IsAuthenticated is False:
+                    return []
+                
+        return super().get_authenticators()
 
 class ActorViewSet(ModelViewSet):
     queryset = Actor.objects.all()
