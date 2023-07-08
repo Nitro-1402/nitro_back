@@ -15,6 +15,7 @@ class CommentViewSet(ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['content_type_id', 'object_id', 'profile']
     permission_classes = [CommentPermission]
+    pagination_class = None
     queryset = Comment.objects.select_related('profile').select_related('parent_comment').select_related('content_type').all()
     serializer_class = CommentSerializer
 
