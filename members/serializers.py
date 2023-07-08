@@ -88,10 +88,13 @@ class UserCreateSerializer(BaseUserCreateSerializer):
 class FollowerInstanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserFollow
-        fields = ['username', 'photo']
+        fields = ['username', 'photo', 'first_name', 'last_name']
     
     username = serializers.SerializerMethodField()
     photo = serializers.SerializerMethodField()
+    first_name = serializers.SerializerMethodField()
+    last_name = serializers.SerializerMethodField()
+    
     def get_username(self, user_follow:UserFollow):
         return user_follow.follower_id.user.username
     
@@ -99,6 +102,12 @@ class FollowerInstanceSerializer(serializers.ModelSerializer):
         if user_follow.follower_id.photo:
             return "http://nitroback.pythonanywhere.com" + str(user_follow.follower_id.photo.url)
         return
+    
+    def get_first_name(self, user_follow:UserFollow):
+        return user_follow.follower_id.first_name
+    
+    def get_last_name(self, user_follow:UserFollow):
+        return user_follow.follower_id.last_name
     
 
 class FollowersSerializer(serializers.ModelSerializer):
@@ -111,10 +120,13 @@ class FollowersSerializer(serializers.ModelSerializer):
 class FollowingInstanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserFollow
-        fields = ['username', 'photo']
+        fields = ['username', 'photo', 'first_name', 'last_name']
     
     username = serializers.SerializerMethodField()
     photo = serializers.SerializerMethodField()
+    first_name = serializers.SerializerMethodField()
+    last_name = serializers.SerializerMethodField()
+
     def get_username(self, user_follow:UserFollow):
         return user_follow.following_id.user.username
     
@@ -122,6 +134,12 @@ class FollowingInstanceSerializer(serializers.ModelSerializer):
         if user_follow.following_id.photo:
             return "http://nitroback.pythonanywhere.com" + str(user_follow.following_id.photo.url)
         return
+    
+    def get_first_name(self, user_follow:UserFollow):
+        return user_follow.following_id.first_name
+    
+    def get_last_name(self, user_follow:UserFollow):
+        return user_follow.following_id.last_name
     
 
 class FollowingsSerializer(serializers.ModelSerializer):
