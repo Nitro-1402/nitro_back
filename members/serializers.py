@@ -165,7 +165,7 @@ class AddFollowSerializer(serializers.ModelSerializer):
 class PostProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ['photo', 'first_name', 'last_name', 'username']
+        fields = ['id', 'photo', 'first_name', 'last_name', 'username']
 
     photo = serializers.SerializerMethodField()
     username = serializers.SerializerMethodField()
