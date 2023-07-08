@@ -13,7 +13,7 @@ class NewsSerializer(serializers.ModelSerializer):
 class ActorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Actor
-        fields = ['id', 'name', 'photo', 'bio', 'birth_date']
+        fields = ['id', 'name', 'photo', 'bio', 'birth_date', 'imdb_link']
 
 class SimpleActorSerializer(serializers.ModelSerializer):
     class Meta:
@@ -117,7 +117,7 @@ class MovieSerializer(serializers.ModelSerializer):
 class DirectorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Director
-        fields = ['id', 'name' , 'photo' , 'bio' , 'birth_date']
+        fields = ['id', 'name' , 'photo' , 'bio' , 'birth_date', 'imdb_link']
 
 class SeasonSerializer(serializers.ModelSerializer):
     class Meta:

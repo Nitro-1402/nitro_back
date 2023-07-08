@@ -84,6 +84,7 @@ class Actor(models.Model):
     photo = models.ImageField(upload_to=movie_actor_path)
     bio = models.TextField(null=True)
     birth_date = models.DateField()
+    imdb_link = models.CharField(max_length=255)
     
     def __str__(self) -> str:
         return self.name
@@ -93,6 +94,7 @@ class Director(models.Model):
     photo = models.ImageField(upload_to=movie_director_path)
     bio = models.TextField(null=True)
     birth_date = models.DateField()
+    imdb_link = models.CharField(max_length=255)
 
     def __str__(self) -> str:
         return self.name
