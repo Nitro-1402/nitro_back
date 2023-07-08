@@ -23,7 +23,7 @@ class NewsViewSet(ModelViewSet):
     def get_authenticators(self):
         if self.request is not None:
             if self.request.method in SAFE_METHODS:
-                if self.request.user.IsAuthenticated is False:
+                if self.request.user.is_authenticated is False:
                     return []
                 
         return super().get_authenticators()
