@@ -110,7 +110,7 @@ class PostViewSet(ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['profile_id']
     permission_classes = [PostPermission]
-    pagination_class = []
+    pagination_class = None
 
     queryset = Post.objects.filter(is_premium = False).select_related('profile')
 
@@ -146,7 +146,7 @@ class PostViewSet(ModelViewSet):
 
 class PremiumPostViewSet(ModelViewSet):
     permission_classes = [PremiumPostPermission] 
-    pagination_class = []
+    pagination_class = None
 
     def get_serializer_class(self):
         if self.request.method == 'GET':
@@ -162,7 +162,7 @@ class PremiumPostViewSet(ModelViewSet):
     
 class ForMeViewSet(mixins.ListModelMixin, GenericViewSet):
     serializer_class = PostSerializer
-    pagination_class = []
+    pagination_class = None
 
 
     def get_queryset(self):
