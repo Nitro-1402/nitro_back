@@ -88,15 +88,19 @@ class UserCreateSerializer(BaseUserCreateSerializer):
 class FollowerInstanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserFollow
-        fields = ['username', 'photo', 'first_name', 'last_name']
+        fields = ['username','profile_id', 'photo', 'first_name', 'last_name']
     
     username = serializers.SerializerMethodField()
     photo = serializers.SerializerMethodField()
     first_name = serializers.SerializerMethodField()
     last_name = serializers.SerializerMethodField()
+    profile_id = serializers.SerializerMethodField()
     
     def get_username(self, user_follow:UserFollow):
         return user_follow.follower_id.user.username
+    
+    def get_profile_id(self, user_follow:UserFollow):
+        return user_follow.following_id.pk
     
     def get_photo(self, user_follow:UserFollow):
         if user_follow.follower_id.photo:
@@ -120,15 +124,19 @@ class FollowersSerializer(serializers.ModelSerializer):
 class FollowingInstanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserFollow
-        fields = ['username', 'photo', 'first_name', 'last_name']
+        fields = ['username', 'profile_id', 'photo', 'first_name', 'last_name']
     
     username = serializers.SerializerMethodField()
     photo = serializers.SerializerMethodField()
     first_name = serializers.SerializerMethodField()
     last_name = serializers.SerializerMethodField()
+    profile_id = serializers.SerializerMethodField()
 
     def get_username(self, user_follow:UserFollow):
         return user_follow.following_id.user.username
+    
+    def get_profile_id(self, user_follow:UserFollow):
+        return user_follow.following_id.pk
     
     def get_photo(self, user_follow:UserFollow):
         if user_follow.following_id.photo:
