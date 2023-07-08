@@ -22,6 +22,7 @@ class CommentSerializer(serializers.ModelSerializer):
     like_count = serializers.SerializerMethodField()
     dislike_count = serializers.SerializerMethodField()
     username = serializers.SerializerMethodField()
+    photo = serializers.SerializerMethodField()
 
     def get_like_count(self, comment:Comment):
         return comment.likes.filter(like_type = 'L').count()
