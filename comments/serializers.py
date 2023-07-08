@@ -22,6 +22,7 @@ class CommentSerializer(serializers.ModelSerializer):
     like_count = serializers.SerializerMethodField()
     dislike_count = serializers.SerializerMethodField()
     username = serializers.SerializerMethodField()
+    photo = serializers.SerializerMethodField()
 
     def get_like_count(self, comment:Comment):
         return comment.likes.filter(like_type = 'L').count()
@@ -31,12 +32,17 @@ class CommentSerializer(serializers.ModelSerializer):
     
     def get_username(self, comment:Comment):
         return comment.profile.user.username
+    
+    def get_photo(self, comment:Comment):
+        if comment.profile.photo:
+            return "http://nitroback.pythonanywhere.com" + str(comment.profile.photo.url)
+        return
         
     class Meta:
         model = Comment
         fields = ['id', 'message', 'created_at', 'parent_comment', 'profile',
                    'is_okay', 'content_type', 'object_id', 'content_object',
-                   'like_count', 'dislike_count', 'username']
+                   'like_count', 'dislike_count', 'username', 'photo']
         
 class LikeCommentSerializer(serializers.ModelSerializer):
     class Meta:

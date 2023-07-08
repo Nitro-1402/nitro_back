@@ -23,16 +23,24 @@ class EmailUserSerializer(BaseUserSerializer):
 class EditProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ['photo', 'first_name', 'last_name', 'user', 'is_followed']
+        fields = ['photo', 'first_name', 'last_name', 'user', 'is_followed', 'is_subscribed']
     
     user = EmailUserSerializer(read_only=False)
 
     is_followed = serializers.SerializerMethodField()
+    is_subscribed = serializers.SerializerMethodField()
 
     def get_is_followed(self, profile:Profile):
         me = self.context['request'].user
         if me.is_authenticated and not me.is_staff:
             return bool(Profile.objects.filter(id=profile.id).filter(followers__follower_id=me.profile.id).exists())
+        else:
+            return False
+        
+    def get_is_subscribed(self, profile:Profile):
+        me = self.context['request'].user
+        if me.is_authenticated and not me.is_staff:
+            return bool(Profile.objects.filter(id=profile.id).filter(subscribers__subscriber_id=me.profile.id).exists())
         else:
             return False
 
@@ -80,17 +88,30 @@ class UserCreateSerializer(BaseUserCreateSerializer):
 class FollowerInstanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserFollow
-        fields = ['username', 'photo']
+        fields = ['username','profile_id', 'photo', 'first_name', 'last_name']
     
     username = serializers.SerializerMethodField()
     photo = serializers.SerializerMethodField()
+    first_name = serializers.SerializerMethodField()
+    last_name = serializers.SerializerMethodField()
+    profile_id = serializers.SerializerMethodField()
+    
     def get_username(self, user_follow:UserFollow):
         return user_follow.follower_id.user.username
+    
+    def get_profile_id(self, user_follow:UserFollow):
+        return user_follow.follower_id.pk
     
     def get_photo(self, user_follow:UserFollow):
         if user_follow.follower_id.photo:
             return "http://nitroback.pythonanywhere.com" + str(user_follow.follower_id.photo.url)
         return
+    
+    def get_first_name(self, user_follow:UserFollow):
+        return user_follow.follower_id.first_name
+    
+    def get_last_name(self, user_follow:UserFollow):
+        return user_follow.follower_id.last_name
     
 
 class FollowersSerializer(serializers.ModelSerializer):
@@ -103,17 +124,30 @@ class FollowersSerializer(serializers.ModelSerializer):
 class FollowingInstanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserFollow
-        fields = ['username', 'photo']
+        fields = ['username', 'profile_id', 'photo', 'first_name', 'last_name']
     
     username = serializers.SerializerMethodField()
     photo = serializers.SerializerMethodField()
+    first_name = serializers.SerializerMethodField()
+    last_name = serializers.SerializerMethodField()
+    profile_id = serializers.SerializerMethodField()
+
     def get_username(self, user_follow:UserFollow):
         return user_follow.following_id.user.username
+    
+    def get_profile_id(self, user_follow:UserFollow):
+        return user_follow.following_id.pk
     
     def get_photo(self, user_follow:UserFollow):
         if user_follow.following_id.photo:
             return "http://nitroback.pythonanywhere.com" + str(user_follow.following_id.photo.url)
         return
+    
+    def get_first_name(self, user_follow:UserFollow):
+        return user_follow.following_id.first_name
+    
+    def get_last_name(self, user_follow:UserFollow):
+        return user_follow.following_id.last_name
     
 
 class FollowingsSerializer(serializers.ModelSerializer):
@@ -131,7 +165,7 @@ class AddFollowSerializer(serializers.ModelSerializer):
 class PostProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ['photo', 'first_name', 'last_name', 'username']
+        fields = ['id', 'photo', 'first_name', 'last_name', 'username']
 
     photo = serializers.SerializerMethodField()
     username = serializers.SerializerMethodField()

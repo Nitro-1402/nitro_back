@@ -84,6 +84,7 @@ class Actor(models.Model):
     photo = models.ImageField(upload_to=movie_actor_path)
     bio = models.TextField(null=True)
     birth_date = models.DateField()
+    imdb_link = models.CharField(max_length=255, null=True)
     
     def __str__(self) -> str:
         return self.name
@@ -93,6 +94,7 @@ class Director(models.Model):
     photo = models.ImageField(upload_to=movie_director_path)
     bio = models.TextField(null=True)
     birth_date = models.DateField()
+    imdb_link = models.CharField(max_length=255, null=True)
 
     def __str__(self) -> str:
         return self.name
@@ -101,6 +103,9 @@ class Rating(models.Model):
     rating = models.PositiveSmallIntegerField(validators=[MaxValueValidator(100)])
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = [['profile', 'movie']]
 
     def __str__(self) -> str:
         return self.profile + ' rated ' + self.movie + ' with rating: ' + self.rating
